@@ -1,0 +1,34 @@
+spring:
+  
+  datasource:
+    url: jdbc:postgresql://localhost/securitydb?currentSchema=securitydbschema
+    username: securitydbowner
+    password: password
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+##If want to see very extensive logging
+#spring.jpa.properties.hibernate.generate_statistics=true
+#logging.level.org.hibernate.type=trace
+#logging.level.org.hibernate.stat=debug    
+app:
+  security:
+    basic:
+      realm: appsecurity
+      users:
+        - username: admin 
+          password: admin
+          roles: admin
+        - username: saurinya@gmail.com 
+          password: admin
+          roles: admin
+#    authwhitelist: /index.html
+    
+    
+logging:  level:    com:
+      v2solve:
+        app:
+          security: DEBUG      

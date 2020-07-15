@@ -1,0 +1,74 @@
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table class="form-main-square-back">
+<tr>
+    <td>
+        <table class="form-main-square-front">
+            <tr> <!-- Row for form elements-->
+                    <td>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Role Name</mat-label>
+                            <mat-select [formControl]="roleName">
+                              <mat-option *ngFor="let item of viewableRoles" [value]="item.name">
+                                {{item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Permission</mat-label>
+                            <mat-select [(value)]="permissionName">
+                              <mat-option *ngFor="let item of viewablePermissions" [value]="item.name">
+                                {{item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>    
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Allow/Deny?</mat-label>
+                            <mat-select [(value)]="permissionValue">
+                              <mat-option *ngFor="let item of permissionValues" [value]="item">
+                                {{item}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Associated App</mat-label>
+                            <mat-select [(value)]="appIdentifier">
+                              <mat-option *ngFor="let item of viewableApps" [value]="item.appIdentifier">
+                                {{item.appIdentifier}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </td>
+            </tr>
+            <tr>    <!-- Row for buttons-->
+                <td>
+                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                            Save<mat-icon style="font-size: 24px;">save</mat-icon>
+                        </button>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p></p>
+<!-- Results -->
+<table class="section-heading">
+    <tr>
+        <td class="section-title">Existing Records</td>
+    </tr>
+</table>
+<app-results-table  [iconTitle]="'Delete this Record'" [iconName]="'delete'"   (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>

@@ -1,0 +1,1 @@
+ng build --base-href=/adminapp/ --output-path=../../src/main/resources/static/adminapp

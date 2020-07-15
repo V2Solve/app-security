@@ -1,0 +1,84 @@
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table class="form-main-square-back">
+<tr>
+    <td>
+        <table class="form-main-square-front">
+            <tr> <!-- Row for form elements-->
+                    <td>
+                        <mat-label>Client Name</mat-label>
+                    </td>
+                    <td>
+                        <input type="text" [matAutocomplete]="firstAuto" matInput placeholder="Type client unique Id" [formControl]="clientName" (keypress)="searchClients()">
+                    </td>
+                    <td>
+                        <mat-autocomplete #firstAuto="matAutocomplete">
+                            <mat-option *ngFor="let item of searchedClients" [value]="item.clientIdentifier">
+                              {{item.clientIdentifier}}
+                            </mat-option>
+                          </mat-autocomplete>                        
+                    </td>                          
+                    <td>
+                        <button (click)="searchClient()" mat-icon-button title="Search client">
+                            Search<mat-icon style="font-size: 24px;" matSuffix>search</mat-icon>
+                        </button>
+                    </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p>
+<div class="{{swapVisible()?'visibleItem':'hiddenItem'}}">
+<table class="form-main-square-back" style="width: 100%;">
+    <tr>
+        <td>
+            <table class="form-main-square-front" style="width: 100%;">
+                <tr style="align-content: left; text-align: left;"><td>Group Membership for <b><i>{{clientIdentifier}}</i></b></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr> <!-- Titles -->
+                    <td style="width: 30%; font-weight: bold;">Assigned Groups</td>
+                        <td style="width: 10%;"> 
+                        </td>
+                    <td style="width: 30%; font-weight: bold;">Available Groups</td>
+                </tr>
+                <tr> 
+                    <td style="width: 30%;">
+                            <mat-selection-list #asgS>
+                                <mat-list-option *ngFor="let item of assignedGroups" value="{{item.name}}">
+                                  {{item.name}}
+                                </mat-list-option>
+                            </mat-selection-list>                                
+                    </td>
+                        <td style="align-items: center; text-align: center; width: 10%;"> 
+                            <button (click)="assignGroup(assgS.selectedOptions)" mat-icon-button title="Assign Group">
+                                ←Assign
+                            </button>
+                            <br/>
+                            <br/>
+                              <!-- The Buttons -->
+                              <button (click)="unAssignGroup(asgS.selectedOptions)" mat-icon-button title="Remove Group Membership">
+                                Remove→
+                            </button>
+                        </td>
+                    <td style="width: 30%;">
+                        <!-- Available Groups List -->
+                        <mat-selection-list #assgS>
+                            <mat-list-option *ngFor="let item of assignableGroups" value="{{item.name}}">
+                              {{item.name}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</div>

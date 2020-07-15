@@ -1,0 +1,90 @@
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table class="form-main-square-back">
+<tr>
+    <td>
+        <table class="form-main-square-front">
+            <tr> <!-- Row for form elements-->
+                    <td>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Client Group</mat-label>
+                            <mat-select [formControl]="groupName">
+                              <mat-option *ngFor="let item of viewableGroups" [value]="item.name">
+                                {{item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Client Roles</mat-label>
+                            <mat-select [formControl]="roleName">
+                              <mat-option *ngFor="let item of viewableRoles" [value]="item.name">
+                                {{item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>    
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Scope</mat-label>
+                            <mat-select [formControl]="scopeName">
+                              <mat-option *ngFor="let item of viewableScopes" [value]="item.scopeName">
+                                {{item.scopeName}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Domain</mat-label>
+                            <mat-select [formControl]="domainName">
+                              <mat-option *ngFor="let item of viewableDomains" [value]="item.name">
+                                {{item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Associated App</mat-label>
+                            <mat-select [formControl]="appIdentifier">
+                              <mat-option *ngFor="let item of viewableApps" [value]="item.appIdentifier">
+                                {{item.appIdentifier}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                        <br/>
+                    </td>
+            </tr>
+            <tr>    <!-- Row for buttons-->
+                <td>
+                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                            Save<mat-icon style="font-size: 24px;">save</mat-icon>
+                        </button>
+                </td>
+                <td>
+                  <button (click)="clearFormControls()" mat-icon-button title="Clear Form Values">
+                      Clear Form<mat-icon style="font-size: 16px;">clear</mat-icon>
+                  </button>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p></p>
+<!-- Results -->
+<table class="section-heading">
+    <tr>
+        <td class="section-title">Existing Records</td>
+    </tr>
+</table>
+<app-results-table (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>

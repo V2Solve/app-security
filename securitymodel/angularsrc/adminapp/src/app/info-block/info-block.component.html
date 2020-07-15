@@ -1,0 +1,21 @@
+<div class="{{boxVisible()?'visibleItem' : 'hiddenItem' }}">
+<table class="info-block-table-main-square-back">
+<tr>
+    <td>
+        <table class="info-block-table-main-square-front">
+            <tr class="info-block-title-row">
+                <td style="align-content: left;">{{informationBlockTitle}}</td><td style="align-content: right;">
+                    <button class="info-block-button" (click)="closeBox()" title="Click to clear">X</button></td>
+            </tr>
+            <tr>
+                <ul>
+                    <li *ngFor="let msg of messages">
+                        <span class="{{msg.error ? errorClass : infoClass}}">{{msg.msg}}</span>
+                    </li>
+                </ul>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>

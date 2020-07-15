@@ -1,0 +1,62 @@
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table class="form-main-square-back">
+<tr>
+    <td>
+        <table class="form-main-square-front">
+            <tr> <!-- Row for form elements-->
+                    <td>
+                        <mat-form-field>
+                            <mat-label>Role</mat-label>
+                            <input matInput placeholder="Unique Role Name" [formControl]="objectName">
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>Resource Description</mat-label>
+                            <textarea matInput placeholder="describe the role.." [formControl]="objectDescription"></textarea>
+                        </mat-form-field>
+                        <br/>
+                        <br/>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Associated App</mat-label>
+                            <mat-select [(value)]="appIdentifier">
+                              <mat-option *ngFor="let item of viewableApps" [value]="item.appIdentifier">
+                                {{item.appIdentifier}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                        <br/>
+                        <br/>
+                    </td>
+            </tr>
+            <tr>    <!-- Row for buttons-->
+                <td>
+                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                            Save<mat-icon style="font-size: 24px;">save</mat-icon>
+                        </button>
+                </td>
+                <td>
+                        <button (click)="deleteObject()" mat-icon-button title="Delete Record">
+                            Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
+                        </button>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p></p>
+<!-- Results -->
+<table class="section-heading">
+    <tr>
+        <td class="section-title">Existing Records</td>
+    </tr>
+</table>
+<app-results-table (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>
