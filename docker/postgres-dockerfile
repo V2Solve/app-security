@@ -1,0 +1,7 @@
+## Lets get the 12th Version Post Gres Image from Docker Hub.
+
+FROM postgres
+
+## Lets copy the initialization SQL into the folder where it will be run.
+
+COPY initialization.sql  /docker-entrypoint-initdb.d/
