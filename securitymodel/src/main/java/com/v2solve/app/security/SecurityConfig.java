@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     
     @Bean
-    public PasswordEncoder gmPasswordEncoder() {
+    public PasswordEncoder nativePasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
     
@@ -117,7 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			String rolesstr [] = roles.toArray(new String[0]);
     			
     	        auth.inMemoryAuthentication()
-    	          .withUser(ui.getUsername()).password(gmPasswordEncoder().encode(ui.getPassword()))
+    	          .withUser(ui.getUsername()).password(nativePasswordEncoder().encode(ui.getPassword()))
     	          .authorities(rolesstr);
     		}
     	}

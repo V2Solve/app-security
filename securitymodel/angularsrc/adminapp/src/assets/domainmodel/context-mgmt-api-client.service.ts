@@ -29,7 +29,8 @@ export class ContextMgmtApiClientService {
 	getHttpHeaders (): HttpHeaders
 	{
 		let httpHeaders: HttpHeaders;
-		if (this.username != null)
+
+		if (this.username != null && this.username.length > 0)
 		{
 			let authorizationHeader = "Basic " + btoa(this.username+ ":" + this.password);
 			// console.log("Authorization header: " + authorizationHeader);
@@ -38,86 +39,52 @@ export class ContextMgmtApiClientService {
 		
 		return httpHeaders;
 	}
-	 
-	hasGroup (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
-	{
-		let methodUrl = this.apibaseurl + "/hasGroup";
 
-		let body: "body";
+
+	getHttpOptions ()
+	{
+		let body:  "body";
 		let response: "json";
-		
+
 		var httpOptions = {
 			headers: this.getHttpHeaders(),
 			observe: body,
 			responseType: response
 		};
 
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);	
+		return httpOptions;
+	}
+	 
+	hasGroup (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
+	{
+		let methodUrl = this.apibaseurl + "/hasGroup";
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions());	
 	}
 	
 	hasRole (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasRole";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);	
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());	
 	}
 
 
 	hasPermission (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasPermission";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 	hasPermissions (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasPermissions";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions());
 	}
 
 	hasPermissionInScope (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasPermissionInScope";
 
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 
@@ -125,63 +92,26 @@ export class ContextMgmtApiClientService {
 	{
 		let methodUrl = this.apibaseurl + "/hasPermissionReturnGroups";
 
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 	
 	hasPermissionReturnRoles (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasPermissionReturnRoles";
 
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 	hasPermissionReturnScopes (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasPermissionReturnScopes";
 
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 	getSecurityContext (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/getSecurityContext";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions());
 	}
 }

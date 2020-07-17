@@ -7,6 +7,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { ContextMgmtApiClientService } from 'src/assets/domainmodel/context-mgmt-api-client.service';
 import { MenuItem } from 'src/app/table-menu/table-menu.component'
 import { BaseForm } from 'src/app/base-comps/commonforms'
+import {LoaderServiceService} from 'src/app/loader-service.service';
 
 
 
@@ -17,11 +18,12 @@ import { BaseForm } from 'src/app/base-comps/commonforms'
 })
 export class TopbarComponent extends BaseForm implements OnInit 
 {
-  apiClient: ContextMgmtApiClientService;
+  apiClient:  ContextMgmtApiClientService;
+  spinBarVisibility: boolean = false;
 
   loggedInUser: string = "NotloggedIn";
 
-  constructor(client: ContextMgmtApiClientService) 
+  constructor(client: ContextMgmtApiClientService,private loadService: LoaderServiceService)
   { 
     super ();
     this.apiClient = client;
@@ -182,6 +184,9 @@ export class TopbarComponent extends BaseForm implements OnInit
   {
       this.figureOutLoggedInUser ();
       this.figureOutMenutItems();
+      console.log("Subscribing to the loadService..");
+      this.loadService.httpProgress().subscribe(element=>{
+          this.spinBarVisibility = element;
+      });
   }
-
 }

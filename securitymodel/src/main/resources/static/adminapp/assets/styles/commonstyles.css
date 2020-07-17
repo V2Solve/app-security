@@ -1,0 +1,195 @@
+.form-main-square-back
+{
+    background-color: blue;
+    border: 0;
+    border-spacing: 0;
+    padding: 0px;
+}
+
+.form-main-square-front
+{
+    background-color: whitesmoke;
+    padding: 20px;
+    border: 1px;
+    border-spacing: 1px;
+}
+
+
+.results-table-main-square-back
+{
+    background-color: blue;
+    border-width: 1px;
+    border-spacing: 0;
+    padding: 0px;
+    border-style: solid;
+    table-layout: auto;
+}
+
+.results-table-main-square-front
+{
+    background-color: whitesmoke;
+    color: black;
+    border-width: 0px;
+    border-style: solid;
+    border-spacing: 2px;
+    table-layout: auto;
+}
+
+.results-odd-row
+{
+    background-color: rgb(158, 245, 245);
+}
+
+.results-even-row
+{
+    background-color: rgb(219, 220, 255);
+}
+
+.results-heading-row
+{
+    background-color: black;
+    color: white;
+    font-weight: normal;
+}
+
+.section-heading
+{
+    width: 100%; 
+    align-content: left; 
+    border: 0;
+}
+
+.section-title
+{
+    font-size: large;
+    font-weight: bold;
+}
+
+.form-button
+{
+    margin: 2px;
+}
+
+
+.form-label
+{
+    font-size: inherit;
+}
+
+
+.info-block-table-main-square-back
+{
+    background-color: blue;
+    border-width: 1px;
+    border-spacing: 0;
+    padding: 0px;
+    border-style: solid;
+    table-layout: auto;
+}
+
+.info-block-table-main-square-front
+{
+    background-color: whitesmoke;
+    color: black;
+    border-width: 0px;
+    border-style: solid;
+    border-spacing: 2px;
+    table-layout: auto;
+}
+
+
+.hiddenItem
+{
+    display: none;
+}
+
+.visibleItem
+{
+    display: inherit;
+}
+
+.infoMessage
+{
+    color: green;
+}
+
+.errorMessage
+{
+    color: red;
+}
+
+.info-block-title-row
+{
+    background-color: black;
+    color: white;
+    font-weight: normal;
+}
+
+.info-block-button
+{
+    margin: 2px;
+}
+
+
+.table-menu-main-square-back
+{
+    background-color: blue;
+    border: 0;
+    border-spacing: 0;
+    padding: 0px;
+    width: 100%;
+    table-layout: auto;
+}
+
+.table-menu-main-square-front
+{
+    background-color: whitesmoke;
+    width: 100%;
+    table-layout: auto;
+}
+
+.table-menu-outer-cell
+{
+    width: auto;
+}
+
+.table-menu-inner-cell-table
+{
+    border: 0px;
+}
+
+.table-menu-image-cell
+{
+    align-content: center;
+    width: 20%;
+}
+
+.table-menu-image-style
+{
+    height: 50px;
+    width: 50px;
+}
+
+.table-menu-image-row
+{
+    display: inherit;
+}
+
+.table-menu-link-row
+{
+    display: inherit;
+}
+
+.table-menu-link-cell
+{
+    align-content: center;
+    word-wrap: none;
+    width: 20%;
+}
+
+
+.mat-icon
+{
+    font-size: 40px;
+    align-content: center;
+}

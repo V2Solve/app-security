@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -23,6 +23,7 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ClientManagementComponent } from './client-management/client-management.component';
 import { ResourceManagementComponent } from './resource-management/resource-management.component';
@@ -36,6 +37,7 @@ import { RoleToPermissionsComponent } from './role-to-permissions/role-to-permis
 import { ClientToGroupsComponent } from './client-to-groups/client-to-groups.component';
 import { GroupsToRolesComponent } from './groups-to-roles/groups-to-roles.component';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
+import { LoaderInterceptor } from 'src/app/loader-interceptor';
 
 
 @NgModule({
@@ -76,10 +78,15 @@ import { PermissionManagementComponent } from './permission-management/permissio
     MatInputModule,
     MatListModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -29,7 +29,7 @@ export class SecMgmtApiClientService {
 	getHttpHeaders (): HttpHeaders
 	{
 		let httpHeaders: HttpHeaders;
-		if (this.username != null)
+		if (this.username != null && this.username.length > 0)
 		{
 			let authorizationHeader = "Basic " + btoa(this.username+ ":" + this.password);
 			// console.log("Authorization header: " + authorizationHeader);
@@ -39,678 +39,275 @@ export class SecMgmtApiClientService {
 		return httpHeaders;
 	}
 
-
-    deleteClient (request: sobjs.DeleteClientRequest): Observable<sobjs.DeleteClientResponse>
-    {
-		let methodUrl = this.apibaseurl + "/deleteClient";
-
-		let body: "body";
+	getHttpOptions ()
+	{
+		let body:  "body";
 		let response: "json";
-		
+
 		var httpOptions = {
 			headers: this.getHttpHeaders(),
 			observe: body,
 			responseType: response
 		};
 
-		return this.http.post<sobjs.DeleteClientResponse>(methodUrl,request,httpOptions);
+		return httpOptions;
+	}
+
+
+    deleteClient (request: sobjs.DeleteClientRequest): Observable<sobjs.DeleteClientResponse>
+    {
+		let methodUrl = this.apibaseurl + "/deleteClient";
+		return this.http.post<sobjs.DeleteClientResponse>(methodUrl,request,this.getHttpOptions());
     }
 
     createClient (request: sobjs.CreateClientRequest ): Observable<sobjs.CreateClientResponse>
     {
 		let methodUrl = this.apibaseurl + "/createClient";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateClientResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.CreateClientResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
      createApplication (request: sobjs.CreateApplicationRequest): Observable<sobjs.CreateApplicationResponse>
      {
 		let methodUrl = this.apibaseurl + "/createApplication";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateApplicationResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.CreateApplicationResponse>(methodUrl,request,this.getHttpOptions ());
      }
 
     deleteApplication (request: sobjs.DeleteApplicationRequest): Observable<sobjs.DeleteApplicationResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteApplication";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteApplicationResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.DeleteApplicationResponse>(methodUrl,request,this.getHttpOptions ());
 
     }
 
     createAction (request: sobjs.CreateActionRequest): Observable<sobjs.CreateActionResponse>
     {
 		let methodUrl = this.apibaseurl + "/createAction";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateActionResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.CreateActionResponse>(methodUrl,request,this.getHttpOptions ());
 
     }
 
     deleteAction (request: sobjs.DeleteActionRequest): Observable<sobjs.DeleteActionResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteAction";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteActionResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteActionResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     createResource (request: sobjs.CreateResourceRequest): Observable<sobjs.CreateResourceResponse>
     {
 		let methodUrl = this.apibaseurl + "/createResource";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateResourceResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreateResourceResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deleteResource (request: sobjs.DeleteResourceRequest): Observable<sobjs.DeleteResourceResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteResource";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteResourceResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteResourceResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     createPermission (request: sobjs.CreatePermissionRequest): Observable<sobjs.CreatePermissionResponse>
     {
 		let methodUrl = this.apibaseurl + "/createPermission";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreatePermissionResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreatePermissionResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deletePermission (request: sobjs.DeletePermissionRequest): Observable<sobjs.DeletePermissionResponse>
     {
 		let methodUrl = this.apibaseurl + "/deletePermission";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeletePermissionResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeletePermissionResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     createClientGroup (request: sobjs.CreateClientGroupRequest): Observable<sobjs.CreateClientGroupResponse>
     {
 		let methodUrl = this.apibaseurl + "/createClientGroup";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateClientGroupResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreateClientGroupResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deleteClientGroup (request: sobjs.DeleteClientGroupRequest): Observable<sobjs.DeleteClientGroupResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteClientGroup";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteClientGroupResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteClientGroupResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 	
     createClientRole (request: sobjs.CreateClientRoleRequest): Observable<sobjs.CreateClientRoleResponse>
     {
 		let methodUrl = this.apibaseurl + "/createClientRole";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateClientRoleResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreateClientRoleResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deleteClientRole (request: sobjs.DeleteClientRoleRequest): Observable<sobjs.DeleteClientRoleResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteClientRole";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteClientRoleResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteClientRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 	
 
     createClientRolePermission (request: sobjs.CreateClientRolePermissionRequest): Observable<sobjs.CreateClientRolePermissionResponse>
     {
 		let methodUrl = this.apibaseurl + "/createClientRolePermission";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateClientRolePermissionResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.CreateClientRolePermissionResponse>(methodUrl,request,this.getHttpOptions ());
 
     }
 
     deleteClientRolePermission (request: sobjs.DeleteClientRolePermissionRequest): Observable<sobjs.DeleteClientRolePermissionResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteClientRolePermission";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteClientRolePermissionResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.DeleteClientRolePermissionResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     searchClientRolePermissions (request: sobjs.SearchClientRolePermissionRequest): Observable<sobjs.SearchClientRolePermissionResponse>
     {
 		let methodUrl = this.apibaseurl + "/searchClientRolePermissions";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchClientRolePermissionResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchClientRolePermissionResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
 
     createDomain (request: sobjs.CreateDomainRequest): Observable<sobjs.CreateDomainResponse>
     {
 		let methodUrl = this.apibaseurl + "/createDomain";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateDomainResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.CreateDomainResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 	
     deleteDomain (request: sobjs.DeleteDomainRequest): Observable<sobjs.DeleteDomainResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteDomain";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteDomainResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteDomainResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
 
     createDomainType (request: sobjs.CreateDomainTypeRequest): Observable<sobjs.CreateDomainTypeResponse>
     {
 		let methodUrl = this.apibaseurl + "/createDomainType";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateDomainTypeResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreateDomainTypeResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 	
-
-
     deleteDomainType (request: sobjs.DeleteDomainTypeRequest): Observable<sobjs.DeleteDomainTypeResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteDomainType";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteDomainTypeResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteDomainTypeResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     createScopeType (request: sobjs.CreateScopeTypeRequest): Observable<sobjs.CreateScopeTypeResponse>
     {
 		let methodUrl = this.apibaseurl + "/createScopeType";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateScopeTypeResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreateScopeTypeResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deleteScopeType (request: sobjs.DeleteScopeTypeRequest): Observable<sobjs.DeleteScopeTypeResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteScopeType";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteScopeTypeResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteScopeTypeResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     createScope (request: sobjs.CreateScopeRequest): Observable<sobjs.CreateScopeResponse>
     {
 		let methodUrl = this.apibaseurl + "/createScope";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateScopeResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.CreateScopeResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deleteScope (request: sobjs.DeleteScopeRequest): Observable<sobjs.DeleteScopeResponse>
     {
 		let methodUrl = this.apibaseurl + "/deleteScope";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteScopeResponse>(methodUrl,request,httpOptions);
-
+		return this.http.post<sobjs.DeleteScopeResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
 
     createGroupMembership (request: sobjs.CreateGroupMembershipRequest): Observable<sobjs.CreateGroupMembershipResponse>
     {
 		let methodUrl = this.apibaseurl + "/createGroupMembership";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		let returnValue = this.http.post<sobjs.CreateGroupMembershipResponse>(methodUrl,request,httpOptions);
-		return  returnValue;
+		return this.http.post<sobjs.CreateGroupMembershipResponse>(methodUrl,request,this.getHttpOptions ());
     }
 
     deleteGroupMembership (request: sobjs.DeleteGroupMembershipRequest): Observable<sobjs.DeleteGroupMembershipResponse>
     {
         let methodUrl = this.apibaseurl + "/deleteGroupMembership";
-
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteGroupMembershipResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.DeleteGroupMembershipResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 	
 
 	searchApplications (request: sobjs.SearchApplicationsRequest): Observable<sobjs.SearchApplicationsResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchApplications";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchApplicationsResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchApplicationsResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 	searchActions (request: sobjs.SearchActionRequest): Observable<sobjs.SearchActionResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchActions";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchActionResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchActionResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 
 	searchResources (request: sobjs.SearchResourceRequest): Observable<sobjs.SearchResourceResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchResources";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchResourceResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchResourceResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 	searchClients (request: sobjs.SearchClientRequest): Observable<sobjs.SearchClientResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchClients";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchClientResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchClientResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
 
 	searchClientRoles (request: sobjs.SearchClientRoleRequest): Observable<sobjs.SearchClientRoleResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchClientRoles";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchClientRoleResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchClientRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}	
 
 
 	searchClientGroups (request: sobjs.SearchClientGroupRequest): Observable<sobjs.SearchClientGroupResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchClientGroups";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchClientGroupResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchClientGroupResponse>(methodUrl,request,this.getHttpOptions ());
 	}		
 
 	searchScopeTypes (request: sobjs.SearchScopeTypeRequest): Observable<sobjs.SearchScopeTypeResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchScopeTypes";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchScopeTypeResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchScopeTypeResponse>(methodUrl,request,this.getHttpOptions ());
 	}			
 
 	searchDomainTypes (request: sobjs.SearchDomainTypeRequest): Observable<sobjs.SearchDomainTypeResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchDomainTypes";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchDomainTypeResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchDomainTypeResponse>(methodUrl,request,this.getHttpOptions ());
 	}			
 
 	searchPermissions (request: sobjs.SearchPermissionRequest): Observable<sobjs.SearchPermissionResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchPermissions";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchPermissionResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchPermissionResponse>(methodUrl,request,this.getHttpOptions ());
 	}			
 
 	searchDomains (request: sobjs.SearchDomainRequest): Observable<sobjs.SearchDomainResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchDomains";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchDomainResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchDomainResponse>(methodUrl,request,this.getHttpOptions ());
 	}			
 
 	searchScope (request: sobjs.SearchScopeRequest): Observable<sobjs.SearchScopeResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchScopes";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchScopeResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchScopeResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
-
 
 	searchClientGroupRoles (request: sobjs.SearchClientGroupRoleRequest): Observable<sobjs.SearchClientGroupRoleResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchClientGroupRoles";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.SearchClientGroupRoleResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.SearchClientGroupRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
 
 	createClientGroupRole (request: sobjs.CreateClientGroupRoleRequest): Observable<sobjs.CreateClientGroupRoleResponse>
 	{
 		let methodUrl = this.apibaseurl + "/createClientGroupRole";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.CreateClientGroupRoleResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.CreateClientGroupRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
 
 	deleteClientGroupRole (request: sobjs.DeleteClientGroupRoleRequest): Observable<sobjs.DeleteClientGroupRoleResponse>
 	{
 		let methodUrl = this.apibaseurl + "/deleteClientGroupRole";
-		let body: "body";
-		let response: "json";
-		
-		var httpOptions = {
-			headers: this.getHttpHeaders(),
-			observe: body,
-			responseType: response
-		};
-
-		return this.http.post<sobjs.DeleteClientGroupRoleResponse>(methodUrl,request,httpOptions);
+		return this.http.post<sobjs.DeleteClientGroupRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
-
 }
