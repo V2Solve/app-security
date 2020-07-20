@@ -47,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     
-    
     CorsConfigurationSource corsConfigurationSource() 
     {
         CorsConfigurationSource ccs = new CorsConfigurationSource() 
