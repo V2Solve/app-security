@@ -24,8 +24,8 @@ import com.v2solve.app.security.sdk.groups.SearchClientGroupRequest;
 import com.v2solve.app.security.sdk.relations.CreateGroupMembershipRequest;
 import com.v2solve.app.security.sdk.relations.DeleteGroupMembershipRequest;
 
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 
 /**
@@ -39,7 +39,7 @@ public class GroupDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ClientGroup deletedObj = null;
-		List<ClientGroup> listOfObjects = DatalogicUtils.findObjects(em, ClientGroup.class, "name", request.getName()); 
+		List<ClientGroup> listOfObjects = JPAUtils.findObjects(em, ClientGroup.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{

@@ -20,8 +20,8 @@ import com.v2solve.app.security.sdk.roles.CreateClientRoleRequest;
 import com.v2solve.app.security.sdk.roles.DeleteClientRoleRequest;
 import com.v2solve.app.security.sdk.roles.SearchClientRoleRequest;
 
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 
 /**
@@ -36,7 +36,7 @@ public class RoleDataLogic
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ClientRole deletedObj = null;
-		List<ClientRole> listOfObjects = DatalogicUtils.findObjects(em, ClientRole.class, "name", request.getName()); 
+		List<ClientRole> listOfObjects = JPAUtils.findObjects(em, ClientRole.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{

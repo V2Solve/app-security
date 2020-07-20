@@ -12,7 +12,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.sdk.PagingInformation;
@@ -23,8 +22,8 @@ import com.v2solve.app.security.sdk.client.CreateClientRequest;
 import com.v2solve.app.security.sdk.client.DeleteClientRequest;
 import com.v2solve.app.security.sdk.client.SearchClientRequest;
 
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 
 /**
@@ -49,7 +48,7 @@ public class ApplicationDataLogic {
     throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Application deletedObj = null;
-		List<Application> listOfObjects = DatalogicUtils.findObjects(em, Application.class, "appIdentifier", deleteApplicationRequest.getAppIdentifier()); 
+		List<Application> listOfObjects = JPAUtils.findObjects(em, Application.class, "appIdentifier", deleteApplicationRequest.getAppIdentifier()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
@@ -89,7 +88,7 @@ public class ApplicationDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Client deletedObj = null;
-		List<Client> listOfObjects = DatalogicUtils.findObjects(em, Client.class, "clientIdentifier", deleteClientRequest.getClientIdentifier()); 
+		List<Client> listOfObjects = JPAUtils.findObjects(em, Client.class, "clientIdentifier", deleteClientRequest.getClientIdentifier()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{

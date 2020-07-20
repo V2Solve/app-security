@@ -13,8 +13,9 @@ import com.v2solve.app.security.securitymodel.ClientSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.Scope;
 
-import framework.ExceptionUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.StringUtils;
+
+
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -106,7 +107,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -146,7 +147,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -182,7 +183,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -218,7 +219,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -254,7 +255,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -296,7 +297,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -329,7 +330,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -361,7 +362,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SecurityAPIResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -384,7 +385,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new GetSecurityContextResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally

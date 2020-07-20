@@ -29,8 +29,8 @@ import com.v2solve.app.security.sdk.relations.DeleteClientRolePermissionRequest;
 import com.v2solve.app.security.sdk.relations.SearchClientGroupRoleRequest;
 import com.v2solve.app.security.sdk.relations.SearchClientRolePermissionRequest;
 
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 public class RelationDataLogic 
 {

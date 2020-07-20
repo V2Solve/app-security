@@ -112,9 +112,9 @@ import com.v2solve.app.security.securitymodel.datalogic.PermissionDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.RelationDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.RoleDataLogic;
 
-import framework.ExceptionUtils;
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -175,7 +175,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteClientResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -218,7 +218,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 			
 			// Lets check if the object already exists..
-			Client existingObj = DatalogicUtils.findObjectReturnNull(em, Client.class, "clientIdentifier", request.getClientIdentifier(),true);
+			Client existingObj = DatalogicUtils.findObjectReturnNull(em, Client.class, "clientIdentifier", request.getClientIdentifier());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -245,7 +245,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateClientResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -274,15 +274,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			tw = new TransactionWrapper(em);
 			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			asc.hasPermissionThrowException(action, resource);
-			Application existingApp = null;
-			// Lets check if the application already exists..
-			Application searchApp = new Application ();
-			searchApp.setAppIdentifier(request.getAppIdentifier());
-			List<Application> apps = JPAUtils.getObjects(em, Application.class, searchApp, true, false);
-			if (apps != null && apps.isEmpty()==false)
-			{
-				existingApp = apps.get(0);
-			}
+			
+			Application existingApp = DatalogicUtils.findObjectReturnNull(em, Application.class, "appIdentifier", request.getAppIdentifier());
 			
 			// Update existing record..
 			if (existingApp != null)
@@ -302,7 +295,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateApplicationResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -336,7 +329,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteApplicationResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -381,7 +374,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			Action existingObj = DatalogicUtils.findObjectReturnNull(em, Action.class, "name", request.getName(),true);
+			Action existingObj = DatalogicUtils.findObjectReturnNull(em, Action.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -408,7 +401,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateActionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -460,7 +453,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteActionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -503,7 +496,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			Resource existingObj = DatalogicUtils.findObjectReturnNull(em, Resource.class, "name", request.getName(),true);
+			Resource existingObj = DatalogicUtils.findObjectReturnNull(em, Resource.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -530,7 +523,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateResourceResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -582,7 +575,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteResourceResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -628,7 +621,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 			
 			// Lets check if the object already exists..
-			Permission existingObj = DatalogicUtils.findObjectReturnNull(em, Permission.class, "name", request.getName(),true);
+			Permission existingObj = DatalogicUtils.findObjectReturnNull(em, Permission.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -664,7 +657,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreatePermissionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -716,7 +709,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeletePermissionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -758,7 +751,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 			
 			// Lets check if the object already exists..
-			ClientGroup existingObj = DatalogicUtils.findObjectReturnNull(em, ClientGroup.class, "name", request.getName(),true);
+			ClientGroup existingObj = DatalogicUtils.findObjectReturnNull(em, ClientGroup.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -785,7 +778,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateClientGroupResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -837,7 +830,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteClientGroupResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -915,7 +908,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateGroupMembershipResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -946,7 +939,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 //		}
 //		catch (Throwable e)
 //		{
-//			log.error(ExceptionUtils.traceString(e));
+//			log.error(StringUtils.traceString(e));
 //			return new BaseResponse(RequestStatusInformation.failure(e.getMessage()));
 //		}
 //		finally
@@ -1035,7 +1028,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteGroupMembershipResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1084,7 +1077,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchApplicationsResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1135,7 +1128,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchActionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1189,7 +1182,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchPermissionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1241,7 +1234,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchResourceResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1293,7 +1286,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchClientResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1387,7 +1380,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchClientGroupResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1439,7 +1432,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchClientRoleResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1491,7 +1484,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchDomainTypeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1543,7 +1536,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchScopeTypeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1585,7 +1578,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			ClientRole existingObj = DatalogicUtils.findObjectReturnNull(em, ClientRole.class, "name", request.getName(),true);
+			ClientRole existingObj = DatalogicUtils.findObjectReturnNull(em, ClientRole.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -1612,7 +1605,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateClientRoleResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1654,7 +1647,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			ResourceDomainType existingObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomainType.class, "name", request.getName(),true);
+			ResourceDomainType existingObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomainType.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -1680,7 +1673,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateDomainTypeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1722,7 +1715,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			ScopeType existingObj = DatalogicUtils.findObjectReturnNull(em, ScopeType.class, "name", request.getName(),true);
+			ScopeType existingObj = DatalogicUtils.findObjectReturnNull(em, ScopeType.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
@@ -1748,7 +1741,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateScopeTypeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1800,7 +1793,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteClientRoleResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1852,7 +1845,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteDomainTypeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1904,7 +1897,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteScopeTypeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -1947,16 +1940,16 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			ResourceDomain existingObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomain.class, "name", request.getName(),true);
+			ResourceDomain existingObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomain.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
 			{   
 				ResourceDomain parentDomainObj = null;
 				if (request.getParentDomain()  != null)
-					parentDomainObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomain.class, "name", request.getParentDomain(),true);
+					parentDomainObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomain.class, "name", request.getParentDomain());
 				
-				ResourceDomainType rdt = DatalogicUtils.findObjectReturnNull(em, ResourceDomainType.class, "name", request.getDomainType(),true);
+				ResourceDomainType rdt = DatalogicUtils.findObjectReturnNull(em, ResourceDomainType.class, "name", request.getDomainType());
 				if (rdt == null)
 					throw new DataLogicValidationException("DomainType: " + request.getDomainType() + " not found.");
 				
@@ -1998,7 +1991,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateDomainResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2051,7 +2044,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteDomainResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2110,7 +2103,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchDomainResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2158,12 +2151,12 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 
 			// Lets check if the object already exists..
-			RoleScope existingObj = DatalogicUtils.findObjectReturnNull(em, RoleScope.class, "name", request.getName(),true);
+			RoleScope existingObj = DatalogicUtils.findObjectReturnNull(em, RoleScope.class, "name", request.getName());
 			
 			// Update existing record..
 			if (existingObj != null)
 			{   
-				ScopeType rdt = DatalogicUtils.findObjectReturnNull(em, ScopeType.class, "name", request.getScopeType(),true);
+				ScopeType rdt = DatalogicUtils.findObjectReturnNull(em, ScopeType.class, "name", request.getScopeType());
 				if (rdt == null)
 					throw new DataLogicValidationException("ScopeType: " + request.getScopeType() + " not found.");
 				
@@ -2192,7 +2185,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateScopeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2245,7 +2238,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchScopeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2297,7 +2290,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteScopeResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2387,7 +2380,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateClientGroupRoleResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2426,7 +2419,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				throw new DataLogicValidationException("Unique key for record not provided.");
 			}
 			
-			Integer id= new Integer(key);
+			Integer id= Integer.decode(key);
 			// Lets get the object.
 			ClientGroupRole cgr = JPAUtils.findByPrimaryKey(em, ClientGroupRole.class, id);
 			if (cgr == null)
@@ -2489,7 +2482,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteClientGroupRoleResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2573,7 +2566,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchClientGroupRoleResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2644,7 +2637,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new CreateClientRolePermissionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2683,7 +2676,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				throw new DataLogicValidationException("Unique key for record not provided.");
 			}
 			
-			Integer id= new Integer(key);
+			Integer id= Integer.decode(key);
 			// Lets get the object.
 			ClientRolePermission crp = JPAUtils.findByPrimaryKey(em, ClientRolePermission.class, id);
 			if (crp == null)
@@ -2727,7 +2720,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new DeleteClientRolePermissionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
@@ -2801,7 +2794,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 		catch (Throwable e)
 		{
-			log.error(ExceptionUtils.traceString(e));
+			log.error(StringUtils.traceString(e));
 			return new SearchClientRolePermissionResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally

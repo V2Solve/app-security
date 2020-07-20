@@ -32,8 +32,8 @@ import com.v2solve.app.security.sdk.scopedomains.SearchDomainTypeRequest;
 import com.v2solve.app.security.sdk.scopedomains.SearchScopeRequest;
 import com.v2solve.app.security.sdk.scopedomains.SearchScopeTypeRequest;
 
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 public class DomainScopeDataLogic {
 
@@ -46,7 +46,7 @@ public class DomainScopeDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ResourceDomainType deletedObj = null;
-		List<ResourceDomainType> listOfObjects = DatalogicUtils.findObjects(em, ResourceDomainType.class, "name", request.getName()); 
+		List<ResourceDomainType> listOfObjects = JPAUtils.findObjects(em, ResourceDomainType.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
@@ -65,7 +65,7 @@ public class DomainScopeDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ScopeType deletedObj = null;
-		List<ScopeType> listOfObjects = DatalogicUtils.findObjects(em, ScopeType.class, "name", request.getName()); 
+		List<ScopeType> listOfObjects = JPAUtils.findObjects(em, ScopeType.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
@@ -325,7 +325,7 @@ public class DomainScopeDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ResourceDomain deletedObj = null;
-		List<ResourceDomain> listOfObjects = DatalogicUtils.findObjects(em, ResourceDomain.class, "name", request.getName()); 
+		List<ResourceDomain> listOfObjects = JPAUtils.findObjects(em, ResourceDomain.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
@@ -455,7 +455,7 @@ public class DomainScopeDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		RoleScope deletedObj = null;
-		List<RoleScope> listOfObjects = DatalogicUtils.findObjects(em, RoleScope.class, "name", request.getName()); 
+		List<RoleScope> listOfObjects = JPAUtils.findObjects(em, RoleScope.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{

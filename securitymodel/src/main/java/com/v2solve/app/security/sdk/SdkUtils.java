@@ -10,7 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.v2solve.app.security.securitymodel.ClientSecurityContext;
 import com.v2solve.app.security.securitymodel.datalogic.SecurityDataLogic;
 
-import framework.StringUtils;
+import com.v2solve.app.security.utility.StringUtils;
+
 
 public class SdkUtils {
 

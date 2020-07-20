@@ -30,7 +30,8 @@ import com.v2solve.app.security.securitymodel.Permit;
 import com.v2solve.app.security.securitymodel.PermitKey;
 import com.v2solve.app.security.securitymodel.Scope;
 
-import framework.JPAUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+
 
 
 /**

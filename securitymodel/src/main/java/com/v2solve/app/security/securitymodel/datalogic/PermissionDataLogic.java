@@ -28,8 +28,8 @@ import com.v2solve.app.security.sdk.permission.SearchActionRequest;
 import com.v2solve.app.security.sdk.permission.SearchPermissionRequest;
 import com.v2solve.app.security.sdk.permission.SearchResourceRequest;
 
-import framework.JPAUtils;
-import framework.StringUtils;
+import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 /**
  * This class has methods pertaining to persisting and removing Action, Resources, and Permissions
@@ -43,7 +43,7 @@ public class PermissionDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Action deletedObj = null;
-		List<Action> listOfObjects = DatalogicUtils.findObjects(em, Action.class, "name", request.getName()); 
+		List<Action> listOfObjects = JPAUtils.findObjects(em, Action.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
@@ -84,7 +84,7 @@ public class PermissionDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Resource deletedObj = null;
-		List<Resource> listOfObjects = DatalogicUtils.findObjects(em, Resource.class, "name", request.getName()); 
+		List<Resource> listOfObjects = JPAUtils.findObjects(em, Resource.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
@@ -124,7 +124,7 @@ public class PermissionDataLogic {
 	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Permission deletedObj = null;
-		List<Permission> listOfObjects = DatalogicUtils.findObjects(em, Permission.class, "name", request.getName()); 
+		List<Permission> listOfObjects = JPAUtils.findObjects(em, Permission.class, "name", request.getName()); 
 				
 		if (listOfObjects != null && listOfObjects.isEmpty()==false)
 		{
