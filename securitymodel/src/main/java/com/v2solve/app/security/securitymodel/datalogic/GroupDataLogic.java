@@ -33,6 +33,12 @@ import com.v2solve.app.security.utility.StringUtils;
 public class GroupDataLogic 
 {
 
+	/**
+	 * Deletes the Client Group Information
+	 * @param em
+	 * @param request
+	 * @return
+	 */
 	public static ClientGroup deleteClientGroup(EntityManager em, DeleteClientGroupRequest request) 
 	{
 		ClientGroup deletedObj = null;

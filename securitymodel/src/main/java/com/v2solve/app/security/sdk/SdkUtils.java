@@ -21,6 +21,15 @@ import com.v2solve.app.security.utility.StringUtils;
 public class SdkUtils 
 {
 
+	/**
+	 * Given the base request, it looks to see if a calling client id is provided in the request. If yes, then
+	 * it will use it to create the client security context, if not provided it will use the authencation object and use 
+	 * the authenticated principal as the client and return its security context.
+	 * @param em
+	 * @param br
+	 * @return
+	 * @throws Security Exception if it cannot create a security context, because of whatever reason (if client id is not provided for example, or not found)
+	 */
 	static ClientSecurityContext getClientSecurityContextForRequest(EntityManager em,BaseRequest br) 
 	{
 		String clientId = br.getCallingClientId();

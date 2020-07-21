@@ -432,41 +432,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/__ivy_ngcc__/fesm2015/animations.js");
-/* harmony import */ var angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular-auth-oidc-client */ "./node_modules/angular-auth-oidc-client/__ivy_ngcc__/fesm2015/angular-auth-oidc-client.js");
-/* harmony import */ var src_app_auth_service_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/auth-service.service */ "./src/app/auth-service.service.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _topbar_topbar_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./topbar/topbar.component */ "./src/app/topbar/topbar.component.ts");
-/* harmony import */ var _bottombar_bottombar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./bottombar/bottombar.component */ "./src/app/bottombar/bottombar.component.ts");
-/* harmony import */ var _action_mgmt_action_mgmt_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./action-mgmt/action-mgmt.component */ "./src/app/action-mgmt/action-mgmt.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
-/* harmony import */ var _application_mgmt_application_mgmt_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./application-mgmt/application-mgmt.component */ "./src/app/application-mgmt/application-mgmt.component.ts");
-/* harmony import */ var _results_table_results_table_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./results-table/results-table.component */ "./src/app/results-table/results-table.component.ts");
-/* harmony import */ var _info_block_info_block_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./info-block/info-block.component */ "./src/app/info-block/info-block.component.ts");
-/* harmony import */ var _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./table-menu/table-menu.component */ "./src/app/table-menu/table-menu.component.ts");
-/* harmony import */ var _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./spinner/spinner.component */ "./src/app/spinner/spinner.component.ts");
-/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/icon.js");
-/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/table */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/table.js");
-/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/sort */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/sort.js");
-/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/paginator */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/paginator.js");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/form-field.js");
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/input */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/input.js");
-/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/list.js");
-/* harmony import */ var _angular_material_select__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/select */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/select.js");
-/* harmony import */ var _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/autocomplete */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/autocomplete.js");
-/* harmony import */ var _client_management_client_management_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./client-management/client-management.component */ "./src/app/client-management/client-management.component.ts");
-/* harmony import */ var _resource_management_resource_management_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./resource-management/resource-management.component */ "./src/app/resource-management/resource-management.component.ts");
-/* harmony import */ var _scope_type_management_scope_type_management_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./scope-type-management/scope-type-management.component */ "./src/app/scope-type-management/scope-type-management.component.ts");
-/* harmony import */ var _client_group_management_client_group_management_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./client-group-management/client-group-management.component */ "./src/app/client-group-management/client-group-management.component.ts");
-/* harmony import */ var _domain_type_management_domain_type_management_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./domain-type-management/domain-type-management.component */ "./src/app/domain-type-management/domain-type-management.component.ts");
-/* harmony import */ var _scope_management_scope_management_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./scope-management/scope-management.component */ "./src/app/scope-management/scope-management.component.ts");
-/* harmony import */ var _domain_management_domain_management_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./domain-management/domain-management.component */ "./src/app/domain-management/domain-management.component.ts");
-/* harmony import */ var _role_management_role_management_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./role-management/role-management.component */ "./src/app/role-management/role-management.component.ts");
-/* harmony import */ var _role_to_permissions_role_to_permissions_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./role-to-permissions/role-to-permissions.component */ "./src/app/role-to-permissions/role-to-permissions.component.ts");
-/* harmony import */ var _client_to_groups_client_to_groups_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./client-to-groups/client-to-groups.component */ "./src/app/client-to-groups/client-to-groups.component.ts");
-/* harmony import */ var _groups_to_roles_groups_to_roles_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./groups-to-roles/groups-to-roles.component */ "./src/app/groups-to-roles/groups-to-roles.component.ts");
-/* harmony import */ var _permission_management_permission_management_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./permission-management/permission-management.component */ "./src/app/permission-management/permission-management.component.ts");
-
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _topbar_topbar_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./topbar/topbar.component */ "./src/app/topbar/topbar.component.ts");
+/* harmony import */ var _bottombar_bottombar_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./bottombar/bottombar.component */ "./src/app/bottombar/bottombar.component.ts");
+/* harmony import */ var _action_mgmt_action_mgmt_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./action-mgmt/action-mgmt.component */ "./src/app/action-mgmt/action-mgmt.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
+/* harmony import */ var _application_mgmt_application_mgmt_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./application-mgmt/application-mgmt.component */ "./src/app/application-mgmt/application-mgmt.component.ts");
+/* harmony import */ var _results_table_results_table_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./results-table/results-table.component */ "./src/app/results-table/results-table.component.ts");
+/* harmony import */ var _info_block_info_block_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./info-block/info-block.component */ "./src/app/info-block/info-block.component.ts");
+/* harmony import */ var _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./table-menu/table-menu.component */ "./src/app/table-menu/table-menu.component.ts");
+/* harmony import */ var _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./spinner/spinner.component */ "./src/app/spinner/spinner.component.ts");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/icon.js");
+/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/table */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/table.js");
+/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/sort */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/sort.js");
+/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/paginator */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/paginator.js");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/form-field.js");
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/input */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/input.js");
+/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/list.js");
+/* harmony import */ var _angular_material_select__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/select */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/select.js");
+/* harmony import */ var _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/progress-spinner */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/progress-spinner.js");
+/* harmony import */ var _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/autocomplete */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/autocomplete.js");
+/* harmony import */ var _client_management_client_management_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./client-management/client-management.component */ "./src/app/client-management/client-management.component.ts");
+/* harmony import */ var _resource_management_resource_management_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./resource-management/resource-management.component */ "./src/app/resource-management/resource-management.component.ts");
+/* harmony import */ var _scope_type_management_scope_type_management_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./scope-type-management/scope-type-management.component */ "./src/app/scope-type-management/scope-type-management.component.ts");
+/* harmony import */ var _client_group_management_client_group_management_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./client-group-management/client-group-management.component */ "./src/app/client-group-management/client-group-management.component.ts");
+/* harmony import */ var _domain_type_management_domain_type_management_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./domain-type-management/domain-type-management.component */ "./src/app/domain-type-management/domain-type-management.component.ts");
+/* harmony import */ var _scope_management_scope_management_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./scope-management/scope-management.component */ "./src/app/scope-management/scope-management.component.ts");
+/* harmony import */ var _domain_management_domain_management_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./domain-management/domain-management.component */ "./src/app/domain-management/domain-management.component.ts");
+/* harmony import */ var _role_management_role_management_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./role-management/role-management.component */ "./src/app/role-management/role-management.component.ts");
+/* harmony import */ var _role_to_permissions_role_to_permissions_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./role-to-permissions/role-to-permissions.component */ "./src/app/role-to-permissions/role-to-permissions.component.ts");
+/* harmony import */ var _client_to_groups_client_to_groups_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./client-to-groups/client-to-groups.component */ "./src/app/client-to-groups/client-to-groups.component.ts");
+/* harmony import */ var _groups_to_roles_groups_to_roles_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./groups-to-roles/groups-to-roles.component */ "./src/app/groups-to-roles/groups-to-roles.component.ts");
+/* harmony import */ var _permission_management_permission_management_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./permission-management/permission-management.component */ "./src/app/permission-management/permission-management.component.ts");
+/* harmony import */ var src_app_loader_interceptor__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! src/app/loader-interceptor */ "./src/app/loader-interceptor.ts");
 
 
 
@@ -508,119 +507,116 @@ __webpack_require__.r(__webpack_exports__);
 
 class AppModule {
 }
-AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]] });
+AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]] });
 AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({ factory: function AppModule_Factory(t) { return new (t || AppModule)(); }, providers: [
-        angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["OidcConfigService"],
         {
-            provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__["APP_INITIALIZER"],
-            useFactory: src_app_auth_service_service__WEBPACK_IMPORTED_MODULE_5__["configureAuth"],
-            deps: [angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["OidcConfigService"]],
-            multi: true,
+            provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HTTP_INTERCEPTORS"],
+            useClass: src_app_loader_interceptor__WEBPACK_IMPORTED_MODULE_37__["LoaderInterceptor"],
+            multi: true
         }
     ], imports: [[
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
             _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__["BrowserAnimationsModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_11__["ReactiveFormsModule"],
-            _angular_material_icon__WEBPACK_IMPORTED_MODULE_17__["MatIconModule"],
-            _angular_material_table__WEBPACK_IMPORTED_MODULE_18__["MatTableModule"],
-            _angular_material_sort__WEBPACK_IMPORTED_MODULE_19__["MatSortModule"],
-            _angular_material_paginator__WEBPACK_IMPORTED_MODULE_20__["MatPaginatorModule"],
-            _angular_material_form_field__WEBPACK_IMPORTED_MODULE_21__["MatFormFieldModule"],
-            _angular_material_input__WEBPACK_IMPORTED_MODULE_22__["MatInputModule"],
-            _angular_material_list__WEBPACK_IMPORTED_MODULE_23__["MatListModule"],
-            _angular_material_select__WEBPACK_IMPORTED_MODULE_24__["MatSelectModule"],
-            _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_25__["MatAutocompleteModule"],
-            angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["AuthModule"].forRoot()
+            _angular_forms__WEBPACK_IMPORTED_MODULE_9__["ReactiveFormsModule"],
+            _angular_material_icon__WEBPACK_IMPORTED_MODULE_15__["MatIconModule"],
+            _angular_material_table__WEBPACK_IMPORTED_MODULE_16__["MatTableModule"],
+            _angular_material_sort__WEBPACK_IMPORTED_MODULE_17__["MatSortModule"],
+            _angular_material_paginator__WEBPACK_IMPORTED_MODULE_18__["MatPaginatorModule"],
+            _angular_material_form_field__WEBPACK_IMPORTED_MODULE_19__["MatFormFieldModule"],
+            _angular_material_input__WEBPACK_IMPORTED_MODULE_20__["MatInputModule"],
+            _angular_material_list__WEBPACK_IMPORTED_MODULE_21__["MatListModule"],
+            _angular_material_select__WEBPACK_IMPORTED_MODULE_22__["MatSelectModule"],
+            _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_24__["MatAutocompleteModule"],
+            _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_23__["MatProgressSpinnerModule"]
         ]] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
-        _topbar_topbar_component__WEBPACK_IMPORTED_MODULE_8__["TopbarComponent"],
-        _bottombar_bottombar_component__WEBPACK_IMPORTED_MODULE_9__["BottombarComponent"],
-        _action_mgmt_action_mgmt_component__WEBPACK_IMPORTED_MODULE_10__["ActionMgmtComponent"],
-        _application_mgmt_application_mgmt_component__WEBPACK_IMPORTED_MODULE_12__["ApplicationMgmtComponent"],
-        _results_table_results_table_component__WEBPACK_IMPORTED_MODULE_13__["ResultsTableComponent"],
-        _info_block_info_block_component__WEBPACK_IMPORTED_MODULE_14__["InfoBlockComponent"],
-        _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_15__["TableMenuComponent"],
-        _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_16__["SpinnerComponent"],
-        _client_management_client_management_component__WEBPACK_IMPORTED_MODULE_26__["ClientManagementComponent"],
-        _resource_management_resource_management_component__WEBPACK_IMPORTED_MODULE_27__["ResourceManagementComponent"],
-        _scope_type_management_scope_type_management_component__WEBPACK_IMPORTED_MODULE_28__["ScopeTypeManagementComponent"],
-        _client_group_management_client_group_management_component__WEBPACK_IMPORTED_MODULE_29__["ClientGroupManagementComponent"],
-        _domain_type_management_domain_type_management_component__WEBPACK_IMPORTED_MODULE_30__["DomainTypeManagementComponent"],
-        _scope_management_scope_management_component__WEBPACK_IMPORTED_MODULE_31__["ScopeManagementComponent"],
-        _domain_management_domain_management_component__WEBPACK_IMPORTED_MODULE_32__["DomainManagementComponent"],
-        _role_management_role_management_component__WEBPACK_IMPORTED_MODULE_33__["RoleManagementComponent"],
-        _role_to_permissions_role_to_permissions_component__WEBPACK_IMPORTED_MODULE_34__["RoleToPermissionsComponent"],
-        _client_to_groups_client_to_groups_component__WEBPACK_IMPORTED_MODULE_35__["ClientToGroupsComponent"],
-        _groups_to_roles_groups_to_roles_component__WEBPACK_IMPORTED_MODULE_36__["GroupsToRolesComponent"],
-        _permission_management_permission_management_component__WEBPACK_IMPORTED_MODULE_37__["PermissionManagementComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+        _topbar_topbar_component__WEBPACK_IMPORTED_MODULE_6__["TopbarComponent"],
+        _bottombar_bottombar_component__WEBPACK_IMPORTED_MODULE_7__["BottombarComponent"],
+        _action_mgmt_action_mgmt_component__WEBPACK_IMPORTED_MODULE_8__["ActionMgmtComponent"],
+        _application_mgmt_application_mgmt_component__WEBPACK_IMPORTED_MODULE_10__["ApplicationMgmtComponent"],
+        _results_table_results_table_component__WEBPACK_IMPORTED_MODULE_11__["ResultsTableComponent"],
+        _info_block_info_block_component__WEBPACK_IMPORTED_MODULE_12__["InfoBlockComponent"],
+        _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_13__["TableMenuComponent"],
+        _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_14__["SpinnerComponent"],
+        _client_management_client_management_component__WEBPACK_IMPORTED_MODULE_25__["ClientManagementComponent"],
+        _resource_management_resource_management_component__WEBPACK_IMPORTED_MODULE_26__["ResourceManagementComponent"],
+        _scope_type_management_scope_type_management_component__WEBPACK_IMPORTED_MODULE_27__["ScopeTypeManagementComponent"],
+        _client_group_management_client_group_management_component__WEBPACK_IMPORTED_MODULE_28__["ClientGroupManagementComponent"],
+        _domain_type_management_domain_type_management_component__WEBPACK_IMPORTED_MODULE_29__["DomainTypeManagementComponent"],
+        _scope_management_scope_management_component__WEBPACK_IMPORTED_MODULE_30__["ScopeManagementComponent"],
+        _domain_management_domain_management_component__WEBPACK_IMPORTED_MODULE_31__["DomainManagementComponent"],
+        _role_management_role_management_component__WEBPACK_IMPORTED_MODULE_32__["RoleManagementComponent"],
+        _role_to_permissions_role_to_permissions_component__WEBPACK_IMPORTED_MODULE_33__["RoleToPermissionsComponent"],
+        _client_to_groups_client_to_groups_component__WEBPACK_IMPORTED_MODULE_34__["ClientToGroupsComponent"],
+        _groups_to_roles_groups_to_roles_component__WEBPACK_IMPORTED_MODULE_35__["GroupsToRolesComponent"],
+        _permission_management_permission_management_component__WEBPACK_IMPORTED_MODULE_36__["PermissionManagementComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
         _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__["BrowserAnimationsModule"],
-        _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+        _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
         _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
-        _angular_forms__WEBPACK_IMPORTED_MODULE_11__["ReactiveFormsModule"],
-        _angular_material_icon__WEBPACK_IMPORTED_MODULE_17__["MatIconModule"],
-        _angular_material_table__WEBPACK_IMPORTED_MODULE_18__["MatTableModule"],
-        _angular_material_sort__WEBPACK_IMPORTED_MODULE_19__["MatSortModule"],
-        _angular_material_paginator__WEBPACK_IMPORTED_MODULE_20__["MatPaginatorModule"],
-        _angular_material_form_field__WEBPACK_IMPORTED_MODULE_21__["MatFormFieldModule"],
-        _angular_material_input__WEBPACK_IMPORTED_MODULE_22__["MatInputModule"],
-        _angular_material_list__WEBPACK_IMPORTED_MODULE_23__["MatListModule"],
-        _angular_material_select__WEBPACK_IMPORTED_MODULE_24__["MatSelectModule"],
-        _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_25__["MatAutocompleteModule"], angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["AuthModule"]] }); })();
+        _angular_forms__WEBPACK_IMPORTED_MODULE_9__["ReactiveFormsModule"],
+        _angular_material_icon__WEBPACK_IMPORTED_MODULE_15__["MatIconModule"],
+        _angular_material_table__WEBPACK_IMPORTED_MODULE_16__["MatTableModule"],
+        _angular_material_sort__WEBPACK_IMPORTED_MODULE_17__["MatSortModule"],
+        _angular_material_paginator__WEBPACK_IMPORTED_MODULE_18__["MatPaginatorModule"],
+        _angular_material_form_field__WEBPACK_IMPORTED_MODULE_19__["MatFormFieldModule"],
+        _angular_material_input__WEBPACK_IMPORTED_MODULE_20__["MatInputModule"],
+        _angular_material_list__WEBPACK_IMPORTED_MODULE_21__["MatListModule"],
+        _angular_material_select__WEBPACK_IMPORTED_MODULE_22__["MatSelectModule"],
+        _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_24__["MatAutocompleteModule"],
+        _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_23__["MatProgressSpinnerModule"]] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AppModule, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"],
         args: [{
                 declarations: [
-                    _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
-                    _topbar_topbar_component__WEBPACK_IMPORTED_MODULE_8__["TopbarComponent"],
-                    _bottombar_bottombar_component__WEBPACK_IMPORTED_MODULE_9__["BottombarComponent"],
-                    _action_mgmt_action_mgmt_component__WEBPACK_IMPORTED_MODULE_10__["ActionMgmtComponent"],
-                    _application_mgmt_application_mgmt_component__WEBPACK_IMPORTED_MODULE_12__["ApplicationMgmtComponent"],
-                    _results_table_results_table_component__WEBPACK_IMPORTED_MODULE_13__["ResultsTableComponent"],
-                    _info_block_info_block_component__WEBPACK_IMPORTED_MODULE_14__["InfoBlockComponent"],
-                    _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_15__["TableMenuComponent"],
-                    _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_16__["SpinnerComponent"],
-                    _client_management_client_management_component__WEBPACK_IMPORTED_MODULE_26__["ClientManagementComponent"],
-                    _resource_management_resource_management_component__WEBPACK_IMPORTED_MODULE_27__["ResourceManagementComponent"],
-                    _scope_type_management_scope_type_management_component__WEBPACK_IMPORTED_MODULE_28__["ScopeTypeManagementComponent"],
-                    _client_group_management_client_group_management_component__WEBPACK_IMPORTED_MODULE_29__["ClientGroupManagementComponent"],
-                    _domain_type_management_domain_type_management_component__WEBPACK_IMPORTED_MODULE_30__["DomainTypeManagementComponent"],
-                    _scope_management_scope_management_component__WEBPACK_IMPORTED_MODULE_31__["ScopeManagementComponent"],
-                    _domain_management_domain_management_component__WEBPACK_IMPORTED_MODULE_32__["DomainManagementComponent"],
-                    _role_management_role_management_component__WEBPACK_IMPORTED_MODULE_33__["RoleManagementComponent"],
-                    _role_to_permissions_role_to_permissions_component__WEBPACK_IMPORTED_MODULE_34__["RoleToPermissionsComponent"],
-                    _client_to_groups_client_to_groups_component__WEBPACK_IMPORTED_MODULE_35__["ClientToGroupsComponent"],
-                    _groups_to_roles_groups_to_roles_component__WEBPACK_IMPORTED_MODULE_36__["GroupsToRolesComponent"],
-                    _permission_management_permission_management_component__WEBPACK_IMPORTED_MODULE_37__["PermissionManagementComponent"]
+                    _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                    _topbar_topbar_component__WEBPACK_IMPORTED_MODULE_6__["TopbarComponent"],
+                    _bottombar_bottombar_component__WEBPACK_IMPORTED_MODULE_7__["BottombarComponent"],
+                    _action_mgmt_action_mgmt_component__WEBPACK_IMPORTED_MODULE_8__["ActionMgmtComponent"],
+                    _application_mgmt_application_mgmt_component__WEBPACK_IMPORTED_MODULE_10__["ApplicationMgmtComponent"],
+                    _results_table_results_table_component__WEBPACK_IMPORTED_MODULE_11__["ResultsTableComponent"],
+                    _info_block_info_block_component__WEBPACK_IMPORTED_MODULE_12__["InfoBlockComponent"],
+                    _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_13__["TableMenuComponent"],
+                    _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_14__["SpinnerComponent"],
+                    _client_management_client_management_component__WEBPACK_IMPORTED_MODULE_25__["ClientManagementComponent"],
+                    _resource_management_resource_management_component__WEBPACK_IMPORTED_MODULE_26__["ResourceManagementComponent"],
+                    _scope_type_management_scope_type_management_component__WEBPACK_IMPORTED_MODULE_27__["ScopeTypeManagementComponent"],
+                    _client_group_management_client_group_management_component__WEBPACK_IMPORTED_MODULE_28__["ClientGroupManagementComponent"],
+                    _domain_type_management_domain_type_management_component__WEBPACK_IMPORTED_MODULE_29__["DomainTypeManagementComponent"],
+                    _scope_management_scope_management_component__WEBPACK_IMPORTED_MODULE_30__["ScopeManagementComponent"],
+                    _domain_management_domain_management_component__WEBPACK_IMPORTED_MODULE_31__["DomainManagementComponent"],
+                    _role_management_role_management_component__WEBPACK_IMPORTED_MODULE_32__["RoleManagementComponent"],
+                    _role_to_permissions_role_to_permissions_component__WEBPACK_IMPORTED_MODULE_33__["RoleToPermissionsComponent"],
+                    _client_to_groups_client_to_groups_component__WEBPACK_IMPORTED_MODULE_34__["ClientToGroupsComponent"],
+                    _groups_to_roles_groups_to_roles_component__WEBPACK_IMPORTED_MODULE_35__["GroupsToRolesComponent"],
+                    _permission_management_permission_management_component__WEBPACK_IMPORTED_MODULE_36__["PermissionManagementComponent"]
                 ],
                 imports: [
                     _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                     _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__["BrowserAnimationsModule"],
-                    _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+                    _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
                     _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_11__["ReactiveFormsModule"],
-                    _angular_material_icon__WEBPACK_IMPORTED_MODULE_17__["MatIconModule"],
-                    _angular_material_table__WEBPACK_IMPORTED_MODULE_18__["MatTableModule"],
-                    _angular_material_sort__WEBPACK_IMPORTED_MODULE_19__["MatSortModule"],
-                    _angular_material_paginator__WEBPACK_IMPORTED_MODULE_20__["MatPaginatorModule"],
-                    _angular_material_form_field__WEBPACK_IMPORTED_MODULE_21__["MatFormFieldModule"],
-                    _angular_material_input__WEBPACK_IMPORTED_MODULE_22__["MatInputModule"],
-                    _angular_material_list__WEBPACK_IMPORTED_MODULE_23__["MatListModule"],
-                    _angular_material_select__WEBPACK_IMPORTED_MODULE_24__["MatSelectModule"],
-                    _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_25__["MatAutocompleteModule"],
-                    angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["AuthModule"].forRoot()
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__["ReactiveFormsModule"],
+                    _angular_material_icon__WEBPACK_IMPORTED_MODULE_15__["MatIconModule"],
+                    _angular_material_table__WEBPACK_IMPORTED_MODULE_16__["MatTableModule"],
+                    _angular_material_sort__WEBPACK_IMPORTED_MODULE_17__["MatSortModule"],
+                    _angular_material_paginator__WEBPACK_IMPORTED_MODULE_18__["MatPaginatorModule"],
+                    _angular_material_form_field__WEBPACK_IMPORTED_MODULE_19__["MatFormFieldModule"],
+                    _angular_material_input__WEBPACK_IMPORTED_MODULE_20__["MatInputModule"],
+                    _angular_material_list__WEBPACK_IMPORTED_MODULE_21__["MatListModule"],
+                    _angular_material_select__WEBPACK_IMPORTED_MODULE_22__["MatSelectModule"],
+                    _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_24__["MatAutocompleteModule"],
+                    _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_23__["MatProgressSpinnerModule"]
                 ],
                 providers: [
-                    angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["OidcConfigService"],
                     {
-                        provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__["APP_INITIALIZER"],
-                        useFactory: src_app_auth_service_service__WEBPACK_IMPORTED_MODULE_5__["configureAuth"],
-                        deps: [angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_4__["OidcConfigService"]],
-                        multi: true,
+                        provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HTTP_INTERCEPTORS"],
+                        useClass: src_app_loader_interceptor__WEBPACK_IMPORTED_MODULE_37__["LoaderInterceptor"],
+                        multi: true
                     }
                 ],
-                bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
+                bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
             }]
     }], null, null); })();
 
@@ -861,52 +857,6 @@ ApplicationMgmtComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ�
                 styleUrls: ['./application-mgmt.component.css']
             }]
     }], function () { return [{ type: src_assets_domainmodel_common_calls_service__WEBPACK_IMPORTED_MODULE_6__["CommonCallsService"] }, { type: src_assets_domainmodel_sec_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_7__["SecMgmtApiClientService"] }]; }, null); })();
-
-
-/***/ }),
-
-/***/ "./src/app/auth-service.service.ts":
-/*!*****************************************!*\
-  !*** ./src/app/auth-service.service.ts ***!
-  \*****************************************/
-/*! exports provided: configureAuth, AuthServiceService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "configureAuth", function() { return configureAuth; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthServiceService", function() { return AuthServiceService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! angular-auth-oidc-client */ "./node_modules/angular-auth-oidc-client/__ivy_ngcc__/fesm2015/angular-auth-oidc-client.js");
-
-
-
-function configureAuth(oidcConfigService) {
-    return () => oidcConfigService.withConfig({
-        stsServer: 'https://dev-869380-admin.okta.com/oauth2/default',
-        authWellknownEndpoint: 'https://dev-869380-admin.okta.com/oauth2/default',
-        redirectUrl: window.location.origin,
-        postLogoutRedirectUri: window.location.origin,
-        clientId: '0oakw20w9Z9E55Be34x6',
-        scope: 'openid profile email',
-        responseType: 'id_token token',
-        silentRenew: true,
-        silentRenewUrl: `${window.location.origin}/silent-renew.html`,
-        logLevel: angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_1__["LogLevel"].Debug,
-    });
-}
-class AuthServiceService {
-    constructor() {
-    }
-}
-AuthServiceService.ɵfac = function AuthServiceService_Factory(t) { return new (t || AuthServiceService)(); };
-AuthServiceService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: AuthServiceService, factory: AuthServiceService.ɵfac, providedIn: 'root' });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AuthServiceService, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return []; }, null); })();
 
 
 /***/ }),
@@ -3049,6 +2999,92 @@ class Message {
         this.error = error;
     }
 }
+
+
+/***/ }),
+
+/***/ "./src/app/loader-interceptor.ts":
+/*!***************************************!*\
+  !*** ./src/app/loader-interceptor.ts ***!
+  \***************************************/
+/*! exports provided: LoaderInterceptor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoaderInterceptor", function() { return LoaderInterceptor; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/loader-service.service */ "./src/app/loader-service.service.ts");
+
+
+
+
+class LoaderInterceptor {
+    constructor(loaderService) {
+        this.loaderService = loaderService;
+        this.count = 0;
+    }
+    intercept(req, next) {
+        console.log("Intercepted..");
+        if (this.count === 0) {
+            this.loaderService.setHttpProgressStatus(true);
+        }
+        this.count++;
+        return next.handle(req).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["finalize"])(() => {
+            this.count--;
+            if (this.count === 0) {
+                this.loaderService.setHttpProgressStatus(false);
+            }
+        }));
+    }
+}
+LoaderInterceptor.ɵfac = function LoaderInterceptor_Factory(t) { return new (t || LoaderInterceptor)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_2__["LoaderServiceService"])); };
+LoaderInterceptor.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: LoaderInterceptor, factory: LoaderInterceptor.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](LoaderInterceptor, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_2__["LoaderServiceService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "./src/app/loader-service.service.ts":
+/*!*******************************************!*\
+  !*** ./src/app/loader-service.service.ts ***!
+  \*******************************************/
+/*! exports provided: LoaderServiceService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoaderServiceService", function() { return LoaderServiceService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+
+
+
+class LoaderServiceService {
+    constructor() {
+        this.httpLoading = new rxjs__WEBPACK_IMPORTED_MODULE_1__["ReplaySubject"](1);
+    }
+    httpProgress() {
+        return this.httpLoading.asObservable();
+    }
+    setHttpProgressStatus(inprogess) {
+        this.httpLoading.next(inprogess);
+    }
+}
+LoaderServiceService.ɵfac = function LoaderServiceService_Factory(t) { return new (t || LoaderServiceService)(); };
+LoaderServiceService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: LoaderServiceService, factory: LoaderServiceService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](LoaderServiceService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return []; }, null); })();
 
 
 /***/ }),
@@ -5206,8 +5242,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/table-menu/table-menu.component */ "./src/app/table-menu/table-menu.component.ts");
 /* harmony import */ var src_app_base_comps_commonforms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/base-comps/commonforms */ "./src/app/base-comps/commonforms.ts");
 /* harmony import */ var src_assets_domainmodel_context_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/assets/domainmodel/context-mgmt-api-client.service */ "./src/assets/domainmodel/context-mgmt-api-client.service.ts");
-/* harmony import */ var angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! angular-auth-oidc-client */ "./node_modules/angular-auth-oidc-client/__ivy_ngcc__/fesm2015/angular-auth-oidc-client.js");
+/* harmony import */ var src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/loader-service.service */ "./src/app/loader-service.service.ts");
 /* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/icon.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
+/* harmony import */ var _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/material/progress-spinner */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/progress-spinner.js");
 
 
 
@@ -5217,19 +5255,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+function TopbarComponent_mat_spinner_13_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "mat-spinner", 9);
+} if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("diameter", 20);
+} }
 class TopbarComponent extends src_app_base_comps_commonforms__WEBPACK_IMPORTED_MODULE_3__["BaseForm"] {
-    constructor(client, oidcSecurityService) {
+    constructor(client, loadService) {
         super();
+        this.loadService = loadService;
+        this.spinBarVisibility = false;
         this.loggedInUser = "NotloggedIn";
         this.allMenuItems = new Array();
         this.apiClient = client;
-        this.oidcService = oidcSecurityService;
-    }
-    login() {
-        this.oidcService.authorize();
-    }
-    logout() {
-        this.oidcService.logoff();
     }
     setUpMenuBasedOnPermission(secApiRequest, resources, mi) {
         secApiRequest.resources = resources;
@@ -5356,11 +5396,14 @@ class TopbarComponent extends src_app_base_comps_commonforms__WEBPACK_IMPORTED_M
     ngOnInit() {
         this.figureOutLoggedInUser();
         this.figureOutMenutItems();
-        this.oidcService.checkAuth().subscribe((auth) => console.log('is authenticated', auth));
+        console.log("Subscribing to the loadService..");
+        this.loadService.httpProgress().subscribe(element => {
+            this.spinBarVisibility = element;
+        });
     }
 }
-TopbarComponent.ɵfac = function TopbarComponent_Factory(t) { return new (t || TopbarComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_assets_domainmodel_context_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ContextMgmtApiClientService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_5__["OidcSecurityService"])); };
-TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]], decls: 16, vars: 2, consts: [["id", "applogo"], [2, "width", "100%"], [2, "text-align", "left"], [2, "font-size", "50px"], [2, "text-align", "right", "font-size", "smaller"], [3, "click"], [3, "menuItems"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
+TopbarComponent.ɵfac = function TopbarComponent_Factory(t) { return new (t || TopbarComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_assets_domainmodel_context_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ContextMgmtApiClientService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_5__["LoaderServiceService"])); };
+TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]], decls: 15, vars: 3, consts: [["id", "applogo"], [2, "width", "100%"], [2, "text-align", "left", "width", "10%"], [2, "font-size", "50px"], [2, "text-align", "left", "width", "50%"], [2, "text-align", "right", "font-size", "smaller", "width", "20%"], [2, "width", "10%"], [3, "diameter", 4, "ngIf"], [3, "menuItems"], [3, "diameter"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "table", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "tr");
@@ -5371,30 +5414,29 @@ TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "td", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "td", 4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "h2");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, "Application Security Management Console");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "td", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "td", 5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "td", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "button", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_Template_button_click_13_listener() { return ctx.login(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](14, "Login");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "td", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](13, TopbarComponent_mat_spinner_13_Template, 1, 1, "mat-spinner", 7);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](15, "app-table-menu", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "app-table-menu", 8);
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" Logged user: ", ctx.loggedInUser, " ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.spinBarVisibility);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("menuItems", ctx.allMenuItems);
-    } }, directives: [_angular_material_icon__WEBPACK_IMPORTED_MODULE_6__["MatIcon"], src_app_table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_2__["TableMenuComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RvcGJhci90b3BiYXIuY29tcG9uZW50LmNzcyJ9 */"] });
+    } }, directives: [_angular_material_icon__WEBPACK_IMPORTED_MODULE_6__["MatIcon"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"], src_app_table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_2__["TableMenuComponent"], _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_8__["MatSpinner"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RvcGJhci90b3BiYXIuY29tcG9uZW50LmNzcyJ9 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](TopbarComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -5402,7 +5444,7 @@ TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 templateUrl: './topbar.component.html',
                 styleUrls: ['./topbar.component.css']
             }]
-    }], function () { return [{ type: src_assets_domainmodel_context_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ContextMgmtApiClientService"] }, { type: angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_5__["OidcSecurityService"] }]; }, null); })();
+    }], function () { return [{ type: src_assets_domainmodel_context_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ContextMgmtApiClientService"] }, { type: src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_5__["LoaderServiceService"] }]; }, null); })();
 
 
 /***/ }),
@@ -5938,42 +5980,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular-auth-oidc-client */ "./node_modules/angular-auth-oidc-client/__ivy_ngcc__/fesm2015/angular-auth-oidc-client.js");
-
 
 
 
 
 
 class ContextMgmtApiClientService {
-    constructor(httpClient, oidcSecService) {
-        this.authenticated = false;
+    constructor(httpClient) {
         this.apibaseurl = src_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].contextApiBaseUrl;
         this.http = httpClient;
         this.username = src_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].username;
         this.password = src_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].password;
-        this.oidcSecurityService = oidcSecService;
-        if (this.oidcSecurityService != null) {
-            this.oidcSecurityService.isAuthenticated$.subscribe(auth => {
-                this.authenticated = auth;
-            });
-        }
     }
     /**
      * Returns the http options to be appended.
      */
     getHttpHeaders() {
         let httpHeaders;
-        if (this.authenticated) {
-            let token = this.oidcSecurityService.getToken();
-            if (token != null) {
-                httpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ "Authorization": "Bearer " + token });
-                return httpHeaders;
-            }
-            else {
-                console.error("The token service says it is is authenticated, yet, no token!.");
-            }
-        }
         if (this.username != null && this.username.length > 0) {
             let authorizationHeader = "Basic " + btoa(this.username + ":" + this.password);
             // console.log("Authorization header: " + authorizationHeader);
@@ -6028,14 +6051,14 @@ class ContextMgmtApiClientService {
         return this.http.post(methodUrl, request, this.getHttpOptions());
     }
 }
-ContextMgmtApiClientService.ɵfac = function ContextMgmtApiClientService_Factory(t) { return new (t || ContextMgmtApiClientService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_3__["OidcSecurityService"])); };
+ContextMgmtApiClientService.ɵfac = function ContextMgmtApiClientService_Factory(t) { return new (t || ContextMgmtApiClientService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
 ContextMgmtApiClientService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: ContextMgmtApiClientService, factory: ContextMgmtApiClientService.ɵfac, providedIn: 'root' });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ContextMgmtApiClientService, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }, { type: angular_auth_oidc_client__WEBPACK_IMPORTED_MODULE_3__["OidcSecurityService"] }]; }, null); })();
+    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }]; }, null); })();
 
 
 /***/ }),
@@ -6268,13 +6291,12 @@ SecMgmtApiClientService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ�
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
   \*****************************************/
-/*! exports provided: environment, AuthConfig */
+/*! exports provided: environment */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthConfig", function() { return AuthConfig; });
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
@@ -6282,12 +6304,9 @@ const environment = {
     production: false,
     contextApiBaseUrl: "http://localhost:8080/v1/contextapi",
     managementApiBaseUrl: "http://localhost:8080/v1/managementapi",
-    // username: "saurinya@gmail.com",
-    username: "",
+    username: "saurinya@gmail.com",
     password: "admin"
 };
-class AuthConfig {
-}
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

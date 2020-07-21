@@ -18,6 +18,10 @@ import com.v2solve.app.security.utility.JPAUtils;
  */
 public class DatalogicUtils 
 {
+	/**
+	 * Identifiers for the property and the relationship.  This is common across the code, because consistently it has been named as such 
+	 * in all tables.
+	 */
 	public static final String APP_IDENTIFIER_PROPERTY   = "appIdentifier";
 	public static final String APP_RELATIONSHIP_PROPERTY = "application";
 

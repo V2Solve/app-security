@@ -1,11 +1,10 @@
 package com.v2solve.app.security.securitymodel;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import com.v2solve.app.security.sdk.PermissionException;
-
 import lombok.Data;
 
 

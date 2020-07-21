@@ -12,9 +12,6 @@ import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
 @Configuration
 public class AppConfig 
 {
-	public AppConfig() {
-	}
-
 	@Bean
 	public SecurityManagementAPI securityAPI (@Autowired EntityManagerFactory emf)
 	{
@@ -26,5 +23,4 @@ public class AppConfig
 	{
 		return new SecurityContextAPIImpl(emf);
 	}
-	
 }

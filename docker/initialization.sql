@@ -440,36 +440,30 @@ ALTER SEQUENCE "seq_role_scope_id" OWNER TO postgres;
 CREATE SEQUENCE "seq_scope_type_id" INCREMENT 1  START 10000  MINVALUE 1  MAXVALUE 1000000000 CACHE 1;
 ALTER SEQUENCE "seq_scope_type_id" OWNER TO postgres;
 
--- NOW INITIALIZING THE DATABASE with some initial Data.
 
--- create the first client..
-insert into client (id,client_identifier,description,application_id) values (1,'saurinya@gmail.com','This client is built in super user.',null);
-
--- create the super group
-insert into client_group (id,name,description,application_id) values (1,'SUPER_CLIENTS','This group is a built in starter super client group',null);
+-- NOW INITIALIZING THE DATABASE with some initial Data. (Note the initial super user is created in the init-user-db.sh)
 
 
--- create the connection between the super user and the super group..
-insert into client_group_membership (id,client_id,client_group_id,application_id) values (1,1,1,null);
+-- Some basic actions that are part of the basic admin application
+insert into action (id,name,description,application_id) values (2,'CREATE','The super action that stands for all actions',null);
+insert into action (id,name,description,application_id) values (3,'READ','should impart ability to read or view some resource',null);
+insert into action (id,name,description,application_id) values (4,'UPDATE','should impart the ability to update some resource',null);
+insert into action (id,name,description,application_id) values (5,'DELETE','should impart the ability to delete some resource',null);
+insert into action (id,name,description,application_id) values (6,'ASSUME','should impart the ability to assume some something',null);
 
--- create the super action
-insert into action (id,name,description,application_id) values (1,'ALL_ACTIONS','The super action that stands for all actions',null);
+-- Some basic resources that are a part of the basic admin application
+insert into resource (id,name,description,application_id) values (2,'ACTION','represents an action or verb',null);
+insert into resource (id,name,description,application_id) values (3,'APPLICATION','represents an application resource',null);
+insert into resource (id,name,description,application_id) values (4,'CLIENT','represents a client resource',null);
+insert into resource (id,name,description,application_id) values (5,'CLIENT_GROUP','represents a client group',null);
+insert into resource (id,name,description,application_id) values (6,'CLIENT_GROUP_MEMBERSHIP','represents an association of a client with a group',null);
+insert into resource (id,name,description,application_id) values (7,'CLIENT_ROLE','represents a role',null);
+insert into resource (id,name,description,application_id) values (8,'GROUP_ROLE_MEMBERSHIP','represents an association of group with a role',null);
+insert into resource (id,name,description,application_id) values (9,'PERMISSION','represents an permission resource',null);
+insert into resource (id,name,description,application_id) values (10,'PERMISSION_ROLE_MEMBERSHIP','represents an association of a permission with a role',null);
+insert into resource (id,name,description,application_id) values (11,'RESOURCE','represents a resource',null);
+insert into resource (id,name,description,application_id) values (12,'RESOURCE_DOMAIN','represents an hierarchical value',null);
+insert into resource (id,name,description,application_id) values (13,'RESOURCE_DOMAIN_TYPE','represents an hierarchical value type',null);
+insert into resource (id,name,description,application_id) values (14,'SCOPE_TYPE','represents a type of scope',null);
+insert into resource (id,name,description,application_id) values (15,'ROLE_SCOPE','represents a scope of a particular type with values',null);
 
--- create the super resource
-insert into resource (id,name,description,application_id) values (1,'ALL_RESOURCES','The super resource keyword that stands for all resources',null);
-
-
--- create the super permission
-insert into permission (id,name,action_id,resource_id,description,application_id) values (1,'SUPER_PERMISSION',1,1,'This permission provides ALL_ACTIONS on ALL_RESOURCES - Its a super permission.',null);
-
-
--- create the super role..
-insert into client_role (id,name,description,application_id) values (1,'SUPER_ROLE','This is a super role, which should have super permissions.',null);
-
-
--- give the super role, the super permission
-insert into client_role_permissions (id,client_role_id,permission_id,value,application_id) values (1,1,1,'allow',null);
-
-
--- assign the super role to the super clients group..
-insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,role_scope_id,application_id) values (1,1,1,null,null,null);

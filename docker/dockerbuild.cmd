@@ -1,0 +1,1 @@
+docker build -f postgres-dockerfile -t appsecdb:1.0 .

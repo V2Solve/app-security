@@ -8,6 +8,25 @@ spring:
     properties:
       hibernate:
         format_sql: true
+# Setup for OAuth2 Security
+  security:
+    oauth2:
+      client:
+        registration:
+          okta:
+            client-id: "0oam02zxsNkBAw5xo4x6"
+            client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
+            authorization-grant-type: "authorization_code"
+            client-name: Okta
+            scope:
+            - email
+            - profile
+            - openid
+        provider:
+          okta:
+            user-name-attribute: email
+            issuer-uri: "https://dev-869380.okta.com"      
+        
 
 ##If want to see very extensive logging
 #spring.jpa.properties.hibernate.generate_statistics=true
@@ -26,7 +45,9 @@ app:
           roles: admin
 #    authwhitelist: /index.html
     
-    
+
+  
+
 logging:  level:    com:
       v2solve:
         app:

@@ -4,8 +4,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import * as sobjs from 'src/assets/domainmodel/appsecuritymodel';
 import { environment } from 'src/environments/environment';
-import { OidcClientNotification, OidcSecurityService, PublicConfiguration } from 'angular-auth-oidc-client';
-import { AuthModule, LogLevel, OidcConfigService } from 'angular-auth-oidc-client';
 
 @Injectable({
   providedIn: 'root'
@@ -16,22 +14,13 @@ export class ContextMgmtApiClientService {
 	http: HttpClient;	
 	username: string;
 	password: string;
-	oidcSecurityService: OidcSecurityService;
-	public authenticated: boolean = false;
 	
-	constructor (httpClient: HttpClient,oidcSecService: OidcSecurityService)
+	constructor (httpClient: HttpClient)
 	{
 		this.apibaseurl = environment.contextApiBaseUrl;
 		this.http = httpClient;
 		this.username = environment.username;
 		this.password = environment.password;
-		this.oidcSecurityService = oidcSecService;
-		if (this.oidcSecurityService != null)
-		{
-			this.oidcSecurityService.isAuthenticated$.subscribe(auth=>{
-				this.authenticated = auth;
-			})
-		}
 	} 
 
 	/**
@@ -40,21 +29,6 @@ export class ContextMgmtApiClientService {
 	getHttpHeaders (): HttpHeaders
 	{
 		let httpHeaders: HttpHeaders;
-
-		if (this.authenticated)
-		{
-			let token = this.oidcSecurityService.getToken();
-
-			if (token != null)
-			{
-				httpHeaders = new HttpHeaders({"Authorization": "Bearer " + token});
-				return httpHeaders;
-			}
-			else
-			{
-				console.error("The token service says it is is authenticated, yet, no token!.");
-			}
-		}
 
 		if (this.username != null && this.username.length > 0)
 		{
