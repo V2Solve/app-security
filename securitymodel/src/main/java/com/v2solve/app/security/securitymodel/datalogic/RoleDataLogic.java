@@ -1,18 +1,13 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CriteriaBuilder.In;
-
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.ClientRole;
 import com.v2solve.app.security.sdk.PagingInformation;
@@ -32,8 +27,14 @@ import com.v2solve.app.security.utility.StringUtils;
 public class RoleDataLogic 
 {
 
+	/**
+	 * Deletes the client role identified by the name in the request.
+	 * @param em
+	 * @param request
+	 * @return - the deleted object.
+	 * @throws DatalogicValidationException - if could not delete record.
+	 */
 	public static ClientRole deleteClientRole(EntityManager em, DeleteClientRoleRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ClientRole deletedObj = null;
 		List<ClientRole> listOfObjects = JPAUtils.findObjects(em, ClientRole.class, "name", request.getName()); 
@@ -52,8 +53,13 @@ public class RoleDataLogic
 	}
 	
 	
+	/**
+	 * Creates a Client Role entry as per data in request.
+	 * @param em
+	 * @param request
+	 * @return - the newly created record.
+	 */
 	public static ClientRole createClientRole(EntityManager em, CreateClientRoleRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -81,7 +87,7 @@ public class RoleDataLogic
 	 * Searches for roles based on limiting app domains
 	 * @param em
 	 * @param request
-	 * @param limitingAppDomains
+	 * @param limitingAppDomains - if provided , limits the search for only the roles that are owned by these applications.
 	 * @return
 	 */
 	public static List<ClientRole> searchClientRoles(EntityManager em, SearchClientRoleRequest request,
@@ -95,7 +101,7 @@ public class RoleDataLogic
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
+		
 		
 		if (!StringUtils.isNullOrZeroLength(request.getName()))
 		{
@@ -104,18 +110,7 @@ public class RoleDataLogic
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ClientRole,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);		
 		
 		if (finalPredicate != null)
 		cq.where(finalPredicate);

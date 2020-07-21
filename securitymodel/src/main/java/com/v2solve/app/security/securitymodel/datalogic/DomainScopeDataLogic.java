@@ -11,7 +11,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CriteriaBuilder.In;
 
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.ResourceDomain;
@@ -35,15 +34,10 @@ import com.v2solve.app.security.sdk.scopedomains.SearchScopeTypeRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 
-public class DomainScopeDataLogic {
-
-	public DomainScopeDataLogic() {
-		// TODO Auto-generated constructor stub
-	}
-
+public class DomainScopeDataLogic 
+{
 	
 	public static ResourceDomainType deleteResourceDomainType(EntityManager em, DeleteDomainTypeRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ResourceDomainType deletedObj = null;
 		List<ResourceDomainType> listOfObjects = JPAUtils.findObjects(em, ResourceDomainType.class, "name", request.getName()); 
@@ -62,7 +56,6 @@ public class DomainScopeDataLogic {
 	}
 	
 	public static ScopeType deleteScopeType(EntityManager em, DeleteScopeTypeRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ScopeType deletedObj = null;
 		List<ScopeType> listOfObjects = JPAUtils.findObjects(em, ScopeType.class, "name", request.getName()); 
@@ -92,7 +85,6 @@ public class DomainScopeDataLogic {
 	 * @throws InstantiationException
 	 */
 	public static ScopeType createScopeType(EntityManager em, CreateScopeTypeRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -123,7 +115,6 @@ public class DomainScopeDataLogic {
 	 * @throws InstantiationException
 	 */
 	public static ResourceDomainType createResourceDomainType(EntityManager em, CreateDomainTypeRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -158,9 +149,7 @@ public class DomainScopeDataLogic {
 		cq.select(root);
 		
 		Predicate finalPredicate = null;
-		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(request.getName()))
 		{
@@ -169,18 +158,7 @@ public class DomainScopeDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ResourceDomainType,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (finalPredicate != null)
 		cq.where(finalPredicate);
@@ -223,7 +201,6 @@ public class DomainScopeDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(request.getName()))
 		{
@@ -232,18 +209,7 @@ public class DomainScopeDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ScopeType,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (finalPredicate != null)
 		cq.where(finalPredicate);
@@ -358,7 +324,6 @@ public class DomainScopeDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(request.getName()))
 		{
@@ -367,19 +332,7 @@ public class DomainScopeDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ResourceDomain,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
-		
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (!StringUtils.isNullOrZeroLength(request.getDomainType()))
 		{
@@ -482,7 +435,6 @@ public class DomainScopeDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(request.getName()))
 		{
@@ -491,19 +443,7 @@ public class DomainScopeDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<RoleScope,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
-		
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (!StringUtils.isNullOrZeroLength(request.getScopeType()))
 		{

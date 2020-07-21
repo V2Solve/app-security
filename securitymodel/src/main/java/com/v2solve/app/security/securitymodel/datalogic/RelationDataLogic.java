@@ -1,8 +1,7 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,8 +10,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CriteriaBuilder.In;
-
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.ClientGroup;
 import com.v2solve.app.security.model.entities.ClientGroupRole;
@@ -32,10 +29,22 @@ import com.v2solve.app.security.sdk.relations.SearchClientRolePermissionRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 
+
+/**
+ * This class contains data access logic for the relationship tables.. (such as group memberships, and role permissions etc) 
+ * @author Saurin Magiawala
+ *
+ */
 public class RelationDataLogic 
 {
+	
+	/**
+	 * Assigns a role to a client group.  
+	 * @param em
+	 * @param request
+	 * @return - the newly created object
+	 */
 	public static ClientGroupRole createClientGroupRole(EntityManager em, CreateClientGroupRoleRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -79,8 +88,13 @@ public class RelationDataLogic
 	}
 
 
+	/**
+	 * Assigns a permission to a role (grants it to the role).
+	 * @param em
+	 * @param request
+	 * @return - the newly created data object.
+	 */
 	public static ClientRolePermission createClientRolePermission (EntityManager em, CreateClientRolePermissionRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -114,26 +128,40 @@ public class RelationDataLogic
 		return objToCreate;
 	}
 	
+	
+	
+	/**
+	 * Removes a role assignment from a Client Group.
+	 * @param em
+	 * @param request
+	 * @return - the object that was removed, null if the object did not exist to begin with.
+	 */
 	public static ClientGroupRole deleteClientGroupRole(EntityManager em, DeleteClientGroupRoleRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		String key = request.getKey();
 		if (StringUtils.isNullOrZeroLength(key))
 			throw new DataLogicValidationException("Key for deleting the record must be provided.");
 		// Since the keys are integers..
-		Integer keyInt = new Integer(key);
+		Integer keyInt = Integer.decode(key);
 		ClientGroupRole deletedObj = JPAUtils.deleteObject(em, keyInt, ClientGroupRole.class);
 		return deletedObj;
 	}
+	
+	
 
+	/**
+	 * Removes a permission assigment from a role (Ungrants a permission)
+	 * @param em
+	 * @param request
+	 * @return - the object that was removed or null if it was not there to begin with.
+	 */
 	public static ClientRolePermission deleteClientRolePermission(EntityManager em, DeleteClientRolePermissionRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		String key = request.getKey();
 		if (StringUtils.isNullOrZeroLength(key))
 			throw new DataLogicValidationException("Key for deleting the record must be provided.");
 		// Since the keys are integers..
-		Integer keyInt = new Integer(key);
+		Integer keyInt = Integer.decode(key);
 		ClientRolePermission deletedObj = JPAUtils.deleteObject(em, keyInt, ClientRolePermission.class);
 		return deletedObj;
 	}
@@ -143,8 +171,8 @@ public class RelationDataLogic
 	 * Searches clientGroupRoles based on information in the request.
 	 * @param em
 	 * @param request
-	 * @param limitingAppDomains 
-	 * @return
+	 * @param limitingAppDomains - limits the searches to those owned by these applications.
+	 * @return - list of objects returned in the search.
 	 */
 	public static List<ClientGroupRole> searchClientGroupRoles (EntityManager em, SearchClientGroupRoleRequest request, List<String> limitingAppDomains)
 	{
@@ -206,19 +234,7 @@ public class RelationDataLogic
 				whereClause = cb.and(whereClause,wC);
 		}
 		
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ClientGroupRole,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			Predicate wC = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (whereClause == null)
-				whereClause = wC;
-			else
-				whereClause = cb.and(whereClause,wC);
-		}
-		
+		whereClause = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,whereClause);		
 		
 		if (whereClause != null)
 			cq.where(whereClause);
@@ -242,6 +258,13 @@ public class RelationDataLogic
 	}
 	
 	
+	/**
+	 * Searches the db for client role permissions using the data from the request object as search clause.
+	 * @param em
+	 * @param request
+	 * @param limitingAppDomains - restricts the data to records which are owned by these applications
+	 * @return - list of client role permission entries returned as a result of the search
+	 */
 	public static List<ClientRolePermission> searchClientRolePermissions (EntityManager em, SearchClientRolePermissionRequest request, List<String> limitingAppDomains)
 	{
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -280,19 +303,7 @@ public class RelationDataLogic
 				whereClause = cb.and(whereClause,wC);
 		}
 		
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ClientRolePermission,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			Predicate wC = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (whereClause == null)
-				whereClause = wC;
-			else
-				whereClause = cb.and(whereClause,wC);
-		}
-		
+		whereClause = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,whereClause);		
 		
 		if (whereClause != null)
 			cq.where(whereClause);

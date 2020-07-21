@@ -1,18 +1,15 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.model.entities.ClientGroup;
@@ -33,10 +30,10 @@ import com.v2solve.app.security.utility.StringUtils;
  * @author Saurin Magiawala
  *
  */
-public class GroupDataLogic {
+public class GroupDataLogic 
+{
 
 	public static ClientGroup deleteClientGroup(EntityManager em, DeleteClientGroupRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ClientGroup deletedObj = null;
 		List<ClientGroup> listOfObjects = JPAUtils.findObjects(em, ClientGroup.class, "name", request.getName()); 
@@ -56,7 +53,6 @@ public class GroupDataLogic {
 	
 	
 	public static ClientGroup createClientGroup(EntityManager em, CreateClientGroupRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -78,7 +74,6 @@ public class GroupDataLogic {
 
 	
 	public static ClientGroupMembership createClientGroupMembership(EntityManager em, CreateGroupMembershipRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -109,7 +104,6 @@ public class GroupDataLogic {
 
 	
 	public static ClientGroupMembership deleteClientGroupMembership(EntityManager em, DeleteGroupMembershipRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets figure out which member and which membership.
 		String groupId = request.getClientGroupIdentifier();
@@ -144,7 +138,6 @@ public class GroupDataLogic {
 	 * @throws InvocationTargetException
 	 */
 	public static List<ClientGroupMembership> getClientGroupMemberships (EntityManager em,String clientIdentifier, String groupIdentifier) 
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		if (StringUtils.isNullOrZeroLength(groupIdentifier) || StringUtils.isNullOrZeroLength(clientIdentifier))
 			throw new DataLogicValidationException("Client identifier and Client Group Identifier both must be provided.");
@@ -195,7 +188,6 @@ public class GroupDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(request.getName()))
 		{
@@ -219,18 +211,7 @@ public class GroupDataLogic {
 				finalPredicate = clientPredicate;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<ClientGroup,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (finalPredicate != null)
 		cq.where(finalPredicate);

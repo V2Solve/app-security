@@ -1,9 +1,14 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.persistence.EntityManager;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.CriteriaBuilder.In;
+import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.utility.JPAUtils;
 
 /**
@@ -13,6 +18,8 @@ import com.v2solve.app.security.utility.JPAUtils;
  */
 public class DatalogicUtils 
 {
+	public static final String APP_IDENTIFIER_PROPERTY   = "appIdentifier";
+	public static final String APP_RELATIONSHIP_PROPERTY = "application";
 
 	/**
 	 * Finds a Unique Object of the entity represented by the clzz, with a property identifier, having value idValue.
@@ -23,13 +30,8 @@ public class DatalogicUtils
 	 * @param identifier
 	 * @param idValue
 	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
 	 */
 	public static <T> T findObject (EntityManager em,Class<T> clzz, String identifier,Object idValue) 
-	throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		List<T> listOfObjs = JPAUtils.findObjects(em, clzz, identifier, idValue);
 		if (listOfObjs == null || listOfObjs.isEmpty())
@@ -52,13 +54,8 @@ public class DatalogicUtils
 	 * @param identifier
 	 * @param idValue
 	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
 	 */
 	public static <T> T findObjectReturnNull (EntityManager em,Class<T> clzz, String identifier,String idValue) 
-	throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		List<T> listOfObjs = JPAUtils.findObjects(em, clzz, identifier, idValue);
 		if (listOfObjs == null || listOfObjs.isEmpty())
@@ -70,4 +67,38 @@ public class DatalogicUtils
 		return obj;
 	}
 
+	
+	
+	/**
+	 * Given the root of type T, this method adds a clause to limit the records for those owned by the apps, or if they are global.
+	 * @param <T>
+	 * @param cb
+	 * @param limitingAppDomains - the results to be limited to these applications owned, or Global.
+	 * @param root
+	 * @param appProperty - the property which identifies the relationship of the T with the application.
+	 * @param appIdentifierProperty - the identifying property contained in the limitingAppDomain strings - usually the appIdentifier.
+	 * @param currentPredicate - the current predicate if any.. (if it exists already, then an 'AND' is done with that predicate).
+	 * @return
+	 */
+	public static <T> Predicate addLimitingClauseForApps (CriteriaBuilder cb,List<String> limitingAppDomains,Root<T> root,String appProperty,String appIdentifierProperty,Predicate currentPredicate)
+	{
+		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
+		{
+			// We will have to join the table..
+			Join<T,Application> forApps = root.join(appProperty);
+			Path<String> appIdentifierProp = forApps.get(appIdentifierProperty);
+			In<String> inClause = cb.in(appIdentifierProp);
+			Predicate inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
+			Predicate globalApp = cb.equal(appIdentifierProp, null);
+			
+			Predicate finalPredicate = cb.or(inApps,globalApp);
+			if (currentPredicate != null)
+				finalPredicate = cb.and(currentPredicate,finalPredicate);
+			else
+				currentPredicate = finalPredicate;
+		}
+		
+		return currentPredicate;
+	}
+	
 }

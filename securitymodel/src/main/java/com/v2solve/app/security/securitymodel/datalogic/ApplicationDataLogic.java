@@ -1,14 +1,12 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
+
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -31,10 +29,10 @@ import com.v2solve.app.security.utility.StringUtils;
  * @author Saurin
  *
  */
-public class ApplicationDataLogic {
+public class ApplicationDataLogic 
+{
 
 	public static Application createApplication(EntityManager em, CreateApplicationRequest createApplicationRequest) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException 
 	{
 		Application app = new Application();
 		app.setAppIdentifier(createApplicationRequest.getAppIdentifier());
@@ -44,8 +42,8 @@ public class ApplicationDataLogic {
 		return app;
 	}
 
+
 	public static Application deleteApplication(EntityManager em, DeleteApplicationRequest deleteApplicationRequest) 
-    throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Application deletedObj = null;
 		List<Application> listOfObjects = JPAUtils.findObjects(em, Application.class, "appIdentifier", deleteApplicationRequest.getAppIdentifier()); 
@@ -63,8 +61,8 @@ public class ApplicationDataLogic {
 		return deletedObj;
 	}
 
+
 	public static Client createClient(EntityManager em, CreateClientRequest createClientRequest) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -84,8 +82,8 @@ public class ApplicationDataLogic {
 		return c;
 	}
 
+
 	public static Client deleteClient(EntityManager em, DeleteClientRequest deleteClientRequest) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Client deletedObj = null;
 		List<Client> listOfObjects = JPAUtils.findObjects(em, Client.class, "clientIdentifier", deleteClientRequest.getClientIdentifier()); 
@@ -104,6 +102,7 @@ public class ApplicationDataLogic {
 	}
 
 
+	
 	/**
 	 * Searches the application based on the searchApplicationRequest
 	 * @param em
@@ -121,7 +120,6 @@ public class ApplicationDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(searchApplicationRequest.getAppIdentifier()))
 		{
@@ -130,17 +128,7 @@ public class ApplicationDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Path<String> appIdentifierProp = root.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 
 		if (finalPredicate != null)
 		cq.where(finalPredicate);
@@ -181,7 +169,6 @@ public class ApplicationDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(searchRequest.getClientIdentifier()))
 		{
@@ -191,18 +178,7 @@ public class ApplicationDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<Client,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (finalPredicate != null)
 		cq.where(finalPredicate);

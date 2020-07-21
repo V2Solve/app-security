@@ -1,14 +1,11 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -39,8 +36,14 @@ import com.v2solve.app.security.utility.StringUtils;
  */
 public class PermissionDataLogic {
 
+	
+	/**
+	 * Removes the action from database.
+	 * @param em
+	 * @param request
+	 * @return - the deleted action record.
+	 */
 	public static Action deleteAction(EntityManager em, DeleteActionRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Action deletedObj = null;
 		List<Action> listOfObjects = JPAUtils.findObjects(em, Action.class, "name", request.getName()); 
@@ -58,8 +61,15 @@ public class PermissionDataLogic {
 		return deletedObj;
 	}
 	
+	
+	/**
+	 * Creates an action object in system.
+	 * @param em
+	 * @param request - contains data to create.
+	 * @return - the newly created record.
+	 */
 	public static Action createAction(EntityManager em, CreateActionRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
+	 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -80,8 +90,13 @@ public class PermissionDataLogic {
 	}
 	
 
+	/**
+	 * Deletes the resource from the system
+	 * @param em
+	 * @param request
+	 * @return - the deleted resource if any was present, otherwise null
+	 */
 	public static Resource deleteResource(EntityManager em, DeleteResourceRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Resource deletedObj = null;
 		List<Resource> listOfObjects = JPAUtils.findObjects(em, Resource.class, "name", request.getName()); 
@@ -98,8 +113,14 @@ public class PermissionDataLogic {
 		return deletedObj;
 	}
 	
+
+	/**
+	 * Creates a resource object in the system
+	 * @param em
+	 * @param request
+	 * @return - the newly created resource.
+	 */
 	public static Resource createResource(EntityManager em, CreateResourceRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -120,8 +141,13 @@ public class PermissionDataLogic {
 	}
 	
 
+	/**
+	 * Deletes this permission from the system.
+	 * @param em
+	 * @param request - containing the name of the permission to be deleted.
+	 * @return - the deleted permission.
+	 */
 	public static Permission deletePermission(EntityManager em, DeletePermissionRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		Permission deletedObj = null;
 		List<Permission> listOfObjects = JPAUtils.findObjects(em, Permission.class, "name", request.getName()); 
@@ -139,8 +165,15 @@ public class PermissionDataLogic {
 		return deletedObj;
 	}
 	
+	
+	
+	/**
+	 * Creates a permission object.
+	 * @param em
+	 * @param request
+	 * @return - the newly created permission in the system.
+	 */
 	public static Permission createPermission(EntityManager em, CreatePermissionRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -176,8 +209,8 @@ public class PermissionDataLogic {
 	 * Searches the actions based on the searchActionRequest
 	 * @param em
 	 * @param searchActionRequest
-	 * @param limitingAppDomains
-	 * @return
+	 * @param limitingAppDomains - if provided will limit the actions to only those owned by the applications.
+	 * @return - list of action objects.
 	 */
 	public static List<Action> searchActions(EntityManager em,SearchActionRequest searchRequest,List<String> limitingAppDomains)
 	{
@@ -189,7 +222,6 @@ public class PermissionDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(searchRequest.getName()))
 		{
@@ -197,19 +229,8 @@ public class PermissionDataLogic {
 			namePC = cb.equal(namePath, searchRequest.getName());
 			finalPredicate = namePC;
 		}
-	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<Action,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
+		
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
 		
 		if (finalPredicate != null)
 		cq.where(finalPredicate);
@@ -238,7 +259,7 @@ public class PermissionDataLogic {
 	 * Searches the resources based on the searchResourceRequest
 	 * @param em
 	 * @param searchResourceRequest
-	 * @param limitingAppDomains
+	 * @param limitingAppDomains - limits the search results to those records which are owned by these applications.
 	 * @return
 	 */
 	public static List<Resource> searchResources(EntityManager em,SearchResourceRequest searchRequest,List<String> limitingAppDomains)
@@ -251,7 +272,7 @@ public class PermissionDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
+		
 		
 		if (!StringUtils.isNullOrZeroLength(searchRequest.getName()))
 		{
@@ -260,19 +281,8 @@ public class PermissionDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<Resource,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
-		
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);		
+
 		if (finalPredicate != null)
 		cq.where(finalPredicate);
 		
@@ -300,7 +310,7 @@ public class PermissionDataLogic {
 	 * Searches the permissions based on the searchPermissionRequest
 	 * @param em
 	 * @param searchPermissionRequest
-	 * @param limitingAppDomains
+	 * @param limitingAppDomains - limits the records to only the permissions that are owned by these applications.
 	 * @return
 	 */
 	public static List<Permission> searchPermissions(EntityManager em,SearchPermissionRequest searchRequest,List<String> limitingAppDomains)
@@ -313,7 +323,6 @@ public class PermissionDataLogic {
 		Predicate finalPredicate = null;
 		
 		Predicate namePC = null;
-		Predicate inApps = null;
 		
 		if (!StringUtils.isNullOrZeroLength(searchRequest.getName()))
 		{
@@ -322,19 +331,8 @@ public class PermissionDataLogic {
 			finalPredicate = namePC;
 		}
 	
-		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
-		{
-			// We will have to join the table..
-			Join<Permission,Application> forApps = root.join("application");
-			Path<String> appIdentifierProp = forApps.get("appIdentifier");
-			In<String> inClause = cb.in(appIdentifierProp);
-			inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate != null)
-				finalPredicate = cb.and(finalPredicate,inApps);
-			else
-				finalPredicate = inApps;
-		}
-		
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);		
+
 		if (finalPredicate != null)
 		cq.where(finalPredicate);
 		

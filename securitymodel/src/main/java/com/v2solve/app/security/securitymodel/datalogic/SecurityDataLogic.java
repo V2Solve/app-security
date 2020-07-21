@@ -56,7 +56,14 @@ public class SecurityDataLogic
 	}
 
 	
-	private static ClientSecurityContext createAppSecurityContextForClient (EntityManager em, String clientIdentifier,List<String> additionalGroups)
+	/**
+	 * Creates a ClientSecurityContext object for the client identifier. if additional groups are provided, they are included as if client was a part of that group.
+	 * @param em
+	 * @param clientIdentifier
+	 * @param additionalGroups - additional Groups to be included as groups assigned to the client.  
+	 * @return
+	 */
+	static ClientSecurityContext createAppSecurityContextForClient (EntityManager em, String clientIdentifier,List<String> additionalGroups)
 	{
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Client> cq = cb.createQuery(Client.class);
@@ -179,6 +186,7 @@ public class SecurityDataLogic
 		return asc;
 	}
 	
+	
 	/**
 	 * Returns a populated security Model 
 	 * @param em
@@ -242,8 +250,5 @@ public class SecurityDataLogic
 		domainMap.put(rd.getName(),d);
 		return d;
 	}
-
-	
-	
 
 }

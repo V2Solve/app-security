@@ -99,7 +99,6 @@ public class JPAUtils
 	 * @throws InvocationTargetException
 	 */
 	public static <T> List<T> findObjects (EntityManager em,Class<T> clzz, String identifier,Object idValue) 
-	throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(clzz);
