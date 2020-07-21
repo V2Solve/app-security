@@ -13,11 +13,13 @@ import com.v2solve.app.security.securitymodel.datalogic.SecurityDataLogic;
 import com.v2solve.app.security.utility.StringUtils;
 
 
-public class SdkUtils {
-
-	public SdkUtils() {
-		// TODO Auto-generated constructor stub
-	}
+/**
+ * Common utility functions for SDK
+ * @author Saurin Magiawala
+ *
+ */
+public class SdkUtils 
+{
 
 	static ClientSecurityContext getClientSecurityContextForRequest(EntityManager em,BaseRequest br) 
 	{

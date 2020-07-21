@@ -1,4 +1,4 @@
-package com.v2solve.app.security.sdk;
+package com.v2solve.app.security.utility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

@@ -114,6 +114,7 @@ import com.v2solve.app.security.securitymodel.datalogic.RoleDataLogic;
 
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
+import com.v2solve.app.security.utility.TransactionWrapper;
 
 import lombok.extern.slf4j.Slf4j;
 
