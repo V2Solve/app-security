@@ -36,7 +36,7 @@
 </tr>
 </table>
 <p>
-<div class="{{swapVisible()?'visibleItem':'hiddenItem'}}">
+<div class="{{(swapVisible() && isReadPermission())?'visibleItem':'hiddenItem'}}">
 <table class="form-main-square-back" style="width: 100%;">
     <tr>
         <td>
@@ -58,15 +58,19 @@
                             </mat-selection-list>                                
                     </td>
                         <td style="align-items: center; text-align: center; width: 10%;"> 
+                            <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
                             <button (click)="assignGroup(assgS.selectedOptions)" mat-icon-button title="Assign Group">
                                 ←Assign
                             </button>
+                            </span>
                             <br/>
                             <br/>
                               <!-- The Buttons -->
+                            <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
                               <button (click)="unAssignGroup(asgS.selectedOptions)" mat-icon-button title="Remove Group Membership">
                                 Remove→
                             </button>
+                        </span>
                         </td>
                     <td style="width: 30%;">
                         <!-- Available Groups List -->

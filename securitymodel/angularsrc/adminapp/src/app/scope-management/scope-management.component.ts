@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, ScopeType, Scope, CreateScopeRequest, DeleteScopeRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, ScopeType, Scope, CreateScopeRequest, DeleteScopeRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 import { timestamp } from 'rxjs/operators';
@@ -172,6 +172,7 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
     this.loadViewableApps();
     this.loadViewableScopeTypes();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.ROLE_SCOPE,this.callService);
   }  
 
 

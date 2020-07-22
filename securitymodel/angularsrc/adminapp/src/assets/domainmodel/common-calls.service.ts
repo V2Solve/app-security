@@ -100,4 +100,13 @@ export class CommonCallsService {
     return sarr.scopes;
   }  
 
+  async hasPermission (action: string, resource:string): Promise<boolean>
+  {
+      let sar = new sobjs.SecurityAPIRequest;
+      sar.action = action;
+      sar.resource = resource;
+      let sarr = await this.contextClient.hasPermission(sar).toPromise();
+      return sarr.result;
+  }
+
 }

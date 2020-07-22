@@ -7,6 +7,7 @@
     </tr>
 </table>
 <p></p>
+<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
 <table class="form-main-square-back">
 <tr>
     <td>
@@ -33,25 +34,32 @@
             </tr>
             <tr>    <!-- Row for buttons-->
                 <td>
+                    <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
                         <button (click)="updateObject()" mat-icon-button title="Save Record">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
+                    </span>
                 </td>
                 <td>
+                    <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
                         <button (click)="deleteObject()" mat-icon-button title="Delete Record">
                             Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
                         </button>
+                    </span>
                 </td>
             </tr>
         </table>
     </td>
 </tr>
 </table>
+</div>
 <p></p>
 <!-- Results -->
+<span class="{{isReadPermission()?'visibleItem':'hiddenItem'}}">
 <table class="section-heading">
     <tr>
         <td class="section-title">Existing Records</td>
     </tr>
 </table>
 <app-results-table (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>
+</span>

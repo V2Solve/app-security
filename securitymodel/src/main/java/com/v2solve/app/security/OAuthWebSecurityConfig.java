@@ -22,12 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OAuthWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	public OAuthWebSecurityConfig() {
-		// TODO Auto-generated constructor stub
-	}
 	
     @Value("${app.security.authwhitelist:\"\"}")
-    String [] auth_whitelist;
+    String [] authWhiteList;
 	
     CorsConfigurationSource corsConfigurationSource() 
     {
@@ -59,7 +56,7 @@ public class OAuthWebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    http
 	      .antMatcher("/**")
 	      .authorizeRequests()
-	      .antMatchers(auth_whitelist)
+	      .antMatchers(authWhiteList)
 	      .permitAll()
 	      .anyRequest()
 	      .authenticated();

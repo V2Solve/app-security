@@ -67,7 +67,6 @@ export class ContextMgmtApiClientService {
 		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());	
 	}
 
-
 	hasPermission (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/hasPermission";
@@ -109,9 +108,20 @@ export class ContextMgmtApiClientService {
 		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
-	getSecurityContext (request: sobjs.SecurityAPIRequest) : Observable<sobjs.SecurityAPIResponse>
+	getSecurityContext (request: sobjs.SecurityAPIRequest): Observable<sobjs.SecurityAPIResponse>
 	{
 		let methodUrl = this.apibaseurl + "/getSecurityContext";
 		return this.http.post<sobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions());
 	}
+
+	hasPermissionAs (action: string,resource: string): Observable<sobjs.SecurityAPIResponse>
+	{
+		let secApiR = new sobjs.SecurityAPIRequest ();
+		secApiR.action=action;
+		secApiR.resource=resource;
+		let permission = false;
+		return this.hasPermission(secApiR);
+	}
+
+
 }

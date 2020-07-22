@@ -3,11 +3,25 @@ package com.v2solve.app.security;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class Application {
+import lombok.NoArgsConstructor;
 
-	public static void main (String args [])
+
+/**
+ * Main Spring boot class for the application
+ * @author Saurinya
+ *
+ */
+@SpringBootApplication
+@NoArgsConstructor
+public class Application 
+{
+	/**
+	 * Standard run method.
+	 * @param args
+	 */
+	public static void main (final String args [])
 	{
 		SpringApplication.run(Application.class, args);
 	}
+	
 }

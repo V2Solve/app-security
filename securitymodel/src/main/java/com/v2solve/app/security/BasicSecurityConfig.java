@@ -24,18 +24,17 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.v2solve.app.security.BasicAuthUserListProperties.UserInformation;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration  // Commented of, because we are using OuthWebSecurity
 @Slf4j
-public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
-
-	public BasicSecurityConfig() {
-		// TODO Auto-generated constructor stub
-	}
+@NoArgsConstructor
+public class BasicSecurityConfig extends WebSecurityConfigurerAdapter 
+{
 	
     @Value("${app.security.authwhitelist:\"\"}")
-    String [] auth_whitelist;
+    String [] authWhiteList;
 	
     @Value("${app.security.basic.realm:securityrealm}")
     String realmName;
@@ -83,13 +82,19 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	    http
 	      .antMatcher("/**")
 	      .authorizeRequests()
-	      .antMatchers(auth_whitelist)
+	      .antMatchers(authWhiteList)
 	      .permitAll()
 	      .anyRequest()
 	      .authenticated();
 	}
 	
 	
+	/**
+	 * Configures the global user list, by reading the users from the configuration properties.
+	 * @param auth
+	 * @param basicUserList
+	 * @throws Exception
+	 */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth,@Autowired BasicAuthUserListProperties basicUserList) throws Exception 
     {
@@ -103,7 +108,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     			
     			if (ui.getRoles() != null)
     			{
-    				StringTokenizer st = new StringTokenizer(ui.getRoles(),",; ");
+    				final StringTokenizer st = new StringTokenizer(ui.getRoles(),",; ");
     				while (st.hasMoreTokens())
     				{
     					roles.add(st.nextToken());

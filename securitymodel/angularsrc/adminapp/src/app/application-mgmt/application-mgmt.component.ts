@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { SearchApplicationsRequest, Application, CreateApplicationRequest, DeleteApplicationRequest, RequestStatusInformation } from 'src/assets/domainmodel/appsecuritymodel';
+import { SearchApplicationsRequest, Application, CreateApplicationRequest, DeleteApplicationRequest, RequestStatusInformation, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { Observable, pipe } from 'rxjs';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service'
 import { BaseForm } from 'src/app/base-comps/commonforms'
@@ -132,6 +132,7 @@ export class ApplicationMgmtComponent extends BaseForm implements OnInit
       // Lets load the viewable apps..
       this.formTitle="Manage applications";
       this.loadViewableApps();
+      this.updatePermissionFlags(SecurityResources.APPLICATION,this.callService);
   }
 
   applyFilter(event: Event) {

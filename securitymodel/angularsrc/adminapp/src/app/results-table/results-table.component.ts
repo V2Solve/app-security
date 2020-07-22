@@ -23,6 +23,9 @@ export class ResultsTableComponent implements OnInit
   @Input ()
   iconTitle: string = "Select this Record";
 
+  @Input ()
+  selectFunction: boolean = true;
+
   @Output() 
   currentRowSelected = new EventEmitter<string>();
 

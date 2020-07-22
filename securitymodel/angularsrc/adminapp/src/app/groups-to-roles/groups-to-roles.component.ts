@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseForm } from '../base-comps/commonforms';
-import { ClientGroup, ClientRole, ClientGroupRole, Scope, Application, Domain, DeleteClientGroupRoleRequest, RequestStatusInformation, CreateClientGroupRoleRequest, SearchClientGroupRoleRequest, SearchClientGroupRoleResponse } from 'src/assets/domainmodel/appsecuritymodel';
+import { ClientGroup, ClientRole, ClientGroupRole, Scope, Application, Domain, DeleteClientGroupRoleRequest, RequestStatusInformation, CreateClientGroupRoleRequest, SearchClientGroupRoleRequest, SearchClientGroupRoleResponse, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -251,6 +251,7 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
     this.loadViewableObjects ();
     this.loadViewableApps ();
     this.subscribeToChanges();
+    this.updatePermissionFlags(SecurityResources.GROUP_ROLE_MEMBERSHIP,this.callService);
   }
  
 }

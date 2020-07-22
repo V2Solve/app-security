@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseForm } from '../base-comps/commonforms';
-import { ClientGroup, ClientRole, ClientGroupRole, Scope, Application, Domain, DeleteClientGroupRoleRequest, RequestStatusInformation, CreateClientGroupRoleRequest, SearchClientGroupRoleRequest, Permission, ClientRolePermission, DeleteClientRolePermissionRequest, CreateClientRolePermissionRequest, SearchClientRolePermissionRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { ClientGroup, ClientRole, ClientGroupRole, Scope, Application, Domain, DeleteClientGroupRoleRequest, RequestStatusInformation, CreateClientGroupRoleRequest, SearchClientGroupRoleRequest, Permission, ClientRolePermission, DeleteClientRolePermissionRequest, CreateClientRolePermissionRequest, SearchClientRolePermissionRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -182,6 +182,8 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     this.roleName.valueChanges.subscribe(event=>{
       this.reloadObjects();
     })
+
+    this.updatePermissionFlags(SecurityResources.PERMISSION_ROLE_MEMBERSHIP,this.callService);
   }
 
 }

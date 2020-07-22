@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, Resource, CreateResourceRequest, RequestStatusInformation, DeleteResourceRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, Resource, CreateResourceRequest, RequestStatusInformation, DeleteResourceRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 
@@ -136,5 +136,6 @@ export class ResourceManagementComponent extends BaseForm implements OnInit {
     this.formTitle="Manage Resources"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.RESOURCE,this.callService);
   }
 }

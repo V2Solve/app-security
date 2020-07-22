@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 import { timestamp } from 'rxjs/operators';
@@ -203,6 +203,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
     this.loadViewableDomainTypes();
     this.loadViewableParents();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.RESOURCE_DOMAIN,this.callService);
   }  
 
 }

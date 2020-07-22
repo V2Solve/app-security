@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, ClientRole, CreateClientRoleRequest, RequestStatusInformation, DeleteClientRoleRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, ClientRole, CreateClientRoleRequest, RequestStatusInformation, DeleteClientRoleRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 
@@ -137,6 +137,7 @@ export class RoleManagementComponent extends BaseForm implements OnInit {
     this.formTitle="Manage Roles"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.CLIENT_ROLE,this.callService);
   }  
 
 }

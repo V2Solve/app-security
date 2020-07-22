@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { Action,SearchApplicationsRequest, Application, CreateApplicationRequest, DeleteApplicationRequest, RequestStatusInformation, CreateActionRequest, DeleteActionRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { Action,SearchApplicationsRequest, Application, CreateApplicationRequest, DeleteApplicationRequest, RequestStatusInformation, CreateActionRequest, DeleteActionRequest, SecurityActions, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { Observable, pipe } from 'rxjs';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service'
 import { BaseForm } from 'src/app/base-comps/commonforms'
@@ -24,7 +24,6 @@ export class ActionMgmtComponent extends BaseForm implements OnInit
   actionDescription = new FormControl ('');
   appIdentifier: string;
 
-  
   viewableObjects = new Array<Action> ();
   viewableApps = new Array<Application>();
   currentKey: string;
@@ -143,5 +142,6 @@ export class ActionMgmtComponent extends BaseForm implements OnInit
     this.formTitle="Manage Actions"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.ACTION,this.callService);
   }
 }

@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, Permission, CreatePermissionRequest, RequestStatusInformation, DeletePermissionRequest, Action, Resource } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, Permission, CreatePermissionRequest, RequestStatusInformation, DeletePermissionRequest, Action, Resource, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 import { timestamp } from 'rxjs/operators';
@@ -173,6 +173,7 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
     this.loadViewableActions();
     this.loadViewableResources();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.PERMISSION,this.callService);
   }  
 
 }

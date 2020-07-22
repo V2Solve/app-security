@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { ScopeType, Application, CreateScopeTypeRequest, RequestStatusInformation, DeleteScopeTypeRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { ScopeType, Application, CreateScopeTypeRequest, RequestStatusInformation, DeleteScopeTypeRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 
 @Component({
   selector: 'app-scope-type-management',
@@ -139,6 +139,7 @@ export class ScopeTypeManagementComponent extends BaseForm implements OnInit {
     this.formTitle="Manage Scope Types"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.SCOPE_TYPE,this.callService);
   }
 
 }

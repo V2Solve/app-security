@@ -6,20 +6,44 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.v2solve.app.security.sdk.SecurityManagementAPI;
 import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
+
+import lombok.NoArgsConstructor;
+
 import com.v2solve.app.security.sdk.SecurityContextAPI;
 import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
 
+/**
+ * This is the application configuration class. 
+ * It creates appropriate beans required for serving API requests 
+ * on the controllers. There are other security configuration 
+ * classes as well in the package.
+ * @author Saurin Magiawala
+ *
+ */
 @Configuration
+@NoArgsConstructor
 public class AppConfig 
 {
+	
+	/**
+	 * Returns the SecurityManagementAPI bean
+	 * @param emf
+	 * @return
+	 */
 	@Bean
-	public SecurityManagementAPI securityAPI (@Autowired EntityManagerFactory emf)
+	public SecurityManagementAPI securityAPI (@Autowired final EntityManagerFactory emf)
 	{
 		return new SecurityManangementAPIImpl(emf);
 	}
 	
+	
+	/**
+	 * Returns a Security Context API implementation bean.
+	 * @param emf
+	 * @return
+	 */
 	@Bean
-	public SecurityContextAPI securityContextAPI (@Autowired EntityManagerFactory emf)
+	public SecurityContextAPI securityContextAPI (@Autowired final EntityManagerFactory emf)
 	{
 		return new SecurityContextAPIImpl(emf);
 	}

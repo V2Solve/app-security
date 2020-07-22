@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { DomainType, Application, CreateDomainTypeRequest, RequestStatusInformation, DeleteDomainTypeRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { DomainType, Application, CreateDomainTypeRequest, RequestStatusInformation, DeleteDomainTypeRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 
 @Component({
   selector: 'app-domain-type-management',
@@ -139,5 +139,6 @@ export class DomainTypeManagementComponent extends BaseForm implements OnInit {
     this.formTitle="Manage Domain Types"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.RESOURCE_DOMAIN_TYPE,this.callService);
   }
 }

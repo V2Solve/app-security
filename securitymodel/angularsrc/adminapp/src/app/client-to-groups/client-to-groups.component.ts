@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, ClientGroup, SearchClientGroupRequest, SearchClientRequest, DeleteGroupMembershipRequest, CreateGroupMembershipRequest, SearchClientResponse, AppClient, SecurityActions } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, ClientGroup, SearchClientGroupRequest, SearchClientRequest, DeleteGroupMembershipRequest, CreateGroupMembershipRequest, SearchClientResponse, AppClient, SecurityActions, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 import { timestamp, count } from 'rxjs/operators';
@@ -233,6 +233,7 @@ export class ClientToGroupsComponent extends BaseForm implements OnInit {
   ngOnInit(): void 
   {
     this.formTitle="Manage Client Group Memberships"
+    this.updatePermissionFlags(SecurityResources.CLIENT_GROUP_MEMBERSHIP,this.callService);
   }
 
 }

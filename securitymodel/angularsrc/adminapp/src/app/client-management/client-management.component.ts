@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { Application, AppClient, CreateClientRequest, RequestStatusInformation, DeleteClientRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, AppClient, CreateClientRequest, RequestStatusInformation, DeleteClientRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { FormControl } from '@angular/forms';
@@ -136,5 +136,6 @@ export class ClientManagementComponent extends BaseForm implements OnInit {
     this.formTitle="Manage Clients"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.CLIENT,this.callService);
   }
 }

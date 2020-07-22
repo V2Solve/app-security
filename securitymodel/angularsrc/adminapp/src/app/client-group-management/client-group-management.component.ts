@@ -3,7 +3,7 @@ import { BaseForm } from '../base-comps/commonforms';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { Application, ClientGroup, CreateClientGroupRequest, RequestStatusInformation, DeleteClientGroupRequest } from 'src/assets/domainmodel/appsecuritymodel';
+import { Application, ClientGroup, CreateClientGroupRequest, RequestStatusInformation, DeleteClientGroupRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
 
@@ -137,6 +137,7 @@ export class ClientGroupManagementComponent extends BaseForm implements OnInit {
     this.formTitle="Manage Groups"
     this.loadViewableApps();
     this.loadViewableObjects();
+    this.updatePermissionFlags(SecurityResources.CLIENT_GROUP,this.callService);
   }  
 
 }
