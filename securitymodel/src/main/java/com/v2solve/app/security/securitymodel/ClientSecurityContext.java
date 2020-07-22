@@ -163,7 +163,6 @@ public class ClientSecurityContext implements java.io.Serializable
 			}
 		}
 		
-		
 		// Okay now lets check if there is explicit allowed at a global level.
 		if (allowedPermissions.containsKey(permitKey))
 			return true;  // allowed without respect to any resourcedomain

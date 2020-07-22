@@ -214,6 +214,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 			else
 			{
+				// Okay so it is trying to create a Global Client. 
+				// Lets check to see if the person has a right to create a global client. 
+				
 				// Lets check at a global level..
 				asc.hasPermissionThrowException(action, resource);
 			}
