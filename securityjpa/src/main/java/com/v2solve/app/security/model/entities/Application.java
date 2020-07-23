@@ -2,6 +2,9 @@ package com.v2solve.app.security.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -81,6 +84,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to Action
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<Action> getActions() {
 		return this.actions;
 	}
@@ -106,6 +110,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to Client
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<Client> getClients() {
 		return this.clients;
 	}
@@ -131,6 +136,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ClientGroup
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ClientGroup> getClientGroups() {
 		return this.clientGroups;
 	}
@@ -156,6 +162,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ClientGroupMembership
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ClientGroupMembership> getClientGroupMemberships() {
 		return this.clientGroupMemberships;
 	}
@@ -181,6 +188,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ClientGroupRole
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ClientGroupRole> getClientGroupRoles() {
 		return this.clientGroupRoles;
 	}
@@ -206,6 +214,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ClientRole
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ClientRole> getClientRoles() {
 		return this.clientRoles;
 	}
@@ -231,6 +240,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ClientRolePermission
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ClientRolePermission> getClientRolePermissions() {
 		return this.clientRolePermissions;
 	}
@@ -256,6 +266,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to Permission
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<Permission> getPermissions() {
 		return this.permissions;
 	}
@@ -281,6 +292,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to Resource
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<Resource> getResources() {
 		return this.resources;
 	}
@@ -306,6 +318,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ResourceDomain
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ResourceDomain> getResourceDomains() {
 		return this.resourceDomains;
 	}
@@ -331,6 +344,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to RoleScope
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<RoleScope> getRoleScopes() {
 		return this.roleScopes;
 	}
@@ -356,6 +370,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ResourceDomainType
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ResourceDomainType> getResourceDomainTypes() {
 		return this.resourceDomainTypes;
 	}
@@ -381,6 +396,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 
 	//bi-directional many-to-one association to ScopeType
 	@OneToMany(mappedBy="application")
+	@JsonManagedReference
 	public List<ScopeType> getScopeTypes() {
 		return this.scopeTypes;
 	}

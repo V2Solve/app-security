@@ -434,6 +434,9 @@ ALTER SEQUENCE "seq_resource_domain_id" OWNER TO postgres;
 CREATE SEQUENCE "seq_resource_domain_type_id" INCREMENT 1  START 10000  MINVALUE 1  MAXVALUE 1000000000 CACHE 1;
 ALTER SEQUENCE "seq_resource_domain_type_id" OWNER TO postgres;
 
+CREATE SEQUENCE "seq_change_log_id" INCREMENT 1  START 10000  MINVALUE 1  MAXVALUE 1000000000 CACHE 1;
+ALTER SEQUENCE "seq_change_log_id" OWNER TO postgres;
+
 CREATE SEQUENCE "seq_role_scope_id" INCREMENT 1  START 10000  MINVALUE 1  MAXVALUE 1000000000 CACHE 1;
 ALTER SEQUENCE "seq_role_scope_id" OWNER TO postgres;
 

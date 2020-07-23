@@ -2,6 +2,10 @@ package com.v2solve.app.security.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -59,6 +63,7 @@ public class Resource extends com.v2solve.app.security.common.base.BaseEntity im
 
 	//bi-directional many-to-one association to Permission
 	@OneToMany(mappedBy="resource")
+	@JsonManagedReference
 	public List<Permission> getPermissions() {
 		return this.permissions;
 	}
@@ -85,6 +90,7 @@ public class Resource extends com.v2solve.app.security.common.base.BaseEntity im
 	//bi-directional many-to-one association to Application
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="application_id")
+	@JsonBackReference
 	public Application getApplication() {
 		return this.application;
 	}

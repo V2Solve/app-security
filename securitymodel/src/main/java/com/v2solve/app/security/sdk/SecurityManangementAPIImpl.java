@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.v2solve.app.security.model.entities.Action;
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
@@ -104,6 +106,7 @@ import com.v2solve.app.security.securitymodel.ClientSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.Scope;
 import com.v2solve.app.security.securitymodel.datalogic.ApplicationDataLogic;
+import com.v2solve.app.security.securitymodel.datalogic.ChangeLogDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.DataLogicValidationException;
 import com.v2solve.app.security.securitymodel.datalogic.DatalogicUtils;
 import com.v2solve.app.security.securitymodel.datalogic.DomainScopeDataLogic;
@@ -113,6 +116,7 @@ import com.v2solve.app.security.securitymodel.datalogic.RelationDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.RoleDataLogic;
 
 import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.ReflectUtils;
 import com.v2solve.app.security.utility.StringUtils;
 import com.v2solve.app.security.utility.TransactionWrapper;
 
@@ -170,8 +174,16 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			Client deletedObject = c;
+			
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			ApplicationDataLogic.deleteClient(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getClientIdentifier(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			
 			tw.success();
+			
 			return new DeleteClientResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
 		catch (Throwable e)
@@ -227,6 +239,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				Client originalRecord = ReflectUtils.createCopy(existingObj, Client.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -239,11 +252,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getClientIdentifier(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateClientResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			ApplicationDataLogic.createClient(em,request);
+			Client newObject = ApplicationDataLogic.createClient(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getClientIdentifier(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateClientResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -284,16 +299,19 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingApp != null)
 			{
+				Application originalRecord = ReflectUtils.createCopy(existingApp, Application.class);
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingApp.getAppIdentifier()));
 				// Okay so has permission..
 				existingApp.setDescription(request.getDescription());
 				JPAUtils.updateObject(em, existingApp);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingApp.getAppIdentifier(), null, asc.getClient().getClientIdentifier(), null, existingApp, originalRecord);
 				tw.success();
 				return new CreateApplicationResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			ApplicationDataLogic.createApplication(em,request);
+			Application newObject = ApplicationDataLogic.createApplication(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getAppIdentifier(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateApplicationResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -327,7 +345,18 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			tw = new TransactionWrapper(em);
 			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			asc.hasPermissionThrowException(action, resource,Domains.appDomain(request.getAppIdentifier()));
+			
+			Application existingObj = DatalogicUtils.findObject(em, Application.class, "appIdentifier", request.getAppIdentifier());
+			
+			Application deletedObject = existingObj;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			ApplicationDataLogic.deleteApplication(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getAppIdentifier(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			
 			tw.success();
 			return new DeleteApplicationResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -383,6 +412,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				Action originalRecord = ReflectUtils.createCopy(existingObj, Action.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -395,11 +425,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateActionResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			PermissionDataLogic.createAction(em,request);
+			Action newObject = PermissionDataLogic.createAction(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateActionResponse(RequestStatusInformation.success("Action created."));
 		}
@@ -451,7 +483,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			Action deletedObject = actionObj;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			PermissionDataLogic.deleteAction(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			
 			tw.success();
 			return new DeleteActionResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -505,6 +545,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				Resource originalRecord = ReflectUtils.createCopy(existingObj, Resource.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -517,11 +558,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateResourceResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			PermissionDataLogic.createResource(em,request);
+			Resource newObject = PermissionDataLogic.createResource(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateResourceResponse(RequestStatusInformation.success("Record created"));
 		}
@@ -573,7 +616,14 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			Resource deletedObject = resourceObj; 
+
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+					
 			PermissionDataLogic.deleteResource(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
 			tw.success();
 			return new DeleteResourceResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -630,6 +680,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				Permission originalRecord = ReflectUtils.createCopy(existingObj, Permission.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -651,11 +702,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setResource(resourceE);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreatePermissionResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			PermissionDataLogic.createPermission(em,request);
+			Permission newObject = PermissionDataLogic.createPermission(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreatePermissionResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -707,8 +760,17 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			Permission deletedObject = resourceObj;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			PermissionDataLogic.deletePermission(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+
 			tw.success();
+			
 			return new DeletePermissionResponse(RequestStatusInformation.SUCCESS);
 		}
 		catch (Throwable e)
@@ -760,6 +822,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				ClientGroup originalRecord = ReflectUtils.createCopy(existingObj, ClientGroup.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -772,11 +835,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateClientGroupResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			GroupDataLogic.createClientGroup(em,request);
+			ClientGroup newObject = GroupDataLogic.createClientGroup(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateClientGroupResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -828,7 +893,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			ClientGroup deletedObject = resourceObj;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			GroupDataLogic.deleteClientGroup(em, request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+
 			tw.success();
 			return new DeleteClientGroupResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -906,7 +979,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 			}
 			
-			GroupDataLogic.createClientGroupMembership(em,request);
+			ClientGroupMembership newObject = GroupDataLogic.createClientGroupMembership(em,request);
+			String changeTitle = newObject.getClient().getClientIdentifier() + " added to group: " + newObject.getClientGroup().getName();
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, changeTitle,""+newObject.getId(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateGroupMembershipResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -1026,7 +1101,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 			}
 			
-			GroupDataLogic.deleteClientGroupMembership(em,request);
+			ClientGroupMembership deletedObject = GroupDataLogic.deleteClientGroupMembership(em,request);
+			
+			{
+				String changeTitle = "client: " + deletedObject.getClient().getClientIdentifier() + " removed from group: " + deletedObject.getClientGroup().getName();  
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, changeTitle, ""+deletedObject.getId(), null, asc.getClient().getClientIdentifier(), null, null, null);
+			}
+			
 			tw.success ();
 			return new DeleteGroupMembershipResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -1587,6 +1668,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				ClientRole originalRecord = ReflectUtils.createCopy(existingObj, ClientRole.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -1599,11 +1681,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateClientRoleResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			RoleDataLogic.createClientRole(em,request);
+			ClientRole newObject = RoleDataLogic.createClientRole(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateClientRoleResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -1656,6 +1740,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				ResourceDomainType originalRecord = ReflectUtils.createCopy(existingObj, ResourceDomainType.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -1667,11 +1752,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateDomainTypeResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			DomainScopeDataLogic.createResourceDomainType(em,request);
+			ResourceDomainType newObject = DomainScopeDataLogic.createResourceDomainType(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateDomainTypeResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -1724,6 +1811,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{
+				ScopeType originalRecord = ReflectUtils.createCopy(existingObj, ScopeType.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
 				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
@@ -1735,11 +1823,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setApplication(app);
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateScopeTypeResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			DomainScopeDataLogic.createScopeType(em,request);
+			ScopeType newObject = DomainScopeDataLogic.createScopeType(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateScopeTypeResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -1791,7 +1881,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			ClientRole deletedObject = c;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			RoleDataLogic.deleteClientRole(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			
 			tw.success();
 			return new DeleteClientRoleResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -1843,7 +1941,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			ResourceDomainType deletedObject = c;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			DomainScopeDataLogic.deleteResourceDomainType(em, request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			
 			tw.success();
 			return new DeleteDomainTypeResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -1895,7 +2001,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			ScopeType deletedObject = c;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			DomainScopeDataLogic.deleteScopeType(em, request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+
 			tw.success();
 			return new DeleteScopeTypeResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -1949,6 +2063,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{   
+				ResourceDomain originalRecord = ReflectUtils.createCopy(existingObj, ResourceDomain.class);
 				ResourceDomain parentDomainObj = null;
 				if (request.getParentDomain()  != null)
 					parentDomainObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomain.class, "name", request.getParentDomain());
@@ -1985,11 +2100,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setDescription(request.getDescription());
 				
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateDomainResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			DomainScopeDataLogic.createResourceDomain(em,request);
+			ResourceDomain newObject = DomainScopeDataLogic.createResourceDomain(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateDomainResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -2042,7 +2159,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			ResourceDomain deletedObject = c;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			DomainScopeDataLogic.deleteResourceDomain(em, request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+
 			tw.success();
 			return new DeleteDomainResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -2160,6 +2285,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Update existing record..
 			if (existingObj != null)
 			{   
+				RoleScope originalRecord = ReflectUtils.createCopy(existingObj, RoleScope.class);
 				ScopeType rdt = DatalogicUtils.findObjectReturnNull(em, ScopeType.class, "name", request.getScopeType());
 				if (rdt == null)
 					throw new DataLogicValidationException("ScopeType: " + request.getScopeType() + " not found.");
@@ -2179,11 +2305,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				existingObj.setDescription(request.getDescription());
 				existingObj.setScopeType(rdt);
 				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
 				tw.success();
 				return new CreateScopeResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
 			
-			DomainScopeDataLogic.createRoleScope(em,request);
+			RoleScope newObject = DomainScopeDataLogic.createRoleScope(em,request);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateScopeResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -2288,7 +2416,15 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				asc.hasPermissionThrowException(action, resource);
 			}
 			
+			RoleScope deletedObject = resourceObj;
+			
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+			
 			DomainScopeDataLogic.deleteRoleScope(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			
 			tw.success();
 			return new DeleteScopeResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -2378,7 +2514,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 			}
 			
-			RelationDataLogic.createClientGroupRole(em,request);
+			ClientGroupRole newObject = RelationDataLogic.createClientGroupRole(em,request);
+			String changeTitle = newObject.getClientRole().getName() + " role assigned to group: " + newObject.getClientGroup().getName();
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, changeTitle, ""+newObject.getId(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateClientGroupRoleResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -2480,7 +2618,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 			}
 			
-			RelationDataLogic.deleteClientGroupRole(em, request);
+			ClientGroupRole deletedObject = RelationDataLogic.deleteClientGroupRole(em, request);
+			
+			{
+				String changeTitle = "Role: " + deletedObject.getClientRole().getName() + " removed from group: " + deletedObject.getClientGroup().getName();
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, changeTitle, ""+deletedObject.getId(), null, asc.getClient().getClientIdentifier(), null, null, null);
+			}
+			
 			tw.success();
 			return new DeleteClientGroupRoleResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}
@@ -2635,7 +2779,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 			}
 			
-			RelationDataLogic.createClientRolePermission(em,request);
+			ClientRolePermission newObject = RelationDataLogic.createClientRolePermission(em,request);
+			String changeTitle = newObject.getValue() + " " + newObject.getPermission().getName() + " granted to Role: " + newObject.getClientRole().getName();
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, changeTitle, ""+newObject.getId(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateClientRolePermissionResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -2718,7 +2864,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 			}
 			
-			RelationDataLogic.deleteClientRolePermission(em, request);
+			ClientRolePermission deletedObject = RelationDataLogic.deleteClientRolePermission(em, request);
+			
+			{
+				String changeTitle = deletedObject.getValue() +  " Permission: " + deletedObject.getPermission().getName() + " removed from role: " + deletedObject.getClientRole().getName();
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, changeTitle, ""+deletedObject.getId(), null, asc.getClient().getClientIdentifier(), null, null, null);
+			}
+			
 			tw.success();
 			return new DeleteClientRolePermissionResponse(RequestStatusInformation.success(RECORD_DELETED));
 		}

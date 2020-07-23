@@ -2,6 +2,10 @@ package com.v2solve.app.security.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -60,6 +64,7 @@ public class ClientRole extends com.v2solve.app.security.common.base.BaseEntity 
 
 	//bi-directional many-to-one association to ClientGroupRole
 	@OneToMany(mappedBy="clientRole")
+	@JsonManagedReference
 	public List<ClientGroupRole> getClientGroupRoles() {
 		return this.clientGroupRoles;
 	}
@@ -86,6 +91,7 @@ public class ClientRole extends com.v2solve.app.security.common.base.BaseEntity 
 	//bi-directional many-to-one association to Application
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="application_id")
+	@JsonBackReference
 	public Application getApplication() {
 		return this.application;
 	}
@@ -97,6 +103,7 @@ public class ClientRole extends com.v2solve.app.security.common.base.BaseEntity 
 
 	//bi-directional many-to-one association to ClientRolePermission
 	@OneToMany(mappedBy="clientRole")
+	@JsonManagedReference
 	public List<ClientRolePermission> getClientRolePermissions() {
 		return this.clientRolePermissions;
 	}

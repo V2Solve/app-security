@@ -2,6 +2,10 @@ package com.v2solve.app.security.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -62,6 +66,7 @@ public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEnt
 
 	//bi-directional many-to-one association to ClientGroupRole
 	@OneToMany(mappedBy="resourceDomain")
+	@JsonManagedReference
 	public List<ClientGroupRole> getClientGroupRoles() {
 		return this.clientGroupRoles;
 	}
@@ -88,6 +93,7 @@ public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEnt
 	//bi-directional many-to-one association to Application
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="application_id", nullable=true)
+	@JsonBackReference
 	public Application getApplication() {
 		return this.application;
 	}
@@ -100,6 +106,7 @@ public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEnt
 	//bi-directional many-to-one association to ResourceDomain
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="parent_id")
+	@JsonBackReference
 	public ResourceDomain getResourceDomain() {
 		return this.resourceDomain;
 	}
@@ -111,6 +118,7 @@ public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEnt
 
 	//bi-directional many-to-one association to ResourceDomain
 	@OneToMany(mappedBy="resourceDomain")
+	@JsonManagedReference
 	public List<ResourceDomain> getResourceDomains() {
 		return this.resourceDomains;
 	}
@@ -137,6 +145,7 @@ public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEnt
 	//bi-directional many-to-one association to ResourceDomainType
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="resource_domain_type_id", nullable=false)
+	@JsonBackReference
 	public ResourceDomainType getResourceDomainType() {
 		return this.resourceDomainType;
 	}

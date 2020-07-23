@@ -123,8 +123,9 @@ public class GroupDataLogic
 		{
 			for (ClientGroupMembership obj : listOfObjects)
 			{
-				em.remove(obj);
 				deletedObj = obj;
+				em.remove(obj);
+				em.flush();
 			}
 		}
 		

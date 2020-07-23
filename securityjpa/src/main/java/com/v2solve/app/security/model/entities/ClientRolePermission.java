@@ -3,6 +3,8 @@ package com.v2solve.app.security.model.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 /**
  * The persistent class for the client_role_permissions database table.
@@ -49,6 +51,7 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 	//bi-directional many-to-one association to Application
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="application_id")
+	@JsonBackReference
 	public Application getApplication() {
 		return this.application;
 	}
@@ -61,6 +64,7 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 	//bi-directional many-to-one association to ClientRole
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="client_role_id", nullable=false)
+	@JsonBackReference
 	public ClientRole getClientRole() {
 		return this.clientRole;
 	}
@@ -73,6 +77,7 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 	//bi-directional many-to-one association to Permission
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="permission_id", nullable=false)
+	@JsonBackReference
 	public Permission getPermission() {
 		return this.permission;
 	}

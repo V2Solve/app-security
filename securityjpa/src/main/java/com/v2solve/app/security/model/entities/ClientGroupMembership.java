@@ -3,6 +3,8 @@ package com.v2solve.app.security.model.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 /**
  * The persistent class for the client_group_membership database table.
@@ -38,6 +40,7 @@ public class ClientGroupMembership extends com.v2solve.app.security.common.base.
 	//bi-directional many-to-one association to Application
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="application_id")
+	@JsonBackReference
 	public Application getApplication() {
 		return this.application;
 	}
@@ -50,6 +53,7 @@ public class ClientGroupMembership extends com.v2solve.app.security.common.base.
 	//bi-directional many-to-one association to Client
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="client_id", nullable=false)
+	@JsonBackReference
 	public Client getClient() {
 		return this.client;
 	}
@@ -62,6 +66,7 @@ public class ClientGroupMembership extends com.v2solve.app.security.common.base.
 	//bi-directional many-to-one association to ClientGroup
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="client_group_id", nullable=false)
+	@JsonBackReference
 	public ClientGroup getClientGroup() {
 		return this.clientGroup;
 	}

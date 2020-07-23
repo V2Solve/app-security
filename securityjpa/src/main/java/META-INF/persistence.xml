@@ -15,5 +15,6 @@
 		<class>com.v2solve.app.security.model.entities.RoleScope</class>
 		<class>com.v2solve.app.security.model.entities.ResourceDomainType</class>
 		<class>com.v2solve.app.security.model.entities.ScopeType</class>
+		<class>com.v2solve.app.security.model.entities.ChangeLog</class>
 	</persistence-unit>
 </persistence>
