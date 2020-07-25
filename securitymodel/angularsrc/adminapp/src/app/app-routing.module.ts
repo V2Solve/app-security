@@ -14,6 +14,7 @@ import { RoleToPermissionsComponent } from './role-to-permissions/role-to-permis
 import { RoleManagementComponent } from './role-management/role-management.component';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { GroupsToRolesComponent } from './groups-to-roles/groups-to-roles.component';
+import { ChangeLogMgmtComponent } from './change-log-mgmt/change-log-mgmt.component';
 
 const routes: Routes = 
 [
@@ -32,7 +33,8 @@ const routes: Routes =
   { path: 'scopetypeManagement', component: ScopeTypeManagementComponent},
   { path: 'permissionManagement', component: PermissionManagementComponent},
   { path: 'groupRoleManagement', component: GroupsToRolesComponent},
-  { path: 'rolePermissionManagement', component: RoleToPermissionsComponent}
+  { path: 'rolePermissionManagement', component: RoleToPermissionsComponent},
+  { path: 'viewChangeLogs', component: ChangeLogMgmtComponent}
 ];
 
 @NgModule({

@@ -310,4 +310,12 @@ export class SecMgmtApiClientService {
 		let methodUrl = this.apibaseurl + "/deleteClientGroupRole";
 		return this.http.post<sobjs.DeleteClientGroupRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
+
+
+	searchChangeLogs (request: sobjs.SearchChangeLogRequest): Observable<sobjs.SearchChangeLogResponse>
+	{
+		let methodUrl = this.apibaseurl + "/searchChangeLogs";
+		return this.http.post<sobjs.SearchChangeLogResponse>(methodUrl,request,this.getHttpOptions ());
+	}				
+
 }

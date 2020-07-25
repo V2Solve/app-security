@@ -37,19 +37,24 @@
 
 .results-odd-row
 {
-    background-color: rgb(158, 245, 245);
+    border: 1px solid lightgray;
+    padding: 5px;
+    font-size: smaller;
 }
 
 .results-even-row
 {
-    background-color: rgb(219, 220, 255);
+    border: 1px solid lightgray;
+    padding: 5px;
+    background-color: rgb(252, 252, 252);
+    font-size: smaller;
 }
 
 .results-heading-row
 {
-    background-color: black;
-    color: white;
-    font-weight: normal;
+    border: 1px solid lightgray;
+    padding: 5px;
+    font-size: larger;
 }
 
 .section-heading
@@ -151,6 +156,7 @@
 .table-menu-outer-cell
 {
     width: auto;
+    padding: 10px;
 }
 
 .table-menu-inner-cell-table
@@ -193,3 +199,5 @@
     font-size: 40px;
     align-content: center;
 }
+
+

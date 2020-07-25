@@ -2,6 +2,8 @@
  * All the data structures..
  */
 
+import { Timestamp } from 'rxjs';
+
 export class ClientSecurityContext
 {
 	// The client for which this SecurityContext is present.
@@ -137,6 +139,24 @@ export class PagingInformation
 	recordsReturned: Number;	
 }
 
+export class SortInfo 
+{
+	sortField: string;
+	sortDirection: string;
+}
+
+
+export class SortingInformation
+{
+	
+	/**
+	 * List of Sorts that need to be applied to a query..
+	 */
+	sorts: Array<SortInfo>;
+}
+
+
+
 
 /**
  * The different security actions
@@ -148,6 +168,22 @@ export class SecurityActions {
 	static UPDATE: string = "UPDATE";
 	static DELETE: string = "DELETE";
 	static ASSUME: string = "ASSUME";
+}
+
+/**
+ * A change log entry..
+ */
+export class ChangeLog
+{
+	action: string;
+	changeTitle: string;
+	changedRecord: string;
+	changerId: string;
+	datetime: Date;
+	originalRecord: string;
+	recordIdentifier: string;
+	resource: string;
+	targetId: string;
 }
 
 /**
@@ -173,6 +209,7 @@ export class SecurityResources {
 	static ROLE_SCOPE: string                 = "ROLE_SCOPE";
 	static GROUP_ROLE_MEMBERSHIP:  string     = "GROUP_ROLE_MEMBERSHIP";
 	static PERMISSION_ROLE_MEMBERSHIP: string = "PERMISSION_ROLE_MEMBERSHIP";
+	static CHANGE_LOG: string                 = "CHANGE_LOG";
 }
 
 
@@ -368,8 +405,15 @@ export  class BaseRequest
 	 */
 	groups: Array<string>;
 
+	/**
+	 * How the response should be paged, can be passed in this data object
+	 */
 	pagingInfo: PagingInformation;
 
+	/**
+	 * The response should be sorted can also be passed in this dataobject.
+	 */
+	sortingInfo: SortingInformation;
 }
 
 
@@ -396,6 +440,27 @@ export  class SecurityAPIRequest extends BaseRequest
 	resourceDomain: Domain;	
 
 	resources: string [];
+}
+
+
+export class SearchChangeLogRequest extends BaseRequest 
+{
+	/**
+	 * Fields that can be used in searching..
+	 */
+	action: string;
+	resource: string;
+	changeTitle: string;
+	changerId: string;
+	recordIdentifier: string;
+	fromDate: Date;
+	toDate: Date;
+}
+
+export class SearchChangeLogResponse extends BaseResponse
+{
+	// The result of the change search.
+	changes: Array<ChangeLog>;
 }
 
 export class SecurityAPIResponse extends BaseResponse

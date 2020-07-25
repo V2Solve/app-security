@@ -159,6 +159,13 @@ export class TopbarComponent extends BaseForm implements OnInit
         menuItems.push(item);
       }
 
+      {
+        let item = new MenuItem("ChangeLogs","View Change Logs","/viewChangeLogs");
+        resources.push(sobjs.SecurityResources.CHANGE_LOG);
+        item.imageLink="change_history";
+        menuItems.push(item);
+      }
+
       this.setUpMenuBasedOnPermission(secApiRequest,resources,menuItems);
   }
 

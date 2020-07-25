@@ -1,9 +1,10 @@
 <div class="{{anyItems()?'hiddenItem':'visibleItem'}}">Nothing to display, no menu items.</div>
 <div class="{{anyItems()?'visibleItem':'hiddenItem'}}">
-<table class="table-menu-main-square-back">
+<table style="width: 100%; table-layout: auto;">
 	<tr>
 		<td>
-			<table class="table-menu-main-square-front">
+            <div class="mat-elevation-z8">
+			<table style="width: 100%; table-layout: auto;">
 			    <tr>
                     <td class="table-menu-outer-cell" *ngFor="let item of menuItems">
                         <center>
@@ -15,7 +16,8 @@
                         </center>
                     </td>
 				</tr>
-			</table>
+            </table>
+            </div>
 		</td>
 	</tr>
 </table>
