@@ -3,16 +3,19 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource, MatTable} from '@angular/material/table';
 import  {MatInput} from '@angular/material/input';
+import { LoaderServiceService } from '../loader-service.service';
 
 @Component({
   selector: 'app-results-table',
   templateUrl: './results-table.component.html',
   styleUrls: ['./results-table.component.css']
 })
-export class ResultsTableComponent implements OnInit
+export class ResultsTableComponent implements OnInit,AfterViewInit
 {
   @Input ()
   displayedColumns: string [];
+
+  copyOfDisplayedColumns: string [] = new Array<string>();
 
   @Input ()
   dataSource: MatTableDataSource<any>;
@@ -29,12 +32,12 @@ export class ResultsTableComponent implements OnInit
   @Output() 
   currentRowSelected = new EventEmitter<string>();
 
-  allColumns: string [] = new Array();
-
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-   constructor() {
+  spinbarVisibility: boolean = false;
+
+   constructor(private loadService: LoaderServiceService) {
 
    }
 
@@ -45,13 +48,69 @@ export class ResultsTableComponent implements OnInit
     console.log("Function Emittied: " + key);
   }
 
-  ngOnInit() {
+  dataFilter (rowdata: ResultRow, filter:string)
+  {
+      let decision = false;
+
+      if (rowdata != null)
+      {
+          if (rowdata.rowdata != null)
+          {
+            rowdata.rowdata.forEach(value=>{
+                let a = value;
+                if (a != null && a.data != null)
+                {
+                    if (a.data.toLowerCase().indexOf(filter)>=0)
+                    {
+                      decision = true;
+                      return decision;
+                    }
+                }
+            })
+          }
+      }
+      
+      return decision;
+  }
+
+
+  sortDataAccessor (data: ResultRow, sortHeaderId: string): string
+  {
+      let dataToReturn = null;
+      
+      if (this.displayedColumns != null && this.displayedColumns != undefined)
+      {
+        let i = 0;
+        for (let header of this.displayedColumns)
+        {
+          if (header == sortHeaderId)
+          {
+            dataToReturn = data.rowdata[i].data;
+            return dataToReturn;
+          }
+          i++;
+        }
+      }
+
+      return dataToReturn;
+  }
+
+  ngAfterViewInit(): void 
+  {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.allColumns.length=0;
-    this.displayedColumns.forEach(element => {
-      this.allColumns.push(element);
-    });
+    this.dataSource.filterPredicate = this.dataFilter.bind(this);    
+    this.dataSource.sortingDataAccessor=this.sortDataAccessor.bind(this);
+  }
+
+  ngOnInit() 
+  {
+    this.displayedColumns.forEach(columnName=>{
+      this.copyOfDisplayedColumns.push(columnName);
+    })
+    this.loadService.httpProgress().subscribe(element=>{
+      this.spinbarVisibility = element;
+    })
   }
 
   applyFilter(event: Event) {
@@ -75,6 +134,11 @@ export class CellInfo
       this.data =data;
       this.link =link;
       this.title=title;
+    }
+
+    toString (): string
+    {
+      return this.data;
     }
 }
 
