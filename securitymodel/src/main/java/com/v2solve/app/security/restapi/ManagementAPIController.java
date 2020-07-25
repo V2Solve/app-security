@@ -14,6 +14,8 @@ import com.v2solve.app.security.sdk.application.DeleteApplicationRequest;
 import com.v2solve.app.security.sdk.application.DeleteApplicationResponse;
 import com.v2solve.app.security.sdk.application.SearchApplicationsRequest;
 import com.v2solve.app.security.sdk.application.SearchApplicationsResponse;
+import com.v2solve.app.security.sdk.application.SearchChangeLogRequest;
+import com.v2solve.app.security.sdk.application.SearchChangeLogResponse;
 import com.v2solve.app.security.sdk.client.CreateClientRequest;
 import com.v2solve.app.security.sdk.client.CreateClientResponse;
 import com.v2solve.app.security.sdk.client.DeleteClientRequest;
@@ -348,6 +350,13 @@ public class ManagementAPIController implements SecurityManagementAPI
 	@Override
 	@RequestMapping(method = RequestMethod.POST,path = "/searchClientRolePermissions")
 	public SearchClientRolePermissionResponse implementRequest(@RequestBody SearchClientRolePermissionRequest request) {
+		return implementation.implementRequest(request);
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST,path = "/searchChangeLogs")
+	public SearchChangeLogResponse implementRequest(@RequestBody SearchChangeLogRequest request) 
+	{
 		return implementation.implementRequest(request);
 	}
 

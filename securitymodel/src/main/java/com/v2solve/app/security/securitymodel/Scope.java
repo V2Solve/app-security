@@ -1,7 +1,11 @@
 package com.v2solve.app.security.securitymodel;
 
+import java.io.IOException;
+import java.io.LineNumberReader;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -60,6 +64,58 @@ public class Scope implements Serializable {
 		}
 		
 		return values;
+	}
+	
+	
+	/**
+	 * Expects the scopevalue of the form property>=<comma,seperated,values>
+	 * It goes through it line by line, and adds the property and its list of values to the hashmap if provided,
+	 * if limitData is null, and it needs to create one,it will.
+	 * @param limitData
+	 * @return
+	 * @throws IOException
+	 */
+	public HashMap<String, List<String>> getLimitDataOnFields (HashMap<String, List<String>> limitData) 
+	throws IOException
+	{
+		if (scopeValue == null)
+			return limitData;
+		
+		LineNumberReader lnr = new LineNumberReader(new StringReader(scopeValue));
+		
+		String str = lnr.readLine();
+		
+		while (str != null)
+		{
+			int eqIndex = str.indexOf("=");
+			
+			if (eqIndex > 0)
+			{
+				String property = str.substring(0,eqIndex);
+				String restOfIt = str.substring(eqIndex+1);
+				if (limitData == null)
+					limitData = new HashMap<>();
+				
+				List<String> valueList = limitData.get(property);
+				
+				if (valueList == null)
+				{
+					valueList = new ArrayList<>();
+					limitData.put(property, valueList);
+				}
+				
+				StringTokenizer st = new StringTokenizer(restOfIt," ;,");
+				while (st.hasMoreTokens())
+				{
+					valueList.add(st.nextToken());
+				}
+			}
+			
+			
+			str = lnr.readLine();
+		}
+		
+		return limitData;
 	}
 
 }

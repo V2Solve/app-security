@@ -6,6 +6,8 @@ import com.v2solve.app.security.sdk.application.DeleteApplicationRequest;
 import com.v2solve.app.security.sdk.application.DeleteApplicationResponse;
 import com.v2solve.app.security.sdk.application.SearchApplicationsRequest;
 import com.v2solve.app.security.sdk.application.SearchApplicationsResponse;
+import com.v2solve.app.security.sdk.application.SearchChangeLogRequest;
+import com.v2solve.app.security.sdk.application.SearchChangeLogResponse;
 import com.v2solve.app.security.sdk.client.CreateClientRequest;
 import com.v2solve.app.security.sdk.client.CreateClientResponse;
 import com.v2solve.app.security.sdk.client.DeleteClientRequest;
@@ -167,5 +169,7 @@ public interface SecurityManagementAPI
 	DeleteClientRolePermissionResponse implementRequest (DeleteClientRolePermissionRequest request);
 	
 	SearchClientRolePermissionResponse implementRequest (SearchClientRolePermissionRequest request);	
+	
+	SearchChangeLogResponse implementRequest (SearchChangeLogRequest request);
 	
 }

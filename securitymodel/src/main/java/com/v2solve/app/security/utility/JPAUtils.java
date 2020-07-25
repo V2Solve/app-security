@@ -69,7 +69,7 @@ public class JPAUtils
     	return inExpression;
     }	
 
-	
+
 	public static void updateObject(EntityManager em, Object existingObject) 
 	{
 		if (em.contains(existingObject))

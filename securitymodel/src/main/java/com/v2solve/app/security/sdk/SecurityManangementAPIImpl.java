@@ -1,6 +1,7 @@
 package com.v2solve.app.security.sdk;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.v2solve.app.security.model.entities.Action;
 import com.v2solve.app.security.model.entities.Application;
+import com.v2solve.app.security.model.entities.ChangeLog;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.model.entities.ClientGroup;
 import com.v2solve.app.security.model.entities.ClientGroupMembership;
@@ -26,6 +28,8 @@ import com.v2solve.app.security.sdk.application.DeleteApplicationRequest;
 import com.v2solve.app.security.sdk.application.DeleteApplicationResponse;
 import com.v2solve.app.security.sdk.application.SearchApplicationsRequest;
 import com.v2solve.app.security.sdk.application.SearchApplicationsResponse;
+import com.v2solve.app.security.sdk.application.SearchChangeLogRequest;
+import com.v2solve.app.security.sdk.application.SearchChangeLogResponse;
 import com.v2solve.app.security.sdk.client.CreateClientRequest;
 import com.v2solve.app.security.sdk.client.CreateClientResponse;
 import com.v2solve.app.security.sdk.client.DeleteClientRequest;
@@ -2962,5 +2966,71 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				em.close();
 		}
 	}
-	
+
+
+	@Override
+	public SearchChangeLogResponse implementRequest(SearchChangeLogRequest request) 
+	{
+		EntityManager em = null;
+		TransactionWrapper tw = null;
+		
+		try
+		{
+			String action   = SecurityActions.READ;
+			String resource = SecurityResources.CHANGE_LOG; 
+			
+			em = getEm();
+			tw = new TransactionWrapper(em);
+			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			
+			// Lets check at a global level..
+			asc.hasPermissionThrowException(action, resource);
+			
+			// Ok, now lets figure out if there are any limiting scopes..
+			List<Scope> scopes = asc.hasPermissionReturnScopes(action, resource, null);
+			
+			HashMap<String, List<String>> limitData = null;
+			
+			if (scopes != null && scopes.isEmpty()==false)
+			{
+				for (Scope scp: scopes)
+				{
+					if (scp.getScopeType().equals(Scopes.VALUES_SCOPE_TYPE))
+					{
+						limitData = scp.getLimitDataOnFields(limitData);
+					}
+				}
+			}
+
+			List<ChangeLog> listOfChanges = ChangeLogDataLogic.searchChangeLog(em, request, limitData);
+			tw.success();
+			
+			List<com.v2solve.app.security.securitymodel.ChangeLog> newChangeLogList = new ArrayList<>();
+			
+			for (ChangeLog cl: listOfChanges)
+			{
+				com.v2solve.app.security.securitymodel.ChangeLog CL = new com.v2solve.app.security.securitymodel.ChangeLog();
+				ReflectUtils.copy(cl, CL);
+				newChangeLogList.add(CL);
+			}
+			
+			SearchChangeLogResponse sar = new  SearchChangeLogResponse(RequestStatusInformation.SUCCESS);
+			
+			sar.setChanges(newChangeLogList);
+			
+			return sar;
+		}
+		catch (Throwable e)
+		{
+			log.error(StringUtils.traceString(e));
+			return new SearchChangeLogResponse(RequestStatusInformation.failure(e.getMessage()));
+		}
+		finally
+		{
+			if (tw != null)
+				tw.commit();
+			if (em != null)
+				em.close();
+		}
+	}
 }

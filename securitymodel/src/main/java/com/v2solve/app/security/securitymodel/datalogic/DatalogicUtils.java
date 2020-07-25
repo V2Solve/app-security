@@ -1,5 +1,6 @@
 package com.v2solve.app.security.securitymodel.datalogic;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -105,4 +106,44 @@ public class DatalogicUtils
 		return currentPredicate;
 	}
 	
+	/**
+	 * Creates in clause based on values found in the limitData if any and returns the predicate duly 'ANDED'
+	 * @param <T> - The type of RootObject
+	 * @param <K> - the type of limiting property list..
+	 * @param cb - CriteriaBuilder.
+	 * @param root - the Select Root. 
+	 * @param limitData - if there is any criteria using which the records should be limited.
+	 * @param currentPredicate - if there is already a current predicate.
+	 * @return
+	 */
+	public static <T,K> Predicate addLimitingClauseForProperties (CriteriaBuilder cb,Root<T> root,HashMap<String, List<K>> limitData,Predicate currentPredicate)
+	{
+		Predicate finalPredicate = null;
+		
+		if (limitData != null && !limitData.isEmpty())
+		{
+			for (String property: limitData.keySet())
+			{
+				Path<K> propPath = root.get(property);
+				List<K> values = limitData.get(property);
+				if (values != null && !values.isEmpty())
+				{
+					In<K> inClause = cb.in(propPath);
+					Predicate inObjs = JPAUtils.buildInvalues(inClause, values);
+					if (finalPredicate == null)
+						finalPredicate = inObjs;
+					else
+						finalPredicate = cb.and(finalPredicate,inObjs);
+				}
+			}
+		}
+			
+		if (currentPredicate != null)
+				finalPredicate = cb.and(currentPredicate,finalPredicate);
+			else
+				currentPredicate = finalPredicate;
+		
+		return currentPredicate;
+	}
+
 }

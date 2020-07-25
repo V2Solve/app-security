@@ -8,7 +8,8 @@ package com.v2solve.app.security.sdk;
  * @author Saurin Magiawala
  *
  */
-public class SecurityResources {
+public class SecurityResources 
+{
 	public static final String APPLICATION             		= "APPLICATION";
 	public static final String ACTION                  		= "ACTION";
 	public static final String RESOURCE                		= "RESOURCE";
@@ -23,4 +24,5 @@ public class SecurityResources {
 	public static final String ROLE_SCOPE              		= "ROLE_SCOPE";
 	public static final String GROUP_ROLE_MEMBERSHIP   		= "GROUP_ROLE_MEMBERSHIP";
 	public static final String PERMISSION_ROLE_MEMBERSHIP 	= "PERMISSION_ROLE_MEMBERSHIP";
+	public static final String CHANGE_LOG					= "CHANGE_LOG";
 }

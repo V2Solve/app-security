@@ -29,6 +29,15 @@ public class BaseRequest implements java.io.Serializable
 	 */
 	List<String> groups;
 
+	/**
+	 * data about how information returned should be paginated. - helpful in search and responses
+	 */
 	PagingInformation pagingInfo;
+	
+	
+	/**
+	 * data about how information returned should be sorted - helpful in searches.
+	 */
+	SortingInformation sortingInfo;
 	
 }

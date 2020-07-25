@@ -1,0 +1,78 @@
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table class="form-main-square-back">
+<tr>
+    <td>
+        <table class="form-main-square-front">
+            <tr> <!-- Row for form elements-->
+                    <td>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Title</mat-label>
+                            <input matInput placeholder="words in title" [formControl]="changeTitle">
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Action</mat-label>
+                            <input matInput placeholder="for action.." [formControl]="actionName">
+                          </mat-form-field>                        
+                    </td>    
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Resource</mat-label>
+                            <input matInput placeholder="for resource.." [formControl]="resourceName">
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>By</mat-label>
+                            <input matInput placeholder="change By" [formControl]="changerId">
+                          </mat-form-field>                        
+                    </td>
+                    <td>
+                    <mat-form-field appearance="fill">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="startPicker" [formControl]="fromDate">
+                        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                      </mat-form-field>                    
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="endPicker" [formControl]="toDate">
+                            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #endPicker></mat-datepicker>
+                          </mat-form-field>
+                    </td>                    
+            </tr>
+            <tr>    <!-- Row for buttons-->
+                <td>
+                    <span class="{{isReadPermission()?'visibleItem':'hiddenItem'}}">
+                        <button (click)="loadViewableObjects()" mat-icon-button title="Save Record">
+                            Search<mat-icon style="font-size: 24px;">search</mat-icon>
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p></p>
+<!-- Results -->
+<span class="{{isReadPermission()?'visibleItem':'hiddenItem'}}">
+<table class="section-heading">
+    <tr>
+        <td class="section-title">Existing Records</td>
+    </tr>
+</table>
+    <app-results-table  [selectFunction]="false" [iconTitle]="''" [iconName]="''"   (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>
+</span>
