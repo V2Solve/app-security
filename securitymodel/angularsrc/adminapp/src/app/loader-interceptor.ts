@@ -18,7 +18,7 @@ export class LoaderInterceptor implements HttpInterceptor
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
     {
-        console.log("Intercepted..");
+        // console.log("Intercepted..");
         if (this.count === 0) {
             this.loaderService.setHttpProgressStatus(true);
           }
