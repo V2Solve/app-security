@@ -56,7 +56,7 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
 
   currentKey: string;
   
-  displayedColumns = ['GroupName','RoleName','Domain','Scope','Owner App'];
+  displayedColumns = ['Select','GroupName','RoleName','Domain','Scope','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   rowSelected (key: string)
@@ -167,6 +167,7 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
        element.clientGroupRoles.forEach(cgr=>{
         this.viewableObjects.push(cgr);
         let ci = new Array<CellInfo> ();
+        ci.push(new CellInfo(cgr.key));
         ci.push(new CellInfo(cgr.groupName));
         ci.push(new CellInfo(cgr.roleName));
         ci.push(new CellInfo(cgr.domainName));

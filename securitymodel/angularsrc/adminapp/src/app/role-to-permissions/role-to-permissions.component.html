@@ -8,12 +8,13 @@
 </table>
 <p></p>
 <div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
-<table class="form-main-square-back">
+<table>
 <tr>
     <td>
-        <table class="form-main-square-front">
+        <div class="mat-elevation-z8">
+        <table>
             <tr> <!-- Row for form elements-->
-                    <td>
+                    <td class="form-cell">
                           <mat-form-field appearance="fill">
                             <mat-label>Role Name</mat-label>
                             <mat-select [formControl]="roleName">
@@ -23,7 +24,7 @@
                             </mat-select>
                           </mat-form-field>                        
                     </td>
-                    <td>
+                    <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Permission</mat-label>
                             <mat-select [(value)]="permissionName">
@@ -33,7 +34,7 @@
                             </mat-select>
                           </mat-form-field>                        
                     </td>    
-                    <td>
+                    <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Allow/Deny?</mat-label>
                             <mat-select [(value)]="permissionValue">
@@ -43,7 +44,7 @@
                             </mat-select>
                           </mat-form-field>                        
                     </td>
-                    <td>
+                    <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Associated App</mat-label>
                             <mat-select [(value)]="appIdentifier">
@@ -55,7 +56,7 @@
                     </td>
             </tr>
             <tr>    <!-- Row for buttons-->
-                <td>
+                <td class="form-cell">
                     <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
                         <button (click)="updateObject()" mat-icon-button title="Save Record">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
@@ -64,6 +65,7 @@
                 </td>
             </tr>
         </table>
+        </div>
     </td>
 </tr>
 </table>

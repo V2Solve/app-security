@@ -31,7 +31,7 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
 
   currentKey: string;
   
-  displayedColumns = ['Name','Type','Value','Description','Owner App'];
+  displayedColumns = ['Select','Name','Type','Value','Description','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   callService: CommonCallsService;
@@ -151,6 +151,7 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
         values.forEach(element=>{
           this.viewableObjects.push(element);
           let ci = new Array<CellInfo> ();
+          ci.push(new CellInfo(element.scopeName));
           ci.push(new CellInfo(element.scopeName));
           ci.push(new CellInfo(element.scopeType));
           ci.push(new CellInfo(element.scopeValue));

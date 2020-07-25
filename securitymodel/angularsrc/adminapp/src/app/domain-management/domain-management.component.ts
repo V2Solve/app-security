@@ -34,7 +34,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
 
   currentKey: string;
   
-  displayedColumns = ['Name','Type','Parent','Description','Owner App'];
+  displayedColumns = ['Select','Name','Type','Parent','Description','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   callService: CommonCallsService;
@@ -181,6 +181,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
         values.forEach(element=>{
           this.viewableObjects.push(element);
           let ci = new Array<CellInfo> ();
+          ci.push(new CellInfo(element.name));
           ci.push(new CellInfo(element.name));
           ci.push(new CellInfo(element.domainType));
           ci.push(new CellInfo(element.parentDomain));

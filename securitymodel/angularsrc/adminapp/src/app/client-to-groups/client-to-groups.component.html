@@ -7,57 +7,60 @@
     </tr>
 </table>
 <p></p>
-<table class="form-main-square-back">
+<table >
 <tr>
     <td>
-        <table class="form-main-square-front">
+        <div class="mat-elevation-z8">
+        <table >
             <tr> <!-- Row for form elements-->
-                    <td>
+                    <td class="form-cell">
                         <mat-label>Client Name</mat-label>
                     </td>
-                    <td>
+                    <td class="form-cell">
                         <input type="text" [matAutocomplete]="firstAuto" matInput placeholder="Type client unique Id" [formControl]="clientName" (keypress)="searchClients()">
                     </td>
-                    <td>
+                    <td class="form-cell">
                         <mat-autocomplete #firstAuto="matAutocomplete">
                             <mat-option *ngFor="let item of searchedClients" [value]="item.clientIdentifier">
                               {{item.clientIdentifier}}
                             </mat-option>
                           </mat-autocomplete>                        
                     </td>                          
-                    <td>
+                    <td class="form-cell">
                         <button (click)="searchClient()" mat-icon-button title="Search client">
                             Search<mat-icon style="font-size: 24px;" matSuffix>search</mat-icon>
                         </button>
                     </td>
             </tr>
         </table>
+        </div>
     </td>
 </tr>
 </table>
 <p>
 <div class="{{(swapVisible() && isReadPermission())?'visibleItem':'hiddenItem'}}">
-<table class="form-main-square-back" style="width: 100%;">
+<table style="width: 100%;">
     <tr>
         <td>
-            <table class="form-main-square-front" style="width: 100%;">
-                <tr style="align-content: left; text-align: left;"><td>Group Membership for <b><i>{{clientIdentifier}}</i></b></td></tr>
-                <tr><td></td><td></td><td></td></tr>
+            <div class="mat-elevation-z8">
+            <table style="width: 100%;">
+                <tr style="align-content: left; text-align: left;"><td  class="form-cell">Group Membership for <b><i>{{clientIdentifier}}</i></b></td></tr>
+                <tr><td class="form-cell"></td><td class="form-cell"></td><td class="form-cell"></td></tr>
                 <tr> <!-- Titles -->
-                    <td style="width: 30%; font-weight: bold;">Assigned Groups</td>
-                        <td style="width: 10%;"> 
+                    <td  class="form-cell" style="width: 30%; font-weight: bold;">Assigned Groups</td>
+                        <td class="form-cell" style="width: 10%;"> 
                         </td>
-                    <td style="width: 30%; font-weight: bold;">Available Groups</td>
+                    <td  class="form-cell" style="width: 30%; font-weight: bold;">Available Groups</td>
                 </tr>
                 <tr> 
-                    <td style="width: 30%;">
+                    <td class="form-cell" style="width: 30%;">
                             <mat-selection-list #asgS>
                                 <mat-list-option *ngFor="let item of assignedGroups" value="{{item.name}}">
                                   {{item.name}}
                                 </mat-list-option>
                             </mat-selection-list>                                
                     </td>
-                        <td style="align-items: center; text-align: center; width: 10%;"> 
+                        <td class="form-cell" style="align-items: center; text-align: center; width: 10%;"> 
                             <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
                             <button (click)="assignGroup(assgS.selectedOptions)" mat-icon-button title="Assign Group">
                                 ←Assign
@@ -72,7 +75,7 @@
                             </button>
                         </span>
                         </td>
-                    <td style="width: 30%;">
+                    <td class="form-cell" style="width: 30%;">
                         <!-- Available Groups List -->
                         <mat-selection-list #assgS>
                             <mat-list-option *ngFor="let item of assignableGroups" value="{{item.name}}">
@@ -82,6 +85,7 @@
                     </td>
                 </tr>
             </table>
+            </div>
         </td>
     </tr>
 </table>

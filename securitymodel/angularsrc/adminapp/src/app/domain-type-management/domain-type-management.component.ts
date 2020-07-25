@@ -22,7 +22,7 @@ export class DomainTypeManagementComponent extends BaseForm implements OnInit {
   viewableApps = new Array<Application>();
   currentKey: string;
   
-  displayedColumns = ['DomainType','Owner App'];
+  displayedColumns = ['Select','DomainType','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   callService: CommonCallsService;
@@ -123,6 +123,7 @@ export class DomainTypeManagementComponent extends BaseForm implements OnInit {
         values.forEach(element=>{
           this.viewableObjects.push(element);
           let ci = new Array<CellInfo> ();
+          ci.push(new CellInfo(element.name));
           ci.push(new CellInfo(element.name));
           // ci.push(new CellInfo(element.description));
           ci.push(new CellInfo(element.appIdentifier));

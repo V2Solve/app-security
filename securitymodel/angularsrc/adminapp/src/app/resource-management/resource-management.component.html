@@ -8,12 +8,13 @@
 </table>
 <p></p>
 <div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
-<table class="form-main-square-back">
+<table>
 <tr>
     <td>
-        <table class="form-main-square-front">
+        <div class="mat-elevation-z8">
+        <table>
             <tr> <!-- Row for form elements-->
-                    <td>
+                    <td class="form-cell">
                         <mat-form-field>
                             <mat-label>Resource</mat-label>
                             <input matInput placeholder="Unique Resource Name" [formControl]="objectName">
@@ -38,14 +39,14 @@
                     </td>
             </tr>
             <tr>    <!-- Row for buttons-->
-                <td>
+                <td class="form-cell">
                     <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
                         <button (click)="updateObject()" mat-icon-button title="Save Record">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                     </span>
                 </td>
-                <td>
+                <td class="form-cell">
                     <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
                         <button (click)="deleteObject()" mat-icon-button title="Delete Record">
                             Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
@@ -54,6 +55,7 @@
                 </td>
             </tr>
         </table>
+        </div>
     </td>
 </tr>
 </table>

@@ -20,6 +20,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatExpansionModule} from '@angular/material/expansion'
 
 import { ApplicationMgmtComponent } from './application-mgmt/application-mgmt.component';
 import { ResultsTableComponent } from './results-table/results-table.component';
@@ -42,6 +43,7 @@ import { GroupsToRolesComponent } from './groups-to-roles/groups-to-roles.compon
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { LoaderInterceptor } from 'src/app/loader-interceptor';
 import { ChangeLogMgmtComponent } from './change-log-mgmt/change-log-mgmt.component';
+import { DynamicResultsTableComponent } from './dynamic-results-table/dynamic-results-table.component';
 
 
 @NgModule({
@@ -67,7 +69,8 @@ import { ChangeLogMgmtComponent } from './change-log-mgmt/change-log-mgmt.compon
     ClientToGroupsComponent,
     GroupsToRolesComponent,
     PermissionManagementComponent,
-    ChangeLogMgmtComponent
+    ChangeLogMgmtComponent,
+    DynamicResultsTableComponent
   ],
   imports: [
     BrowserModule,
@@ -86,7 +89,8 @@ import { ChangeLogMgmtComponent } from './change-log-mgmt/change-log-mgmt.compon
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatExpansionModule
   ],
   providers: [
     {

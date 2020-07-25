@@ -53,7 +53,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
 
   currentKey: string;
   
-  displayedColumns = ['RoleName','Permission','Value','Owner App'];
+  displayedColumns = ['Select','RoleName','Permission','Value','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   rowSelected (key: string)
@@ -145,6 +145,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
          element.clientRolePermissions.forEach(cgr=>{
           this.viewableObjects.push(cgr);
           let ci = new Array<CellInfo> ();
+          ci.push(new CellInfo(cgr.key));
           ci.push(new CellInfo(cgr.roleName));
           ci.push(new CellInfo(cgr.permissionName));
           ci.push(new CellInfo(cgr.value));

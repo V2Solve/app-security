@@ -1,40 +1,3 @@
-.form-main-square-back
-{
-    background-color: blue;
-    border: 0;
-    border-spacing: 0;
-    padding: 0px;
-}
-
-.form-main-square-front
-{
-    background-color: whitesmoke;
-    padding: 20px;
-    border: 1px;
-    border-spacing: 1px;
-}
-
-
-.results-table-main-square-back
-{
-    background-color: blue;
-    border-width: 1px;
-    border-spacing: 0;
-    padding: 0px;
-    border-style: solid;
-    table-layout: auto;
-}
-
-.results-table-main-square-front
-{
-    background-color: whitesmoke;
-    color: black;
-    border-width: 0px;
-    border-style: solid;
-    border-spacing: 2px;
-    table-layout: auto;
-}
-
 .results-odd-row
 {
     border: 1px solid lightgray;
@@ -81,28 +44,6 @@
     font-size: inherit;
 }
 
-
-.info-block-table-main-square-back
-{
-    background-color: blue;
-    border-width: 1px;
-    border-spacing: 0;
-    padding: 0px;
-    border-style: solid;
-    table-layout: auto;
-}
-
-.info-block-table-main-square-front
-{
-    background-color: whitesmoke;
-    color: black;
-    border-width: 0px;
-    border-style: solid;
-    border-spacing: 2px;
-    table-layout: auto;
-}
-
-
 .hiddenItem
 {
     display: none;
@@ -116,11 +57,13 @@
 .infoMessage
 {
     color: green;
+    font-size: smaller;
 }
 
 .errorMessage
 {
     color: red;
+    font-size: smaller;
 }
 
 .info-block-title-row
@@ -135,64 +78,11 @@
     margin: 2px;
 }
 
-
-.table-menu-main-square-back
-{
-    background-color: blue;
-    border: 0;
-    border-spacing: 0;
-    padding: 0px;
-    width: 100%;
-    table-layout: auto;
-}
-
-.table-menu-main-square-front
-{
-    background-color: whitesmoke;
-    width: 100%;
-    table-layout: auto;
-}
-
-.table-menu-outer-cell
+.table-menu-cell
 {
     width: auto;
     padding: 10px;
 }
-
-.table-menu-inner-cell-table
-{
-    border: 0px;
-}
-
-.table-menu-image-cell
-{
-    align-content: center;
-    width: 20%;
-}
-
-.table-menu-image-style
-{
-    height: 50px;
-    width: 50px;
-}
-
-.table-menu-image-row
-{
-    display: inherit;
-}
-
-.table-menu-link-row
-{
-    display: inherit;
-}
-
-.table-menu-link-cell
-{
-    align-content: center;
-    word-wrap: none;
-    width: 20%;
-}
-
 
 .mat-icon
 {
@@ -201,3 +91,7 @@
 }
 
 
+.form-cell
+{
+    padding: 10px;
+}

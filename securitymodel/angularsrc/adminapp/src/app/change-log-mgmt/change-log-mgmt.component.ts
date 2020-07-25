@@ -6,6 +6,9 @@ import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, ClientGroup, CreateClientGroupRequest, RequestStatusInformation, DeleteClientGroupRequest, SecurityResources, ChangeLog, SearchChangeLogRequest } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { FormControl } from '@angular/forms';
+import { DataSource } from '@angular/cdk/table';
+import { CollectionViewer } from '@angular/cdk/collections';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-change-log-mgmt',
@@ -14,7 +17,6 @@ import { FormControl } from '@angular/forms';
 })
 export class ChangeLogMgmtComponent extends BaseForm implements OnInit 
 {
-  
   actionName   = new FormControl('');
   resourceName = new FormControl ('');
   changerId    = new FormControl ('');
@@ -93,5 +95,16 @@ export class ChangeLogMgmtComponent extends BaseForm implements OnInit
     this.loadViewableObjects();
     this.updatePermissionFlags(SecurityResources.CHANGE_LOG,this.callService);
   }
+}
 
+
+export class ChangeLogDataSource<T> extends DataSource<T>
+{
+  connect(collectionViewer: CollectionViewer): Observable<T[] | readonly T[]> {
+    throw new Error("Method not implemented.");
+  }
+  
+  disconnect(collectionViewer: CollectionViewer): void {
+    throw new Error("Method not implemented.");
+  }
 }

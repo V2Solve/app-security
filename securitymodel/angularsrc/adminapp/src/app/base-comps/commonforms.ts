@@ -17,7 +17,7 @@ export class BaseForm
      */
     formResultsHeading: string = "Form Results";
     formResultsTitle: Array<CellInfo> = new Array();
-    formResults: Array<ResultRow>=new Array();
+    formResults: Array<any>=new Array();
     messages: Array<Message> = new Array<Message>();
 
     pushErrorMessage (msg: string)

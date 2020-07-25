@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter,ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter,ViewChild, AfterViewInit } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatTableDataSource, MatTable} from '@angular/material/table';
 import  {MatInput} from '@angular/material/input';
 
 @Component({
@@ -9,13 +9,13 @@ import  {MatInput} from '@angular/material/input';
   templateUrl: './results-table.component.html',
   styleUrls: ['./results-table.component.css']
 })
-export class ResultsTableComponent implements OnInit 
+export class ResultsTableComponent implements OnInit
 {
   @Input ()
   displayedColumns: string [];
 
   @Input ()
-  dataSource: MatTableDataSource<ResultRow>;
+  dataSource: MatTableDataSource<any>;
 
   @Input ()
   iconName: string = "arrow_circle_up";
@@ -34,9 +34,9 @@ export class ResultsTableComponent implements OnInit
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+   constructor() {
 
-    
-  constructor() { }
+   }
 
   deletePressedOnKey (key: string)
   {
@@ -49,7 +49,6 @@ export class ResultsTableComponent implements OnInit
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.allColumns.length=0;
-    this.allColumns.push("selectColumn");
     this.displayedColumns.forEach(element => {
       this.allColumns.push(element);
     });

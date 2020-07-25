@@ -7,36 +7,37 @@
     </tr>
 </table>
 <p></p>
-<table class="form-main-square-back">
+<table>
 <tr>
     <td>
-        <table class="form-main-square-front">
+        <div class="mat-elevation-z8">
+        <table>
             <tr> <!-- Row for form elements-->
-                    <td>
+                    <td  class="form-cell">
                           <mat-form-field appearance="fill">
                             <mat-label>Title</mat-label>
                             <input matInput placeholder="words in title" [formControl]="changeTitle">
                           </mat-form-field>                        
                     </td>
-                    <td>
+                    <td  class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Action</mat-label>
                             <input matInput placeholder="for action.." [formControl]="actionName">
                           </mat-form-field>                        
                     </td>    
-                    <td>
+                    <td  class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Resource</mat-label>
                             <input matInput placeholder="for resource.." [formControl]="resourceName">
                           </mat-form-field>                        
                     </td>
-                    <td>
+                    <td  class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>By</mat-label>
                             <input matInput placeholder="change By" [formControl]="changerId">
                           </mat-form-field>                        
                     </td>
-                    <td>
+                    <td  class="form-cell">
                     <mat-form-field appearance="fill">
                         <mat-label>From Date</mat-label>
                         <input matInput [matDatepicker]="startPicker" [formControl]="fromDate">
@@ -44,7 +45,7 @@
                         <mat-datepicker #startPicker></mat-datepicker>
                       </mat-form-field>                    
                     </td>
-                    <td>
+                    <td  class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>To Date</mat-label>
                             <input matInput [matDatepicker]="endPicker" [formControl]="toDate">
@@ -54,7 +55,7 @@
                     </td>                    
             </tr>
             <tr>    <!-- Row for buttons-->
-                <td>
+                <td  class="form-cell">
                     <span class="{{isReadPermission()?'visibleItem':'hiddenItem'}}">
                         <button (click)="loadViewableObjects()" mat-icon-button title="Save Record">
                             Search<mat-icon style="font-size: 24px;">search</mat-icon>
@@ -63,6 +64,7 @@
                 </td>
             </tr>
         </table>
+        </div>
     </td>
 </tr>
 </table>

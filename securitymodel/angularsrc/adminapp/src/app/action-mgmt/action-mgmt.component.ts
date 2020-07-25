@@ -28,7 +28,7 @@ export class ActionMgmtComponent extends BaseForm implements OnInit
   viewableApps = new Array<Application>();
   currentKey: string;
   
-  displayedColumns = ['ActionName','Description','Owner App'];
+  displayedColumns = ['Select','ActionName','Description','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   callService: CommonCallsService;
@@ -127,6 +127,7 @@ export class ActionMgmtComponent extends BaseForm implements OnInit
       values.forEach(element=>{
         this.viewableObjects.push(element);
         let ci = new Array<CellInfo> ();
+        ci.push(new CellInfo(element.actionName));
         ci.push(new CellInfo(element.actionName));
         ci.push(new CellInfo(element.actionDescription));
         ci.push(new CellInfo(element.appIdentifier));

@@ -31,7 +31,7 @@ export class ApplicationMgmtComponent extends BaseForm implements OnInit
   viewableApps: Array<Application> = new Array<Application>();
   currentKey: string;
   
-  displayedColumns = ['AppIdentifier','ShortIdentifier','Description'];
+  displayedColumns = ['Select','AppIdentifier','ShortIdentifier','Description'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
   
   constructor(callService: CommonCallsService,client: SecMgmtApiClientService)
@@ -114,6 +114,7 @@ export class ApplicationMgmtComponent extends BaseForm implements OnInit
           this.viewableApps.forEach(app=>
           {
             let ci = new Array<CellInfo> ();
+            ci.push(new CellInfo(app.appIdentifier));
             ci.push(new CellInfo(app.appIdentifier));
             ci.push(new CellInfo(app.shortIdentifier));
             ci.push(new CellInfo(app.appDescription));

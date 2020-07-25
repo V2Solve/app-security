@@ -22,7 +22,7 @@ export class ClientManagementComponent extends BaseForm implements OnInit {
   viewableApps = new Array<Application>();
   currentKey: string;
   
-  displayedColumns = ['Client Identifier','Description','Owner App'];
+  displayedColumns = ['Select','Client Identifier','Description','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   callService: CommonCallsService;
@@ -121,6 +121,7 @@ export class ClientManagementComponent extends BaseForm implements OnInit {
       values.forEach(element=>{
         this.viewableObjects.push(element);
         let ci = new Array<CellInfo> ();
+        ci.push(new CellInfo(element.clientIdentifier));
         ci.push(new CellInfo(element.clientIdentifier));
         ci.push(new CellInfo(element.description));
         ci.push(new CellInfo(element.appIdentifier));

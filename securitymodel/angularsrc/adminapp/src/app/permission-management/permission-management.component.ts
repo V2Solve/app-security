@@ -29,7 +29,7 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
 
   currentKey: string;
   
-  displayedColumns = ['Name','Action','Resource','Description','Owner App'];
+  displayedColumns = ['Select','Name','Action','Resource','Description','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   callService: CommonCallsService;
@@ -153,6 +153,7 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
       values.forEach(element=>{
         this.viewableObjects.push(element);
         let ci = new Array<CellInfo> ();
+        ci.push(new CellInfo(element.name));
         ci.push(new CellInfo(element.name));
         ci.push(new CellInfo(element.action));
         ci.push(new CellInfo(element.resource));
