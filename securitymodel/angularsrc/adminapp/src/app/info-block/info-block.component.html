@@ -5,11 +5,11 @@
         <div class="mat-elevation-z8">
         <table >
             <tr class="info-block-title-row">
-                <td class="form-cell" style="align-content: left;">{{informationBlockTitle}}</td><td style="align-content: right;">
+                <td class="info-block-form-cell" style="align-content: left;">{{informationBlockTitle}}</td><td style="align-content: right;">
                     <button class="info-block-button" (click)="closeBox()" title="Click to clear">X</button></td>
             </tr>
             <tr>
-                <td class="form-cell">
+                <td class="info-block-form-cell">
                 <ul>
                     <li *ngFor="let msg of messages">
                         <span class="{{msg.error ? errorClass : infoClass}}">{{msg.msg}}</span>

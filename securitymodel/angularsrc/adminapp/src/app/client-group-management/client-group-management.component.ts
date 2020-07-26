@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, ClientGroup, CreateClientGroupRequest, RequestStatusInformation, DeleteClientGroupRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,9 +15,12 @@ import { FormControl } from '@angular/forms';
 })
 export class ClientGroupManagementComponent extends BaseForm implements OnInit {
 
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
   appIdentifier: string;
+
+  formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription});
+
 
   viewableObjects = new Array<ClientGroup> ();
   viewableApps = new Array<Application>();

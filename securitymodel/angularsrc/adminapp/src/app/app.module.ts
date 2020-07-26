@@ -21,6 +21,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion'
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 import { ApplicationMgmtComponent } from './application-mgmt/application-mgmt.component';
 import { ResultsTableComponent } from './results-table/results-table.component';
@@ -93,11 +94,8 @@ import { DynamicResultsTableComponent } from './dynamic-results-table/dynamic-re
     MatExpansionModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
-      multi: true
-    }
+    { provide: HTTP_INTERCEPTORS,useClass: LoaderInterceptor, multi: true},
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
   ],
   bootstrap: [AppComponent]
 })

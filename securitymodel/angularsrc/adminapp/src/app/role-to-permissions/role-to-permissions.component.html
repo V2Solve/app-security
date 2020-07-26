@@ -22,26 +22,32 @@
                                 {{item.name}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="roleName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="roleName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                     </td>
                     <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Permission</mat-label>
-                            <mat-select [(value)]="permissionName">
+                            <mat-select [formControl]="permissionName">
                               <mat-option *ngFor="let item of viewablePermissions" [value]="item.name">
                                 {{item.name}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="permissionName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="permissionName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                     </td>    
                     <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Allow/Deny?</mat-label>
-                            <mat-select [(value)]="permissionValue">
+                            <mat-select [formControl]="permissionValue">
                               <mat-option *ngFor="let item of permissionValues" [value]="item">
                                 {{item}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="permissionValue.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="permissionValue.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                     </td>
                     <td class="form-cell">
@@ -58,7 +64,7 @@
             <tr>    <!-- Row for buttons-->
                 <td class="form-cell">
                     <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                        <button (click)="updateObject()" mat-icon-button title="Save Record" [disabled]="formGroup.invalid">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                     </span>

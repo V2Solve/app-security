@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { Action,SearchApplicationsRequest, Application, CreateApplicationRequest, DeleteApplicationRequest, RequestStatusInformation, CreateActionRequest, DeleteActionRequest, SecurityActions, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { Observable, pipe } from 'rxjs';
@@ -12,7 +12,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatInput} from '@angular/material/input';
 import {ResultRow,CellInfo} from 'src/app/results-table/results-table.component'
 
-
 @Component({
   selector: 'app-action-mgmt',
   templateUrl: './action-mgmt.component.html',
@@ -20,8 +19,10 @@ import {ResultRow,CellInfo} from 'src/app/results-table/results-table.component'
 })
 export class ActionMgmtComponent extends BaseForm implements OnInit
 {
-  actionName = new FormControl('');
-  actionDescription = new FormControl ('');
+  actionName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  actionDescription = new FormControl ('',[Validators.maxLength(1024)]);
+  formGroup = new FormGroup({"actionName":this.actionName,"actionDescription":this.actionDescription});
+
   appIdentifier: string;
 
   viewableObjects = new Array<Action> ();

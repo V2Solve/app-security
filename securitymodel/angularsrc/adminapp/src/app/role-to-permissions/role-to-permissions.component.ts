@@ -6,7 +6,7 @@ import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-cli
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { timestamp } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-role-to-permissions',
@@ -27,17 +27,19 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
   }
   
   // The selected group name.
-  roleName = new FormControl('');
+  roleName = new FormControl('',[Validators.required]);
+    // selected permission name
+  permissionName = new FormControl('',[Validators.required]);
 
-  // selected permission name
-  permissionName: string;
+  permissionValue = new FormControl('',[Validators.required,Validators.maxLength(50)]); // allow,deny
+
+  formGroup = new FormGroup({"roleName":this.roleName,"permissionName":this.permissionName,"permissionValue":this.permissionValue});
 
   // the selected appidentifier
   appIdentifier: string;
 
   // the selected permission value..
-  permissionValue: string; // allow,deny
-
+  
   permissionValues = ["allow","deny"];
 
   // The roles that are available to be assigned.
@@ -84,8 +86,8 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
   {
      let car = new CreateClientRolePermissionRequest ();
      car.roleName = this.roleName.value;
-     car.permissionName = this.permissionName;
-     car.value = this.permissionValue;
+     car.permissionName = this.permissionName.value;
+     car.value = this.permissionValue.value;
      car.appIdentifier = this.appIdentifier;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
@@ -136,7 +138,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
 
     let scgrr = new SearchClientRolePermissionRequest ();
     scgrr.roleName = this.roleName.value;
-    scgrr.permissionName = this.permissionName;
+    scgrr.permissionName = this.permissionName.value;
     scgrr.appIdentifier = this.appIdentifier;
     this.managementClient.searchClientRolePermissions(scgrr).subscribe(element=>{
 

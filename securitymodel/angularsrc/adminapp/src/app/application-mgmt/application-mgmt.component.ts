@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
 import { SearchApplicationsRequest, Application, CreateApplicationRequest, DeleteApplicationRequest, RequestStatusInformation, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { Observable, pipe } from 'rxjs';
@@ -21,9 +21,11 @@ import {ResultRow,CellInfo} from 'src/app/results-table/results-table.component'
 export class ApplicationMgmtComponent extends BaseForm implements OnInit 
 {
   // Fields on the form
-  appIdentifier = new FormControl('');
-  shortIdentifier = new FormControl('');
-  appDescription = new FormControl('');
+  appIdentifier = new FormControl('',[Validators.required,Validators.maxLength(255)]);
+  shortIdentifier = new FormControl('',[Validators.required,Validators.maxLength(20)]);
+  appDescription = new FormControl('',[Validators.maxLength(1024)]);
+
+  formGroup = new FormGroup({"appIdentifier":this.appIdentifier,"shortIdentifier":this.shortIdentifier,"appDescription":this.appDescription});
 
   callService: CommonCallsService;
   managementClient: SecMgmtApiClientService;

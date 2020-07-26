@@ -14,10 +14,12 @@
         <table >
             <tr> <!-- Row for form elements-->
                     <td class="form-cell">
+                    <mat-form-field>
                         <mat-label>Client Name</mat-label>
-                    </td>
-                    <td class="form-cell">
                         <input type="text" [matAutocomplete]="firstAuto" matInput placeholder="Type client unique Id" [formControl]="clientName" (keypress)="searchClients()">
+                        <mat-error *ngIf="clientName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                        <mat-error *ngIf="clientName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                    </mat-form-field>
                     </td>
                     <td class="form-cell">
                         <mat-autocomplete #firstAuto="matAutocomplete">
@@ -27,7 +29,7 @@
                           </mat-autocomplete>                        
                     </td>                          
                     <td class="form-cell">
-                        <button (click)="searchClient()" mat-icon-button title="Search client">
+                        <button (click)="searchClient()" mat-icon-button title="Search client" [disabled]="formGroup.invalid">
                             Search<mat-icon style="font-size: 24px;" matSuffix>search</mat-icon>
                         </button>
                     </td>

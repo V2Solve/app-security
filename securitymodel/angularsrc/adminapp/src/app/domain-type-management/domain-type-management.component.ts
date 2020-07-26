@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseForm } from '../base-comps/commonforms';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
@@ -14,9 +14,12 @@ import { DomainType, Application, CreateDomainTypeRequest, RequestStatusInformat
 })
 export class DomainTypeManagementComponent extends BaseForm implements OnInit {
 
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
+  
   appIdentifier: string;
+
+  formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription});
 
   viewableObjects = new Array<DomainType> ();
   viewableApps = new Array<Application>();

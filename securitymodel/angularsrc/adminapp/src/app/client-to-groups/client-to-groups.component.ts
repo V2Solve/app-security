@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, ClientGroup, SearchClientGroupRequest, SearchClientRequest, DeleteGroupMembershipRequest, CreateGroupMembershipRequest, SearchClientResponse, AppClient, SecurityActions, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { timestamp, count } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatListOption } from '@angular/material/list';
@@ -21,7 +21,12 @@ import { Timestamp } from 'rxjs/internal/operators/timestamp';
 export class ClientToGroupsComponent extends BaseForm implements OnInit {
 
   // The text field that folks will put search item in.
-  clientName = new FormControl('');
+  clientName = new FormControl('',[Validators.required]);
+  
+  appIdentifier: string;
+
+  formGroup = new FormGroup({"clientName":this.clientName});
+
   clientIdentifier: string = null;
 
   assignedGroupSelected: string;

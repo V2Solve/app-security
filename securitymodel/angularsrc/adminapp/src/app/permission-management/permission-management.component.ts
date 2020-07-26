@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, Permission, CreatePermissionRequest, RequestStatusInformation, DeletePermissionRequest, Action, Resource, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { timestamp } from 'rxjs/operators';
 
 
@@ -16,10 +16,14 @@ import { timestamp } from 'rxjs/operators';
 })
 export class PermissionManagementComponent extends BaseForm implements OnInit 
 {
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
-  actionName: string;
-  resourceName: string;
+
+  actionName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  resourceName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
+
+  formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription,"actionName":this.actionName,"resourceName":this.resourceName});
+  
   appIdentifier: string;
 
   viewableObjects   = new Array<Permission> ();
@@ -57,8 +61,8 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
                     this.appIdentifier = "GLOBAL"
                   else 
                   this.appIdentifier = rr.appIdentifier;
-                  this.actionName = rr.action;
-                  this.resourceName = rr.resource;
+                  this.actionName.setValue(rr.action);
+                  this.resourceName.setValue(rr.resource);
                   this.objectDescription.setValue(rr.description);
                   this.objectName.setValue(rr.name);
                   this.setInfoMessage("Updated selected value..");
@@ -75,8 +79,8 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
      car.name = this.objectName.value;
      car.description = this.objectDescription.value;
      car.appIdentifier = this.appIdentifier;
-     car.actionName = this.actionName;
-     car.resourceName = this.resourceName;
+     car.actionName = this.actionName.value;
+     car.resourceName = this.resourceName.value;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
      this.managementClient.createPermission(car).subscribe(value=>{

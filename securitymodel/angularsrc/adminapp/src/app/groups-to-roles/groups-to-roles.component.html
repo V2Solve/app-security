@@ -22,6 +22,8 @@
                                 {{item.name}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="groupName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="groupName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                     </td>
                     <td class="form-cell">
@@ -32,6 +34,8 @@
                                 {{item.name}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="roleName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="roleName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                     </td>    
                     <td class="form-cell">
@@ -69,7 +73,7 @@
             <tr>    <!-- Row for buttons-->
                 <td class="form-cell">
                   <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                        <button (click)="updateObject()" mat-icon-button title="Save Record" [disabled]="formGroup.invalid">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                   </span>

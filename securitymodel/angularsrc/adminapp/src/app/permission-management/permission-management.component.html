@@ -17,30 +17,38 @@
                     <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Associated Action</mat-label>
-                            <mat-select [(value)]="actionName">
+                            <mat-select [formControl]="actionName">
                               <mat-option *ngFor="let item of viewableActions" [value]="item.actionName">
                                 {{item.actionName}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="actionName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="actionName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                         <br/>
                         <mat-form-field appearance="fill">
                             <mat-label>Associated Resource</mat-label>
-                            <mat-select [(value)]="resourceName">
+                            <mat-select [formControl]="resourceName">
                               <mat-option *ngFor="let item of viewableResources" [value]="item.name">
                                 {{item.name}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="resourceName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="resourceName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                         <br/>
                         <mat-form-field>
                             <mat-label>Permission Name</mat-label>
                             <input matInput placeholder="Unique Name" [formControl]="objectName">
+                            <mat-error *ngIf="objectName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                         <br/>
                         <mat-form-field>
                             <mat-label>Description</mat-label>
                             <textarea matInput placeholder="describe the permission.." [formControl]="objectDescription"></textarea>
+                            <mat-error *ngIf="objectDescription.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectDescription.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                         <br/>
                         <mat-form-field appearance="fill">
@@ -57,14 +65,14 @@
             <tr>    <!-- Row for buttons-->
                 <td class="form-cell">
                       <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                        <button (click)="updateObject()" mat-icon-button title="Save Record" [disabled]="formGroup.invalid">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                       </span>
                 </td>
                 <td class="form-cell">
                   <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="deleteObject()" mat-icon-button title="Delete Record">
+                        <button (click)="deleteObject()" mat-icon-button title="Delete Record" [disabled]="formGroup.invalid">
                             Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
                         </button>
                   </span>

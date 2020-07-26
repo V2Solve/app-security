@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, ScopeType, Scope, CreateScopeRequest, DeleteScopeRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { timestamp } from 'rxjs/operators';
 
 
@@ -17,12 +17,14 @@ import { timestamp } from 'rxjs/operators';
 export class ScopeManagementComponent extends BaseForm implements OnInit {
 
   // The type of Scope that you are creating..
-  scopeType: string;
+  scopeType = new FormControl('',[Validators.required]);
 
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
-  objectValue = new FormControl('');
-
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
+  objectValue = new FormControl('',[Validators.required,Validators.maxLength(1024)]);
+  
+  formGroup = new FormGroup({"scopeType":this.scopeType,"objectName":this.objectName,"objectDescription":this.objectDescription,"objectValue":this.objectValue});
+  
   appIdentifier: string;
 
   viewableObjects     = new Array<Scope> ();
@@ -60,7 +62,7 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
                   else 
                   this.appIdentifier = rr.appIdentifier;
 
-                  this.scopeType = rr.scopeType;
+                  this.scopeType.setValue(rr.scopeType);
 
                   this.objectDescription.setValue(rr.description);
                   this.objectName.setValue(rr.scopeName);
@@ -78,7 +80,7 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
      car.name = this.objectName.value;
      car.description = this.objectDescription.value;
      car.value = this.objectValue.value;
-     car.scopeType = this.scopeType;
+     car.scopeType = this.scopeType.value;
      car.appIdentifier = this.appIdentifier;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;

@@ -5,7 +5,7 @@ import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-cli
 import { Application, AppClient, CreateClientRequest, RequestStatusInformation, DeleteClientRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-client-management',
@@ -14,10 +14,13 @@ import { FormControl } from '@angular/forms';
 })
 export class ClientManagementComponent extends BaseForm implements OnInit {
 
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
+  
   appIdentifier: string;
 
+  formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription});
+  
   viewableObjects = new Array<AppClient> ();
   viewableApps = new Array<Application>();
   currentKey: string;

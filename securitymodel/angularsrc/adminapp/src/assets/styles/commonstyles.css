@@ -94,4 +94,11 @@
 .form-cell
 {
     padding: 10px;
+    padding-bottom: 20px;
+}
+
+.info-block-form-cell
+{
+    padding: 5px;
+    font-size: smaller;
 }

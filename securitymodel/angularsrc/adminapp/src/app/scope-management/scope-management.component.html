@@ -17,26 +17,34 @@
                     <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>ScopeType</mat-label>
-                            <mat-select [(value)]="scopeType">
+                            <mat-select [formControl]="scopeType">
                               <mat-option *ngFor="let item of viewableScopeTypes" [value]="item.name">
                                 {{item.name}}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="scopeType.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="scopeType.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                           </mat-form-field>                        
                         <br/>
                         <mat-form-field>
                             <mat-label>Scope Name</mat-label>
                             <input matInput placeholder="Unique Name" [formControl]="objectName">
+                            <mat-error *ngIf="objectName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                         <br/>
                         <mat-form-field>
                             <mat-label>Value</mat-label>
                             <textarea matInput placeholder="set the values.." [formControl]="objectValue"></textarea>
+                            <mat-error *ngIf="objectValue.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectValue.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                         <br/>
                         <mat-form-field>
                             <mat-label>Description</mat-label>
                             <textarea matInput placeholder="describe the scope.." [formControl]="objectDescription"></textarea>
+                            <mat-error *ngIf="objectDescription.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectDescription.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                         <br/>
                         <mat-form-field appearance="fill">
@@ -53,14 +61,14 @@
             <tr>    <!-- Row for buttons-->
                 <td class="form-cell">
                     <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                        <button (click)="updateObject()" mat-icon-button title="Save Record" [disabled]="formGroup.invalid">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                     </span>
                 </td>
                 <td class="form-cell">
                     <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="deleteObject()" mat-icon-button title="Delete Record">
+                        <button (click)="deleteObject()" mat-icon-button title="Delete Record" [disabled]="formGroup.invalid">
                             Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
                         </button>
                     </span>

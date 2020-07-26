@@ -18,6 +18,8 @@
                         <mat-form-field>
                             <mat-label>Domain Type</mat-label>
                             <input matInput placeholder="Unique Identifier" [formControl]="objectName">
+                            <mat-error *ngIf="objectName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                         <br/>
                         <br/>
@@ -36,14 +38,14 @@
             <tr>    <!-- Row for buttons-->
                 <td class="form-cell">
                     <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="updateObject()" mat-icon-button title="Save Record">
+                        <button (click)="updateObject()" mat-icon-button title="Save Record" [disabled]="formGroup.invalid">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                     </span>
                 </td>
                 <td class="form-cell">
                     <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="deleteObject()" mat-icon-button title="Delete Record">
+                        <button (click)="deleteObject()" mat-icon-button title="Delete Record" [disabled]="formGroup.invalid">
                             Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
                         </button>
                     </span>

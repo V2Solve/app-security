@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, Domain, CreateDomainRequest, RequestStatusInformation, DeleteDomainRequest, DomainType, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { timestamp } from 'rxjs/operators';
 
 @Component({
@@ -15,17 +15,19 @@ import { timestamp } from 'rxjs/operators';
 })
 export class DomainManagementComponent extends BaseForm implements OnInit 
 {
-
   // The type of domain that you are creating..
-  domainType: string;
+  domainType= new FormControl('',[Validators.required]);
 
   // The name of the parent domain if any..
   parentDomain: string;
 
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
-
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
+  
   appIdentifier: string;
+
+  formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription,"domainType":this.domainType});
+ 
 
   viewableObjects     = new Array<Domain> ();
   viewableApps        = new Array<Application>();
@@ -69,8 +71,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
                   this.parentDomain = rr.parentDomain;
 
 
-                  this.domainType = rr.domainType;
-
+                  this.domainType.setValue(rr.domainType);
                   this.objectDescription.setValue(rr.description);
                   this.objectName.setValue(rr.name);
                   this.setInfoMessage("Updated selected value..");
@@ -87,7 +88,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
      car.name = this.objectName.value;
      car.description = this.objectDescription.value;
      car.appIdentifier = this.appIdentifier;
-     car.domainType = this.domainType;
+     car.domainType = this.domainType.value;
      car.parentDomain = this.parentDomain;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;

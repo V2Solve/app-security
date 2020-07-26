@@ -6,7 +6,7 @@ import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-cli
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { timestamp } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-groups-to-roles',
@@ -26,10 +26,10 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   }
   
   // The selected group name.
-  groupName = new FormControl('');
+  groupName = new FormControl('',[Validators.required]);
 
   // Selected role name
-  roleName  = new FormControl ('');
+  roleName  = new FormControl ('',[Validators.required]);
 
   // selected domain name
   domainName = new FormControl ('');
@@ -39,6 +39,8 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
 
   // the selected appidentifier
   appIdentifier = new FormControl ('');
+
+  formGroup = new FormGroup({"groupName":this.groupName,"roleName":this.roleName,"domainName":this.domainName,"scopeName":this.scopeName,"appIdentifier":this.appIdentifier});
 
   // The groups that are viewable by the person.
   viewableGroups: Array<ClientGroup> = new Array<ClientGroup>();

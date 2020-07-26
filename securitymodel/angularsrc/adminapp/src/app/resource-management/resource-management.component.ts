@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResultRow, CellInfo } from '../results-table/results-table.component';
 import { Application, Resource, CreateResourceRequest, RequestStatusInformation, DeleteResourceRequest, SecurityResources } from 'src/assets/domainmodel/appsecuritymodel';
 import { SecMgmtApiClientService } from 'src/assets/domainmodel/sec-mgmt-api-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-resource-management',
@@ -14,8 +14,10 @@ import { FormControl } from '@angular/forms';
 })
 export class ResourceManagementComponent extends BaseForm implements OnInit {
 
-  objectName = new FormControl('');
-  objectDescription = new FormControl ('');
+  objectName = new FormControl('',[Validators.required,Validators.maxLength(50)]);
+  objectDescription = new FormControl ('',[Validators.maxLength(1024)]);
+  formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription});
+  
   appIdentifier: string;
 
   viewableObjects = new Array<Resource> ();

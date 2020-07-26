@@ -18,18 +18,24 @@
                         <mat-form-field>
                             <mat-label>AppIdentifier</mat-label>
                             <input matInput placeholder="unique app identifier" [formControl]="appIdentifier">
+                            <mat-error *ngIf="appIdentifier.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appIdentifier.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                     <br/>
                         <!-- <input type="text" [formControl]="appIdentifier" value="appIdentifier"> -->
                         <mat-form-field>
                             <mat-label>Short Identifier</mat-label>
                             <input matInput placeholder="short identifier" [formControl]="shortIdentifier">
+                            <mat-error *ngIf="shortIdentifier.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="shortIdentifier.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
 
                     <br/>
                         <mat-form-field>
                             <mat-label>App Description</mat-label>
                             <textarea matInput placeholder="describe the app.." [formControl]="appDescription"></textarea>
+                            <mat-error *ngIf="appDescription.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appDescription.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>
                     <br/>
                 </td>
@@ -37,7 +43,7 @@
             <tr>    <!-- Row for buttons-->
                 <td class="form-cell">
                         <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="updateApplication()" mat-icon-button title="Save Application">
+                        <button (click)="updateApplication()" mat-icon-button title="Save Application" [disabled]="formGroup.invalid">
                             Save<mat-icon style="font-size: 24px;">save</mat-icon>
                         </button>
                         </span>
@@ -45,7 +51,7 @@
                 </td>
                 <td class="form-cell">
                         <span  class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
-                        <button (click)="deleteApplication()" mat-icon-button title="Delete Record">
+                        <button (click)="deleteApplication()" mat-icon-button title="Delete Record" [disabled]="formGroup.invalid">
                             Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
                         </button>
                         </span>

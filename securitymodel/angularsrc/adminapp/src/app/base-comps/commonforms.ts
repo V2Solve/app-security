@@ -2,9 +2,15 @@ import { CellInfo, ResultRow } from 'src/app/results-table/results-table.compone
 import { Message } from 'src/app/info-block/info-block.component'
 import { CommonCallsService } from 'src/assets/domainmodel/common-calls.service';
 import { SecurityActions } from 'src/assets/domainmodel/appsecuritymodel';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 
 export class BaseForm
 {
+    /** Error Messages */
+    errorMsgTooManyCharacters: string = "Field has too many characters";
+    errorMsgRequiredField: string = "Field is required.";
+
     formTitle: string = "Base Title";
 
     objectReadPermission   = false;
