@@ -120,6 +120,8 @@ export class ResourceManagementComponent extends BaseForm implements OnInit {
     this.viewableObjects.length=0;
     this.formResults.length = 0;
     this.callService.loadViewableResources().then(values=>{
+    
+      if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableObjects.push(element);
         let ci = new Array<CellInfo> ();
@@ -130,7 +132,10 @@ export class ResourceManagementComponent extends BaseForm implements OnInit {
         let rr = new ResultRow(element.name,ci);
         this.formResults.push(rr);
       })
-      this.dataSource.data=this.formResults;
+    }
+
+    this.dataSource.data=this.formResults;
+
     });
   }
 

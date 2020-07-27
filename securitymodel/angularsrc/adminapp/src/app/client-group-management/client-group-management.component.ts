@@ -111,9 +111,12 @@ export class ClientGroupManagementComponent extends BaseForm implements OnInit {
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
+      if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableApps.push(element);
       })
+     }
+
     });
   }
 
@@ -122,6 +125,7 @@ export class ClientGroupManagementComponent extends BaseForm implements OnInit {
     this.viewableObjects.length=0;
     this.formResults.length = 0;
     this.callService.loadViewableClientGroups().then(values=>{
+      if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableObjects.push(element);
         let ci = new Array<CellInfo> ();
@@ -132,6 +136,7 @@ export class ClientGroupManagementComponent extends BaseForm implements OnInit {
         let rr = new ResultRow(element.name,ci);
         this.formResults.push(rr);
       })
+    }
       this.dataSource.data=this.formResults;
     });
   }

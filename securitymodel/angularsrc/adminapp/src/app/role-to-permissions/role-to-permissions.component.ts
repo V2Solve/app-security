@@ -113,9 +113,13 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
   {
     this.viewableRoles.length = 0;
     this.callService.loadViewableClientRoles().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableRoles.push(element);
       })
+    }
+
     });
   }
 
@@ -123,9 +127,13 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
   {
     this.viewablePermissions.length=0;
     this.callService.loadViewablePermissions().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewablePermissions.push(element);
       })
+    }
+
     });
   }
 
@@ -168,9 +176,13 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableApps.push(element);
       })
+    }
+
     });
   }
  

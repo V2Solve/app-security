@@ -122,9 +122,13 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableApps.push(element);
       })
+    }
+
     });
   }
 
@@ -133,7 +137,8 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
   {
     this.viewableScopeTypes.length = 0;
     this.callService.loadViewableScopeTypes().then(values=>{
-      if (values != null) 
+    
+      if (values != null && values != undefined) 
       {
         values.forEach(element=>{
           this.viewableScopeTypes.push(element);
@@ -148,7 +153,7 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
     this.viewableObjects.length=0;
     this.formResults.length = 0;
     this.callService.loadViewableScopes().then(values=>{
-      if (values != null)
+      if (values != null && values != undefined)
       {
         values.forEach(element=>{
           this.viewableObjects.push(element);

@@ -121,9 +121,13 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableApps.push(element);
       })
+    }
+
     });
   }
 
@@ -132,9 +136,13 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
   {
     this.viewableResources.length = 0;
     this.callService.loadViewableResources().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableResources.push(element);
       })
+    }
+
     });
   }
 
@@ -142,9 +150,13 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
   {
     this.viewableActions.length = 0;
     this.callService.loadViewableActions().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableActions.push(element);
       })
+    }
+
     });
   }
 
@@ -154,6 +166,8 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
     this.viewableObjects.length=0;
     this.formResults.length = 0;
     this.callService.loadViewablePermissions().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableObjects.push(element);
         let ci = new Array<CellInfo> ();
@@ -166,7 +180,10 @@ export class PermissionManagementComponent extends BaseForm implements OnInit
         let rr = new ResultRow(element.name,ci);
         this.formResults.push(rr);
       })
-      this.dataSource.data=this.formResults;
+    }
+
+    this.dataSource.data=this.formResults;
+
     });
   }
 

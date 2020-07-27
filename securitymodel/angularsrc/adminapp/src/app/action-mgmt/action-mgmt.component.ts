@@ -114,10 +114,15 @@ export class ActionMgmtComponent extends BaseForm implements OnInit
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
-      values.forEach(element=>{
-        this.viewableApps.push(element);
-      })
-    });
+      
+      if (values != null && values != undefined)
+      {
+        values.forEach(element=>{
+          this.viewableApps.push(element);
+        })
+      }
+
+    },error=>{this.pushErrorMessage(JSON.stringify(error))});
   }
 
   loadViewableObjects ()
@@ -125,18 +130,21 @@ export class ActionMgmtComponent extends BaseForm implements OnInit
     this.viewableObjects.length=0;
     this.formResults.length = 0;
     this.callService.loadViewableActions().then(values=>{
-      values.forEach(element=>{
-        this.viewableObjects.push(element);
-        let ci = new Array<CellInfo> ();
-        ci.push(new CellInfo(element.actionName));
-        ci.push(new CellInfo(element.actionName));
-        ci.push(new CellInfo(element.actionDescription));
-        ci.push(new CellInfo(element.appIdentifier));
-        let rr = new ResultRow(element.actionName,ci);
-        this.formResults.push(rr);
-      })
+      if (values != null && values != undefined)
+      {
+        values.forEach(element=>{
+          this.viewableObjects.push(element);
+          let ci = new Array<CellInfo> ();
+          ci.push(new CellInfo(element.actionName));
+          ci.push(new CellInfo(element.actionName));
+          ci.push(new CellInfo(element.actionDescription));
+          ci.push(new CellInfo(element.appIdentifier));
+          let rr = new ResultRow(element.actionName,ci);
+          this.formResults.push(rr);
+        })
+      }
       this.dataSource.data=this.formResults;
-    });
+    },error=>{this.pushErrorMessage(JSON.stringify(error))});
   }
 
   ngOnInit(): void 

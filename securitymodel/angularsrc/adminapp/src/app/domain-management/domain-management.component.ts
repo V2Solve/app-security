@@ -132,9 +132,12 @@ export class DomainManagementComponent extends BaseForm implements OnInit
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableApps.push(element);
       })
+    }
+
     });
   }
 
@@ -144,7 +147,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
     this.viewableDomainTypes.length = 0;
     this.callService.loadViewableDomainTypes().then(values=>{
     
-      if (values != null) 
+      if (values != null && values != undefined)  
       {
         values.forEach(element=>{
           this.viewableDomainTypes.push(element);
@@ -161,7 +164,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
     this.viewableParents.push(dom);
     this.callService.loadViewableDomains().then(values=>{
 
-      if (values != null)
+      if (values != null && values != undefined) 
       {
         values.forEach(element=>{
           this.viewableParents.push(element);
@@ -177,7 +180,7 @@ export class DomainManagementComponent extends BaseForm implements OnInit
     this.viewableObjects.length=0;
     this.formResults.length = 0;
     this.callService.loadViewableDomains().then(values=>{
-      if (values != null)
+      if (values != null && values != undefined) 
       {
         values.forEach(element=>{
           this.viewableObjects.push(element);

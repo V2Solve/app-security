@@ -117,7 +117,7 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   {
     this.viewableScopes.length=0;
     this.callService.loadViewableScopes().then(values=>{
-      if (values != null)
+      if (values != null && values != undefined) 
       {
         values.forEach(element=>{
           this.viewableScopes.push(element);
@@ -130,9 +130,13 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   {
     this.viewableGroups.length=0;
     this.callService.loadViewableClientGroups().then(values=>{
+    
+      if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableGroups.push(element);
       })
+    }
+
     });
   }
 
@@ -140,7 +144,7 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   {
     this.viewableDomains.length=0;
     this.callService.loadViewableDomains().then(values=>{
-      if (values != null)
+      if (values != null && values != undefined)
       {
         values.forEach(element=>{
           this.viewableDomains.push(element);
@@ -153,9 +157,13 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   {
     this.viewableRoles.length = 0;
     this.callService.loadViewableClientRoles().then(values=>{
+
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableRoles.push(element);
       })
+    }
+
     });
   }
 
@@ -209,9 +217,13 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
     app.shortIdentifier="GLOBAL";
     this.viewableApps.push(app);
     this.callService.loadViewableApps().then(values=>{
+    
+    if (values != null && values != undefined) {
       values.forEach(element=>{
         this.viewableApps.push(element);
       })
+    }
+
     });
   }
  
