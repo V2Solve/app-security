@@ -108,6 +108,7 @@ import com.v2solve.app.security.sdk.scopedomains.SearchScopeTypeRequest;
 import com.v2solve.app.security.sdk.scopedomains.SearchScopeTypeResponse;
 import com.v2solve.app.security.securitymodel.ClientSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
+import com.v2solve.app.security.securitymodel.PermissionException;
 import com.v2solve.app.security.securitymodel.Scope;
 import com.v2solve.app.security.securitymodel.datalogic.ApplicationDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.ChangeLogDataLogic;

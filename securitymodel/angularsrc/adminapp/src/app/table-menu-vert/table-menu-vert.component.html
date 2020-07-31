@@ -1,0 +1,16 @@
+<div class="{{anyItems()?'hiddenItem':'visibleItem'}}">Nothing to display, no menu items.</div>
+<div class="{{anyItems()?'visibleItem':'hiddenItem'}}">
+<table style="width: auto; table-layout: auto;">
+	<tr *ngFor="let item of menuItems">
+		<td class="table-menu-cell">
+            <center>
+                <a routerLink="{{item.itemLink}}" routerLinkActive="active" title="{{item.itemTitle}}">
+                    <mat-icon aria-hidden="false" class="{{(item.imageLink == undefined || item.imageLink == null)?'hiddenItem':'mat-icon'}}">{{item.imageLink}}</mat-icon>
+                    <br/>
+                    <span style="font-size: smaller;">{{item.itemName}}</span>
+                </a>
+                </center>
+        </td>
+	</tr>
+</table>
+</div>

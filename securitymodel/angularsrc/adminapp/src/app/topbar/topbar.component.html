@@ -1,21 +1,17 @@
-<div id="applogo">
     <table style="width: 100%;">
         <tr>
-            <td style="text-align:  left; width: 10%;">
-                <h2>
-                    <mat-icon style="font-size: 50px;">admin_panel_settings</mat-icon>
-                </h2>
+            <td style="text-align: right; vertical-align: middle; width: 1%; padding-right: 20px;">
+                <mat-icon style="font-size: 40px; align-content: right;">admin_panel_settings</mat-icon>
             </td>
-            <td style="text-align:  left; width: 50%;">
-                <h2>Application Security Management Console</h2>
+            <td style="text-align:  left; vertical-align: middle; width: 60%; font-size: larger;">
+                Application Security Management Console
             </td>
             <td style="text-align: right; font-size: smaller; width: 20%;">
                 Logged user: {{loggedInUser}}
             </td>
-            <td style="width: 10%;">
+            <td style="width: 2%;">
                 <mat-spinner *ngIf="spinBarVisibility" [diameter]="20"></mat-spinner>
             </td>
         </tr>
     </table>
-</div>
 <app-table-menu [menuItems]="allMenuItems"></app-table-menu>

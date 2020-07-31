@@ -21,7 +21,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion'
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { ApplicationMgmtComponent } from './application-mgmt/application-mgmt.component';
 import { ResultsTableComponent } from './results-table/results-table.component';
@@ -45,6 +47,8 @@ import { PermissionManagementComponent } from './permission-management/permissio
 import { LoaderInterceptor } from 'src/app/loader-interceptor';
 import { ChangeLogMgmtComponent } from './change-log-mgmt/change-log-mgmt.component';
 import { DynamicResultsTableComponent } from './dynamic-results-table/dynamic-results-table.component';
+import { SideVerticalMenuComponent } from './side-vertical-menu/side-vertical-menu.component';
+import { TableMenuVertComponent } from './table-menu-vert/table-menu-vert.component';
 
 
 @NgModule({
@@ -71,7 +75,9 @@ import { DynamicResultsTableComponent } from './dynamic-results-table/dynamic-re
     GroupsToRolesComponent,
     PermissionManagementComponent,
     ChangeLogMgmtComponent,
-    DynamicResultsTableComponent
+    DynamicResultsTableComponent,
+    SideVerticalMenuComponent,
+    TableMenuVertComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +97,9 @@ import { DynamicResultsTableComponent } from './dynamic-results-table/dynamic-re
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatToolbarModule,
+    MatSidenavModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,useClass: LoaderInterceptor, multi: true},

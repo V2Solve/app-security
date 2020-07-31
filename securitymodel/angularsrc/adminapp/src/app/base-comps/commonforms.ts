@@ -95,3 +95,18 @@ export class BaseForm
     }
     
 }
+
+export class MenuItem
+{
+    itemName: string;
+    itemTitle: string;
+    itemLink: string;
+    imageLink: string;
+
+    constructor (itemName: string,itemTitle: string,itemLink: string)
+    {
+      this.itemName = itemName;
+      this.itemLink = itemLink;
+      this.itemTitle = itemTitle;
+    }
+}

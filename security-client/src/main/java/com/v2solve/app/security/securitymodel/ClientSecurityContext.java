@@ -4,9 +4,7 @@ package com.v2solve.app.security.securitymodel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.v2solve.app.security.sdk.PermissionException;
 import lombok.Data;
-
 
 
 /**
@@ -516,4 +514,5 @@ public class ClientSecurityContext implements java.io.Serializable
 		domains.addAll(collection.values());
 		return domains;
 	}
+	
 }

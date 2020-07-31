@@ -9,18 +9,14 @@ import { MenuItem } from 'src/app/base-comps/commonforms'
 import { BaseForm } from 'src/app/base-comps/commonforms'
 import {LoaderServiceService} from 'src/app/loader-service.service';
 
-
 @Component({
-  selector: 'app-topbar',
-  templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.css']
+  selector: 'app-side-vertical-menu',
+  templateUrl: './side-vertical-menu.component.html',
+  styleUrls: ['./side-vertical-menu.component.css']
 })
-export class TopbarComponent extends BaseForm implements OnInit 
+export class SideVerticalMenuComponent extends BaseForm implements OnInit 
 {
   apiClient:  ContextMgmtApiClientService;
-  spinBarVisibility: boolean = false;
-
-  loggedInUser: string = "NotloggedIn";
 
   constructor(client: ContextMgmtApiClientService,private loadService: LoaderServiceService)
   { 
@@ -167,33 +163,9 @@ export class TopbarComponent extends BaseForm implements OnInit
 
       this.setUpMenuBasedOnPermission(secApiRequest,resources,menuItems);
   }
-
-  figureOutLoggedInUser ()
-  {
-    let req = new sobjs.SecurityAPIRequest();
-    this.apiClient.getSecurityContext(req).subscribe(element=>{
-      if (element.status.statusCode = sobjs.RequestStatusInformation.standardSuccessCode)
-      {
-      this.loggedInUser = element.clientSecurityContext.client.clientIdentifier;
-      if (this.loggedInUser == null || this.loggedInUser.length<=0)
-        this.loggedInUser = "Unknown.";
-    } else 
-      {
-        this.loggedInUser="Error fetching user info.";
-      }
-      },pipe=>{
-      this.loggedInUser="Error!";
-    })   
-  }
-
+  
   ngOnInit(): void 
   {
-      this.figureOutLoggedInUser ();
       this.figureOutMenutItems();
-      // console.log("Subscribing to the loadService..");
-      this.loadService.httpProgress().subscribe(element=>{
-          this.spinBarVisibility = element;
-      });
   }
-  
 }

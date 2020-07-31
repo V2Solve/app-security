@@ -1,14 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem } from 'src/app/base-comps/commonforms'
 
-
 @Component({
-  selector: 'app-table-menu',
-  templateUrl: './table-menu.component.html',
-  styleUrls: ['./table-menu.component.css']
+  selector: 'app-table-menu-vert',
+  templateUrl: './table-menu-vert.component.html',
+  styleUrls: ['./table-menu-vert.component.css']
 })
-export class TableMenuComponent implements OnInit {
-
+export class TableMenuVertComponent implements OnInit 
+{
   @Input () menuItems: Array<MenuItem>;
 
   constructor() { }
@@ -28,5 +27,4 @@ export class TableMenuComponent implements OnInit {
     else
     return true;
   }
-  
 }
