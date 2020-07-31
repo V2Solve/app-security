@@ -19,6 +19,7 @@ public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEn
 	private Application application;
 	private ClientGroup clientGroup;
 	private ClientRole clientRole;
+	private Boolean propogate;
 	private ResourceDomain resourceDomain;
 	private RoleScope roleScope;
 
@@ -77,6 +78,14 @@ public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEn
 		this.clientRole = clientRole;
 	}
 
+	@Column(nullable=false)
+	public Boolean getPropogate() {
+		return this.propogate;
+	}
+
+	public void setPropogate(Boolean propogate) {
+		this.propogate = propogate;
+	}
 
 	//bi-directional many-to-one association to ResourceDomain
 	@ManyToOne(fetch=FetchType.LAZY)

@@ -3,7 +3,7 @@ package com.v2solve.app.security.sdk.application;
 import com.v2solve.app.security.sdk.BaseResponse;
 import com.v2solve.app.security.sdk.PagingInformation;
 import com.v2solve.app.security.sdk.RequestStatusInformation;
-import com.v2solve.app.security.securitymodel.ClientSecurityContext;
+import com.v2solve.app.security.securitymodel.AppSecurityContext;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,5 +26,5 @@ public class GetSecurityContextResponse extends BaseResponse {
 	}
 	
 	
-	ClientSecurityContext clientSecurityContext;
+	AppSecurityContext clientSecurityContext;
 }

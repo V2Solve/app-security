@@ -106,7 +106,7 @@ import com.v2solve.app.security.sdk.scopedomains.SearchScopeRequest;
 import com.v2solve.app.security.sdk.scopedomains.SearchScopeResponse;
 import com.v2solve.app.security.sdk.scopedomains.SearchScopeTypeRequest;
 import com.v2solve.app.security.sdk.scopedomains.SearchScopeTypeResponse;
-import com.v2solve.app.security.securitymodel.ClientSecurityContext;
+import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.PermissionException;
 import com.v2solve.app.security.securitymodel.Scope;
@@ -161,7 +161,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			Client c = DatalogicUtils.findObject(em, Client.class, identifier, idValue);
 	
@@ -219,7 +219,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			em = getEm();
 			tw = new TransactionWrapper(em);
 			
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -296,7 +296,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			asc.hasPermissionThrowException(action, resource);
 			
 			Application existingApp = DatalogicUtils.findObjectReturnNull(em, Application.class, "appIdentifier", request.getAppIdentifier());
@@ -348,7 +348,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			asc.hasPermissionThrowException(action, resource,Domains.appDomain(request.getAppIdentifier()));
 			
 			Application existingObj = DatalogicUtils.findObject(em, Application.class, "appIdentifier", request.getAppIdentifier());
@@ -396,7 +396,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -470,7 +470,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 
 			Action actionObj = DatalogicUtils.findObject(em, Action.class, identifier, idValue);
 			
@@ -529,7 +529,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -603,7 +603,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 
 			Resource resourceObj = DatalogicUtils.findObject(em, Resource.class, identifier, idValue);
 			
@@ -660,7 +660,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -747,7 +747,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw= new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			Permission resourceObj = DatalogicUtils.findObject(em, Permission.class, identifier, idValue);
 			
@@ -806,7 +806,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -880,7 +880,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			ClientGroup resourceObj = DatalogicUtils.findObject(em, ClientGroup.class, identifier, idValue);
 			
@@ -944,7 +944,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper (em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -1014,7 +1014,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 //		{
 //			em = getEm();
 //			tw = new TransactionWrapper(em);
-//			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+//			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 //
 //			// do business logic..
 //			
@@ -1057,7 +1057,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper (em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			String appIdentifier= null;
 			String clientId = request.getClientIdentifier();
@@ -1139,7 +1139,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		try
 		{
 			em = getEm();
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			// Lets check to see if the customer has access to only the applications that it created, or all applications..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.APPLICATION);
 			// Cool, so the person does have access to be able to read the application..
@@ -1189,7 +1189,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.ACTION);
@@ -1241,7 +1241,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.PERMISSION);
@@ -1295,7 +1295,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.RESOURCE);
@@ -1347,7 +1347,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.CLIENT);
@@ -1404,7 +1404,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			String forAction      = SecurityActions.READ;
 			String forResource     = SecurityResources.CLIENT_GROUP;
@@ -1493,7 +1493,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.CLIENT_ROLE);
@@ -1545,7 +1545,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.CLIENT_ROLE);
@@ -1597,7 +1597,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.SCOPE_TYPE);
@@ -1652,7 +1652,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -1724,7 +1724,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -1795,7 +1795,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -1868,7 +1868,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			ClientRole c = DatalogicUtils.findObject(em, ClientRole.class, identifier, idValue);
 	
@@ -1928,7 +1928,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			ResourceDomainType c = DatalogicUtils.findObject(em, ResourceDomainType.class, identifier, idValue);
 	
@@ -1988,7 +1988,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			ScopeType c = DatalogicUtils.findObject(em, ScopeType.class, identifier, idValue);
 	
@@ -2046,7 +2046,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -2146,7 +2146,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			ResourceDomain c = DatalogicUtils.findObject(em, ResourceDomain.class, identifier, idValue);
 	
@@ -2201,7 +2201,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.RESOURCE_DOMAIN);
@@ -2268,7 +2268,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -2346,7 +2346,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		{
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.ROLE_SCOPE);
@@ -2403,7 +2403,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 
 			RoleScope resourceObj = DatalogicUtils.findObject(em, RoleScope.class, identifier, idValue);
 			
@@ -2461,7 +2461,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -2554,7 +2554,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check at a global level..
 			asc.hasPermissionThrowException(action, resource);
@@ -2662,7 +2662,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check at a global level..
 			asc.hasPermissionThrowException(action, resource);
@@ -2692,7 +2692,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				String domainName = cgr.getResourceDomain()==null?null:cgr.getResourceDomain().getName();
 				String scopeName  = cgr.getRoleScope()==null?null:cgr.getRoleScope().getName();
 				String appIdentifier = cgr.getApplication()==null?null:cgr.getApplication().getAppIdentifier();
-				com.v2solve.app.security.securitymodel.ClientGroupRole newCgr = new com.v2solve.app.security.securitymodel.ClientGroupRole(""+cgr.getId(), groupName, roleName, domainName, scopeName, appIdentifier);
+				boolean propogate = cgr.getPropogate ();
+				com.v2solve.app.security.securitymodel.ClientGroupRole newCgr = new com.v2solve.app.security.securitymodel.ClientGroupRole(""+cgr.getId(), groupName, roleName, domainName, scopeName, appIdentifier,propogate);
 				// Lets check scope before adding this in the list..
 				boolean toAdd = true;
 				if (!allGroups && !ownGroups) 
@@ -2746,7 +2747,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
@@ -2819,7 +2820,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check at a global level..
 			asc.hasPermissionThrowException(action, resource);
@@ -2908,7 +2909,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check at a global level..
 			asc.hasPermissionThrowException(action, resource);
@@ -2982,7 +2983,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			em = getEm();
 			tw = new TransactionWrapper(em);
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
 			// Lets check at a global level..
 			asc.hasPermissionThrowException(action, resource);

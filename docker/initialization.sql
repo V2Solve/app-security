@@ -143,6 +143,7 @@ CREATE TABLE CLIENT_GROUP_ROLES (
                 RESOURCE_DOMAIN_id INTEGER,
                 ROLE_SCOPE_id INTEGER,
                 APPLICATION_id INTEGER,
+                propogate BOOLEAN NOT NULL,
                 CONSTRAINT client_group_roles_pkid PRIMARY KEY (id)
 );
 COMMENT ON TABLE CLIENT_GROUP_ROLES IS 'The roles assigned to this group.';

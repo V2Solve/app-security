@@ -31,4 +31,9 @@ public class ClientGroupRole {
 	// Owning app for this association.
 	String appIdentifier;
 	
+	/**
+	 * If this flag is true - it means that the permission should propogate down
+	 * the domain hierarchy. If false, then it should only be applicable to the domain where it is assigned. 
+	 */
+	boolean propogate;
 }

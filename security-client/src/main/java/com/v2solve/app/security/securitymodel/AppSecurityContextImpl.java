@@ -14,7 +14,7 @@ import lombok.Data;
  *
  */
 @Data
-public class ClientSecurityContext implements java.io.Serializable
+public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityContext
 {
 	/**
 	 * 
@@ -47,7 +47,7 @@ public class ClientSecurityContext implements java.io.Serializable
 	// The key of the hashmap is the rolename..
 	HashMap<String, List<Permit>> permitsBecauseOfRoles = new HashMap<>();
 			
-	public ClientSecurityContext (AppClient client,List<Permit> permissions)
+	public AppSecurityContextImpl (AppClient client,List<Permit> permissions)
 	{
 		this.client = client;
 		this.permissions = permissions;

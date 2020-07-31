@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.v2solve.app.security.securitymodel.ClientSecurityContext;
+import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.datalogic.SecurityDataLogic;
 
 import com.v2solve.app.security.utility.StringUtils;
@@ -30,7 +30,7 @@ public class SdkUtils
 	 * @return
 	 * @throws Security Exception if it cannot create a security context, because of whatever reason (if client id is not provided for example, or not found)
 	 */
-	static ClientSecurityContext getClientSecurityContextForRequest(EntityManager em,BaseRequest br) 
+	static AppSecurityContext getClientSecurityContextForRequest(EntityManager em,BaseRequest br) 
 	{
 		String clientId = br.getCallingClientId();
 		if (StringUtils.isNullOrZeroLength(clientId))
@@ -48,7 +48,7 @@ public class SdkUtils
 		}
 		
 		List<String> additionalGroups = br.getGroups();
-		ClientSecurityContext asc = SecurityDataLogic.readAppSecurityContextForClient(em, clientId, additionalGroups);
+		AppSecurityContext asc = SecurityDataLogic.readAppSecurityContextForClient(em, clientId, additionalGroups);
 		return asc;
 	}
 	

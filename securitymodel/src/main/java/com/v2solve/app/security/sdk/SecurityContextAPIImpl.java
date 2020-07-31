@@ -9,7 +9,7 @@ import com.v2solve.app.security.sdk.application.GetSecurityContextRequest;
 import com.v2solve.app.security.sdk.application.GetSecurityContextResponse;
 import com.v2solve.app.security.sdk.application.SecurityAPIRequest;
 import com.v2solve.app.security.sdk.application.SecurityAPIResponse;
-import com.v2solve.app.security.securitymodel.ClientSecurityContext;
+import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.Scope;
 
@@ -76,7 +76,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String action = request.getAction();
 			
 			String [] resources = request.getResources();
@@ -125,7 +125,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String action = request.getAction();
 			String resource = request.getResource();
 			Domain rd = verifyResourceDomain(request.getResourceDomain());
@@ -165,7 +165,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String action = request.getAction();
 			String resource = request.getResource();
 			Domain rd = verifyResourceDomain(request.getResourceDomain());
@@ -201,7 +201,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String action = request.getAction();
 			String resource = request.getResource();
 			Domain rd = verifyResourceDomain(request.getResourceDomain());
@@ -237,7 +237,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String action = request.getAction();
 			String resource = request.getResource();
 			Domain rd = verifyResourceDomain(request.getResourceDomain());
@@ -273,7 +273,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String action = request.getAction();
 			String resource = request.getResource();
 			Domain rd = verifyResourceDomain(request.getResourceDomain());
@@ -315,7 +315,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String roleName = request.getRoleName();
 			
 			if (StringUtils.isNullOrZeroLength(roleName))
@@ -347,7 +347,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			String groupName = request.getGroupName();
 			
 			if (StringUtils.isNullOrZeroLength(groupName))
@@ -378,7 +378,7 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		EntityManager em = getEm();
 		try
 		{
-			ClientSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			GetSecurityContextResponse gscr = new GetSecurityContextResponse(RequestStatusInformation.SUCCESS);
 			gscr.setClientSecurityContext(asc);
 			return gscr;
