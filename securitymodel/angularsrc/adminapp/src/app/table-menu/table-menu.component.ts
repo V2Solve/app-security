@@ -7,8 +7,8 @@ import { MenuItem } from 'src/app/base-comps/commonforms'
   templateUrl: './table-menu.component.html',
   styleUrls: ['./table-menu.component.css']
 })
-export class TableMenuComponent implements OnInit {
-
+export class TableMenuComponent implements OnInit 
+{
   @Input () menuItems: Array<MenuItem>;
 
   constructor() { }
@@ -28,5 +28,5 @@ export class TableMenuComponent implements OnInit {
     else
     return true;
   }
-  
+
 }
