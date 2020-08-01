@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.v2solve.app.security</groupId>
-  <artifactId>securitymodel</artifactId>
+  <artifactId>app-security-rest-app</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>securitymodel</name>
+  <name>app-security-rest-app</name>
   <url>http://maven.apache.org</url>
 
 	<parent>
@@ -28,13 +28,13 @@
   	
   	<dependency>
      <groupId>com.v2solve.app.security</groupId>
-     <artifactId>securityjpa</artifactId>
+     <artifactId>app-security-jpa</artifactId>
      <version>0.0.1-SNAPSHOT</version>
   	</dependency>
   
     <dependency>	
 	 <groupId>com.v2solve.app.security</groupId>
-	 <artifactId>security-client</artifactId>
+	 <artifactId>app-security-client-java</artifactId>
 	 <version>0.0.1-SNAPSHOT</version>
 	</dependency>
     	
