@@ -137,6 +137,13 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 	}
 	
 	
+	/**
+	 * This is the key Crucial Method, which determines, whether a permission is allowed based on action, resource and or domain..
+	 * @param action
+	 * @param resource
+	 * @param domain
+	 * @return
+	 */
 	boolean isAllowed (String action,String resource,Domain domain)
 	{
 		PermitKey pkey = new PermitKey(action, resource);
@@ -152,11 +159,28 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 			for (String domainKey: deniedPermissionsOnDomain.keySet())
 			{
 				Domain d = involvedDomains.get(domainKey);
-				if (d.isPartOfHiearchy(domain.getName()))
+				HashMap<String, Permit> deniedPermits = deniedPermissionsOnDomain.get(domainKey);
+				if (deniedPermits != null)
 				{
-					HashMap<String, Permit> denials = deniedPermissionsOnDomain.get(domainKey);
-					if (denials.containsKey(permitKey))
-						return false;	// Explicit Denial
+					for (Permit p: deniedPermits.values())
+					{
+						if (p.getPermitKey().getKey().equals(permitKey))
+						{
+							// Lets check if we have to give an explicit Denial
+							if (p.isPropogate())
+							{
+								if (d.isPartOfHiearchy(domain.getName()))
+								{
+									return false;
+								}
+							}
+							else
+							{
+								if (d.getName().equals(domain.getName()))
+									return false;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -170,11 +194,28 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 			for (String domainKey: allowedPermissionsOnDomain.keySet())
 			{
 				Domain d = involvedDomains.get(domainKey);
-				if (d.isPartOfHiearchy(domain.getName()))
+				HashMap<String, Permit> allowedPermits = allowedPermissionsOnDomain.get(domainKey);
+				if (allowedPermits != null)
 				{
-					HashMap<String, Permit> allows = allowedPermissionsOnDomain.get(domainKey);
-					if (allows.containsKey(permitKey))
-						return true;	// Allowed.
+					for (Permit p: allowedPermits.values())
+					{
+						if (p.getPermitKey().getKey().equals(permitKey))
+						{
+							// Lets check if we have to give an explicit Denial
+							if (p.isPropogate())
+							{
+								if (d.isPartOfHiearchy(domain.getName()))
+								{
+									return true;
+								}
+							}
+							else
+							{
+								if (d.getName().equals(domain.getName()))
+									return true;
+							}
+						}
+					}
 				}
 			}
 		}

@@ -83,6 +83,7 @@ public class RelationDataLogic
 		objToCreate.setApplication(app);
 		objToCreate.setResourceDomain(rd);
 		objToCreate.setRoleScope(rs);
+		objToCreate.setPropogate(Boolean.valueOf(request.isPropogate()));
 		JPAUtils.createObject(em, objToCreate);
 		return objToCreate;
 	}

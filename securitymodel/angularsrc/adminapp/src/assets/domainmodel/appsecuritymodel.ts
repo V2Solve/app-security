@@ -78,6 +78,9 @@ export class ClientGroupRole {
 	
 	// Name of the domain if any is associated at this level.
 	domainName: string;
+
+	// Whether it is supposed to be propogated or not..
+	propogate: boolean;
 	
 	// Name of the scope if any associated.
 	scopeName: string;
@@ -751,6 +754,9 @@ export class CreateClientGroupRoleRequest extends BaseRequest
 		
 		// The domain
 		domainName: string;
+
+		// Propogation:
+		propogate: boolean;
 		
 		// The scope
 		scopeName: string;

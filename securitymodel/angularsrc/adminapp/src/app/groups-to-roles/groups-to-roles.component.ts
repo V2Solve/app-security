@@ -34,13 +34,18 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   // selected domain name
   domainName = new FormControl ('');
 
+  // Propogate or not ?
+  propogate = new FormControl ('');
+
+  propogateValues: string[] = ["Yes","No"];
+
   // scope name - selected scope name
   scopeName = new FormControl ('');
 
   // the selected appidentifier
   appIdentifier = new FormControl ('');
 
-  formGroup = new FormGroup({"groupName":this.groupName,"roleName":this.roleName,"domainName":this.domainName,"scopeName":this.scopeName,"appIdentifier":this.appIdentifier});
+  formGroup = new FormGroup({"groupName":this.groupName,"roleName":this.roleName,"domainName":this.domainName,"propogate":this.propogate,"scopeName":this.scopeName,"appIdentifier":this.appIdentifier});
 
   // The groups that are viewable by the person.
   viewableGroups: Array<ClientGroup> = new Array<ClientGroup>();
@@ -58,7 +63,7 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
 
   currentKey: string;
   
-  displayedColumns = ['Select','GroupName','RoleName','Domain','Scope','Owner App'];
+  displayedColumns = ['Select','GroupName','RoleName','Domain','Propogate','Scope','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   rowSelected (key: string)
@@ -92,6 +97,10 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
      car.domainName = this.domainName.value;
      car.scopeName = this.scopeName.value;
      car.roleName = this.roleName.value;
+     if (this.propogate.value == "Yes")
+     car.propogate = true;
+     else 
+     car.propogate = false;
      car.appIdentifier = this.appIdentifier.value;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
@@ -181,6 +190,10 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
         ci.push(new CellInfo(cgr.groupName));
         ci.push(new CellInfo(cgr.roleName));
         ci.push(new CellInfo(cgr.domainName));
+        if (cgr.propogate == true)
+        ci.push(new CellInfo("Yes"))
+        else
+        ci.push(new CellInfo("No"))
         ci.push(new CellInfo(cgr.scopeName));
         ci.push(new CellInfo(cgr.appIdentifier));
         let rr = new ResultRow(cgr.key,ci);

@@ -24,4 +24,5 @@ public class Permit implements java.io.Serializable
 	String role;		    // The roles because of which this permission is available..
 	String group;			// The group because of which this permission is available..
 	Scope scope;			// The scope of this permit.
+	boolean propogate;		// Whether the permission is to be propogated down the Domain Hiearchy or not..
 }

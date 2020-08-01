@@ -31,11 +31,6 @@ public class Domain implements Serializable
 	String domainType;
 	
 	/**
-	 * Parent DOmain
-	 */
-	String parentDomain;
-	
-	/**
 	 * Description
 	 */
 	String description;
@@ -46,22 +41,29 @@ public class Domain implements Serializable
 	String appIdentifier;
 	
 	
-	HashMap<String, String> hiearchyMap = new HashMap<>();
+	/**
+	 * Parent DOmain
+	 */
+	Domain parentDomain;
+
+	/**
+	 * The descendants of this domain.
+	 */
+	HashMap<String, Domain> childDomains = new HashMap<>();
+	
 	
 	public Domain(String domainName,String domainType) 
 	{
 		this.name = domainName;
 		this.domainType = domainType;
-		hiearchyMap.put(domainName,"R");
+		parentDomain = null;
 	}
 
 	public Domain(String domainName,String domainType,Domain parent,String description,String appIdentifier) 
 	{
 		this.name = domainName;
 		this.domainType = domainType;
-		hiearchyMap.put(domainName,"R");
-		if (parent != null)
-			this.parentDomain = parent.getName(); 
+		this.parentDomain = parent; 
 		this.description = description;
 		this.appIdentifier = appIdentifier;
 	}
@@ -70,18 +72,34 @@ public class Domain implements Serializable
 	{
 		if (!getDomainType().equals(child.getDomainType()))
 			throw new RuntimeException ("The child domain type " + child.getDomainType() + " is different from the parent domain type: " + getDomainType());
-		hiearchyMap.put(child.getName(), "C");
-		child.setParentDomain(this.getName());
+		
+		childDomains.put(child.getName(), child);
+		child.setParentDomain(this);
 	}
 	
 	/**
 	 * will return true if this domain is a part of the hiearchy 
-	 * @param domain
+	 * @param domainName
 	 * @return
 	 */
-	public boolean isPartOfHiearchy (String domain)
+	public boolean isPartOfHiearchy (String domainName)
 	{
-		return (hiearchyMap.containsKey(domain));
+		if (this.name.equals(domainName))
+			return true;
+		
+		if (childDomains != null && childDomains.containsKey(domainName))
+			return true;
+		
+		if (childDomains != null)
+		{
+			for (Domain cd: childDomains.values())
+			{
+				if (cd.isPartOfHiearchy(domainName))
+					return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	

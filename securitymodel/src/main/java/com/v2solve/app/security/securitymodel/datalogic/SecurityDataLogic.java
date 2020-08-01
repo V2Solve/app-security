@@ -138,6 +138,7 @@ public class SecurityDataLogic
 				{
 					for (ClientGroupRole cgr : clientGroupRoles)
 					{
+						boolean propogate = cgr.getPropogate();
 						RoleScope rs  = cgr.getRoleScope();
 						ClientRole cr = cgr.getClientRole();
 						String roleName = cr.getName();
@@ -163,7 +164,7 @@ public class SecurityDataLogic
 								boolean allowed = permissionValue.startsWith("allow") || permissionValue.contains("allow");
 								
 								PermitKey pKey = new PermitKey(action,resource);
-								Permit permit = new Permit(pKey,allowed,roleDomain,roleName,groupName,scope);
+								Permit permit = new Permit(pKey,allowed,roleDomain,roleName,groupName,scope,propogate);
 								listOfPermissions.add(permit);
 							}
 						}

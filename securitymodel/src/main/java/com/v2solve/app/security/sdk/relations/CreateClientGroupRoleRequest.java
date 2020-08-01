@@ -23,6 +23,9 @@ public class CreateClientGroupRoleRequest extends BaseRequest {
 	// The domain
 	String domainName;
 	
+	// Whether this should be propogated down.
+	boolean propogate;
+	
 	// The scope
 	String scopeName;
 	
