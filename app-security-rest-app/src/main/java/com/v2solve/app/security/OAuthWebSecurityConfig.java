@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * Use this class as configuration to enable oauth type web security. (meaning a logon page will be provided for logging on).
@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 // @Configuration
-@Slf4j
 public class OAuthWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
