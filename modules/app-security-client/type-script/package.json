@@ -1,0 +1,21 @@
+{
+  "name": "app-security-client",
+  "version": "1.0.0",
+  "description": "This is a module that contains typescript code for app-security",
+  "main": "lib/index.js",
+  "types": "lib",
+    "scripts": {
+    "build": "tsc -p .",
+    "test": "echo \"Error: no test specified\""
+  },
+  "author": "Saurin Magiawala",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@angular/common": "^10.0.0",
+    "@angular/core": "^10.0.0",
+    "rxjs": "^6.5.5"
+  }
+}

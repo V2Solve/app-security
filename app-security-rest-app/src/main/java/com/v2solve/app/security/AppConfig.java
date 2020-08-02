@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.v2solve.app.security.sdk.SecurityManagementAPI;
 import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
-
-import lombok.NoArgsConstructor;
-
 import com.v2solve.app.security.sdk.SecurityContextAPI;
 import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
 
@@ -21,7 +18,6 @@ import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
  *
  */
 @Configuration
-@NoArgsConstructor
 public class AppConfig 
 {
 	
