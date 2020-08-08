@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.sdk.PagingInformation;
@@ -123,12 +125,20 @@ public class ApplicationDataLogic
 		
 		if (!StringUtils.isNullOrZeroLength(searchApplicationRequest.getAppIdentifier()))
 		{
-			Path<String> namePath = root.get("appIdentifier");
+			Path<String> namePath = root.get(DatalogicUtils.APP_IDENTIFIER_PROPERTY);
 			namePC = cb.like(namePath, "%"+searchApplicationRequest.getAppIdentifier()+"%");
 			finalPredicate = namePC;
 		}
-	
-		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
+		
+		{
+			Path<String> namePath = root.get(DatalogicUtils.APP_IDENTIFIER_PROPERTY);
+			In<String> inClause = cb.in(namePath);
+			Predicate inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
+			if (finalPredicate == null)
+				finalPredicate = inApps;
+			else
+				finalPredicate = cb.and(finalPredicate,inApps);
+		}
 
 		if (finalPredicate != null)
 		cq.where(finalPredicate);

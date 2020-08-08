@@ -21,7 +21,7 @@ public class Permit implements java.io.Serializable
 	boolean allowed;		// whether this is an allowed permission, or a deny..
 	Domain domain;	        // The domains at which this permit key applies. if null, this is a root domainless permission
 							// meaning applies at all domains.
-	String role;		    // The roles because of which this permission is available..
+	String role;		    // The role because of which this permission is available..
 	String group;			// The group because of which this permission is available..
 	Scope scope;			// The scope of this permit.
 	boolean propogate;		// Whether the permission is to be propogated down the Domain Hiearchy or not..

@@ -189,7 +189,8 @@ export class DomainManagementComponent extends BaseForm implements OnInit
   {
     this.viewableObjects.length=0;
     this.formResults.length = 0;
-    this.callService.loadViewableDomains().then(values=>{
+    this.callService.loadViewableDomains().then(values=>
+    {
       if (values != null && values != undefined) 
       {
         values.forEach(element=>{
@@ -198,7 +199,14 @@ export class DomainManagementComponent extends BaseForm implements OnInit
           ci.push(new CellInfo(element.name));
           ci.push(new CellInfo(element.name));
           ci.push(new CellInfo(element.domainType));
-          ci.push(new CellInfo(element.parentDomain.name));
+          if (element.parentDomain != null && element.parentDomain != undefined)
+          {
+            ci.push(new CellInfo(element.parentDomain.name));
+          }
+          else
+          {
+            ci.push(new CellInfo("<ROOT>"));
+          }
           ci.push(new CellInfo(element.description));
           ci.push(new CellInfo(element.appIdentifier));
           let rr = new ResultRow(element.name,ci);

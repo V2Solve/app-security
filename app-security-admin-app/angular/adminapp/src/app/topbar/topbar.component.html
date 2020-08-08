@@ -6,8 +6,12 @@
             <td style="text-align:  left; vertical-align: middle; width: 60%; font-size: larger;">
                 Application Security Management Console
             </td>
-            <td style="text-align: right; font-size: smaller; width: 20%;">
+            <td style="text-align: right; font-size: smaller; width: 20%; vertical-align: middle;">
                 Logged user: {{loggedInUser}}
+                &nbsp;
+                <a href="window.href.location='/logout'" title="logout">
+                    <mat-icon style="font-size:16px; align-content: right; vertical-align: middle;">exit_to_app</mat-icon>
+                </a>
             </td>
             <td style="width: 2%;">
                 <mat-spinner *ngIf="spinBarVisibility" [diameter]="20"></mat-spinner>

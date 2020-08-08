@@ -27,10 +27,10 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 	// The list of Permissions that are present for this client.
 	List<Permit> permissions;
 	
-	// Key is DomainKey for outer hashmap
+	// Key is permitkey for outer hashmap, and permit key for inner hashMap.
 	HashMap<String, HashMap<String,Permit>> allowedPermissionsOnDomain = new HashMap<>();
 	
-	//Key is domainKey name for outer hashmap
+	//Key is permitKey name for outer hashmap and domain Key for inner hashmap
 	HashMap<String, HashMap<String,Permit>> deniedPermissionsOnDomain = new HashMap<>();
 	
 	HashMap<String, Permit> allowedPermissions = new HashMap<>();
@@ -138,13 +138,12 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 	
 	
 	/**
-	 * This is the key Crucial Method, which determines, whether a permission is allowed based on action, resource and or domain..
+	 * Returns true if it is allowed on any domain..
 	 * @param action
 	 * @param resource
-	 * @param domain
 	 * @return
 	 */
-	boolean isAllowed (String action,String resource,Domain domain)
+	boolean isAllowedOnAnyDomain (String action,String resource)
 	{
 		PermitKey pkey = new PermitKey(action, resource);
 		String permitKey = pkey.getKey();
@@ -153,20 +152,56 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		if (deniedPermissions.containsKey(permitKey))
 			return false; // Explicit Denial
 		
-		// Now let us find out if there is any domain level deny for this domain..
-		if (domain != null && deniedPermissionsOnDomain.size() > 0)
+		// Okay now lets check if there is explicit allowed at a global level.
+		if (allowedPermissions.containsKey(permitKey))
+			return true;  // allowed without respect to any resourcedomain
+
+		if (allowedPermissionsOnDomain != null)
 		{
-			for (String domainKey: deniedPermissionsOnDomain.keySet())
+			if (allowedPermissionsOnDomain.containsKey(permitKey))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * This is the key Crucial Method, which determines, whether a permission is allowed based on action, resource and or domain..
+	 * @param action
+	 * @param resource
+	 * @param domain
+	 * @return
+	 */
+	boolean isAllowed (String action,String resource,Domain domain)
+	{
+		// If a domain is not passed, then return true if it is allowed on any domain..
+		if (domain == null)
+			return isAllowedOnAnyDomain(action, resource);
+		
+		PermitKey pkey = new PermitKey(action, resource);
+		String permitKey = pkey.getKey();
+		
+		// Lets see if there is any root level permissions for deny..
+		if (deniedPermissions.containsKey(permitKey))
+			return false; // Explicit Denial
+		
+		// Now let us find out if there is any domain level deny for this domain..
+		if (deniedPermissionsOnDomain.size() > 0)
+		{
+			for (String key: deniedPermissionsOnDomain.keySet())
 			{
-				Domain d = involvedDomains.get(domainKey);
-				HashMap<String, Permit> deniedPermits = deniedPermissionsOnDomain.get(domainKey);
-				if (deniedPermits != null)
+				HashMap<String, Permit> deniedPermitsOnDomains = deniedPermissionsOnDomain.get(key);
+				if (deniedPermitsOnDomains != null)
 				{
-					for (Permit p: deniedPermits.values())
+					for (Permit p: deniedPermitsOnDomains.values())
 					{
 						if (p.getPermitKey().getKey().equals(permitKey))
 						{
 							// Lets check if we have to give an explicit Denial
+							
+							// Lets find out the domain..
+							Domain d = p.getDomain();
+							
 							if (p.isPropogate())
 							{
 								if (d.isPartOfHiearchy(domain.getName()))
@@ -189,18 +224,20 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		if (allowedPermissions.containsKey(permitKey))
 			return true;  // allowed without respect to any resourcedomain
 		
-		if (domain != null && allowedPermissionsOnDomain.size() > 0)
+		if (allowedPermissionsOnDomain.size() > 0)
 		{
-			for (String domainKey: allowedPermissionsOnDomain.keySet())
+			for (String key: allowedPermissionsOnDomain.keySet())
 			{
-				Domain d = involvedDomains.get(domainKey);
-				HashMap<String, Permit> allowedPermits = allowedPermissionsOnDomain.get(domainKey);
-				if (allowedPermits != null)
+				HashMap<String, Permit> allowedPermitOnDomains = allowedPermissionsOnDomain.get(key);
+				
+				if (allowedPermitOnDomains != null)
 				{
-					for (Permit p: allowedPermits.values())
+					for (Permit p: allowedPermitOnDomains.values())
 					{
 						if (p.getPermitKey().getKey().equals(permitKey))
 						{
+							Domain d = p.getDomain();
+							
 							// Lets check if we have to give an explicit Denial
 							if (p.isPropogate())
 							{
@@ -552,8 +589,19 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		}
 		
 		List<String> domains = new ArrayList<>();
-		domains.addAll(collection.values());
+		domains.addAll(collection.keySet());
 		return domains;
+	}
+
+
+	@Override
+	public void checkNoLimitingDomain(String action, String resource, String domainType) 
+	{
+		List<String> domains = hasPermissionReturnLimitingDomains(action, resource, domainType);
+		if (domains == null || domains.isEmpty())
+			return; // all good.
+		
+		throw new PermissionException("Permission for " + action + " on " + resource + " is limited for domainType: " + domainType);
 	}
 	
 }

@@ -8403,7 +8403,7 @@ const environment = {
     production: false,
     contextApiBaseUrl: "http://localhost:8080/v1/contextapi",
     managementApiBaseUrl: "http://localhost:8080/v1/managementapi",
-    username: "saurinya@gmail.com",
+    username: "",
     password: "admin"
 };
 /*

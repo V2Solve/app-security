@@ -1,13 +1,13 @@
 <title>Manage Applications</title>
 <app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
 <p></p>
+<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
 <table class="section-title">
     <tr>
         <td class="section-heading">{{formTitle}}</td>
     </tr>
 </table>
 <p></p>
-<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
 <table>
 <tr>
     <td>
@@ -72,5 +72,5 @@
         <td class="section-title">Existing Applications</td>
     </tr>
 </table>
-<app-results-table (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>
+<app-results-table [selectFunction]="isCreateOrDeletePermission()" (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>
 </span>

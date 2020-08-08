@@ -71,9 +71,8 @@ export class ScopeManagementComponent extends BaseForm implements OnInit {
                     this.appIdentifier = "GLOBAL"
                   else 
                   this.appIdentifier = rr.appIdentifier;
-
                   this.scopeType.setValue(rr.scopeType);
-
+                  this.objectValue.setValue(rr.scopeValue);
                   this.objectDescription.setValue(rr.description);
                   this.objectName.setValue(rr.scopeName);
                   this.setInfoMessage("Updated selected value..");

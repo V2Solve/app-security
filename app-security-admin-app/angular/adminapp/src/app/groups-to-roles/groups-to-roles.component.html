@@ -1,13 +1,13 @@
 <title>{{formTitle}}</title>
 <app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
 <p></p>
+<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
 <table class="section-title">
     <tr>
         <td class="section-heading">{{formTitle}}</td>
     </tr>
 </table>
 <p></p>
-<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
 <table>
 <tr>
     <td>

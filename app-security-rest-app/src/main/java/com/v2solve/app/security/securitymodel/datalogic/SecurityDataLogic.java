@@ -77,7 +77,13 @@ public class SecurityDataLogic
 		
 		List<Client> clients = tq.getResultList();
 		if (clients == null || clients.isEmpty())
-			throw new DataLogicValidationException("Client: " + clientIdentifier + " not found.");
+		{
+			List<Permit> permissions = new ArrayList<>();
+			AppClient ac = new AppClient(clientIdentifier, "Not in System", null);
+			AppSecurityContextImpl asci=new AppSecurityContextImpl(ac, permissions);
+			return asci;		// Lets just return an empty permission security context, the client is not in the system.
+			// throw new DataLogicValidationException("Client: " + clientIdentifier + " not found.");
+		}
 		else if (clients.size() > 1)
 			throw new DataLogicValidationException("Multiple clients: " + clientIdentifier + " found !");
 		

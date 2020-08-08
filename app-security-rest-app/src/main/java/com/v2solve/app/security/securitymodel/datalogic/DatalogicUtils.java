@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -90,13 +91,14 @@ public class DatalogicUtils
 		if (limitingAppDomains != null && !limitingAppDomains.isEmpty())
 		{
 			// We will have to join the table..
-			Join<T,Application> forApps = root.join(appProperty);
+			Join<T,Application> forApps = root.join(appProperty,JoinType.LEFT);
+			Path<?> appPropertyProp = root.get(appProperty);
 			Path<String> appIdentifierProp = forApps.get(appIdentifierProperty);
 			In<String> inClause = cb.in(appIdentifierProp);
 			Predicate inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			Predicate globalApp = cb.equal(appIdentifierProp, null);
+			Predicate globalObject = cb.isNull(appPropertyProp);
 			
-			Predicate finalPredicate = cb.or(inApps,globalApp);
+			Predicate finalPredicate = cb.or(inApps,globalObject);
 			if (currentPredicate != null)
 				finalPredicate = cb.and(currentPredicate,finalPredicate);
 			else

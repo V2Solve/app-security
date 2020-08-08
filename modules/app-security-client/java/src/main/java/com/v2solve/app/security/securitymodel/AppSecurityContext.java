@@ -154,6 +154,16 @@ public interface AppSecurityContext {
 	 * @param domainType
 	 * @return
 	 */
-	public List<String> hasPermissionReturnLimitingDomains(String action, String resource, String domainType); 
+	public List<String> hasPermissionReturnLimitingDomains(String action, String resource, String domainType);
+	
+	
+	/**
+	 * This function checks to make sure that there is no limiting domain for this kind of access..
+	 * if there is then it throws a permission exception.
+	 * @param action
+	 * @param resource
+	 * @param domainType
+	 */
+	public void checkNoLimitingDomain (String action, String resource,String domainType);
 	
 }

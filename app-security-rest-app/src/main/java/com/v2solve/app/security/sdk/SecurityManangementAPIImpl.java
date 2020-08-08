@@ -400,6 +400,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
+			
 			if (!StringUtils.isNullOrZeroLength(appIdentifier))
 			{
 				// Lets check to see if the person has  a right to create a ACTION for this app...
@@ -409,6 +410,10 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				// Lets check at a global level..
 				asc.hasPermissionThrowException(action, resource);
+				
+				// Okay since he has not provided any app, the person is trying to create a global app, lets see if he is
+				// Allowed or not..
+				asc.checkNoLimitingDomain(action, resource, Domains.APP_DOMAIN_TYPE);
 			}
 
 			// Lets check if the object already exists..

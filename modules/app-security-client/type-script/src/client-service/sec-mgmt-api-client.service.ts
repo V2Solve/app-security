@@ -47,6 +47,7 @@ export class SecMgmtApiClientService {
 
 		var httpOptions = {
 			headers: this.getHttpHeaders()
+			
 		};
 
 		return httpOptions;
