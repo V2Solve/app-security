@@ -15,12 +15,14 @@ public class ClientRolePermission
 	// The role, to which the permission is assigned.
 	String roleName;
 	
-	
 	// The name of the permission in the system
 	String permissionName;
 	
 	// value of the permission. (allow, deny)
 	String value;
+	
+	// value of the scope if any
+	String scopeName;
 	
 	// The owning app
 	String appIdentifier;

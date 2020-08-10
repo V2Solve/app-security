@@ -49,13 +49,10 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
 
   propogateValues: string[] = ["Yes","No"];
 
-  // scope name - selected scope name
-  scopeName = new FormControl ('');
-
   // the selected appidentifier
   appIdentifier = new FormControl ('');
 
-  formGroup = new FormGroup({"groupName":this.groupName,"roleName":this.roleName,"domainName":this.domainName,"propogate":this.propogate,"scopeName":this.scopeName,"appIdentifier":this.appIdentifier});
+  formGroup = new FormGroup({"groupName":this.groupName,"roleName":this.roleName,"domainName":this.domainName,"propogate":this.propogate,"appIdentifier":this.appIdentifier});
 
   // The groups that are viewable by the person.
   viewableGroups: Array<ClientGroup> = new Array<ClientGroup>();
@@ -69,11 +66,9 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
 
   viewableApps        = new Array<Application>();
 
-  viewableScopes      = new Array<Scope> ();
-
   currentKey: string;
   
-  displayedColumns = ['Select','GroupName','RoleName','Domain','Propogate','Scope','Owner App'];
+  displayedColumns = ['Select','GroupName','RoleName','Domain','Propogate','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   rowSelected (key: string)
@@ -105,7 +100,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
      let car = new CreateClientGroupRoleRequest ();
      car.groupName = this.groupName.value;
      car.domainName = this.domainName.value;
-     car.scopeName = this.scopeName.value;
      car.roleName = this.roleName.value;
      if (this.propogate.value == "Yes")
      car.propogate = true;
@@ -130,19 +124,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
   reloadObjects ()
   {
     this.loadViewableObjects ();
-  }
-
-  loadViewableScopes ()
-  {
-    this.viewableScopes.length=0;
-    this.callService.loadViewableScopes().then(values=>{
-      if (values != null && values != undefined) 
-      {
-        values.forEach(element=>{
-          this.viewableScopes.push(element);
-        })
-      }
-    });
   }
 
   loadViewableGroups ()
@@ -204,7 +185,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
         ci.push(new CellInfo("Yes"))
         else
         ci.push(new CellInfo("No"))
-        ci.push(new CellInfo(cgr.scopeName));
         ci.push(new CellInfo(cgr.appIdentifier));
         let rr = new ResultRow(cgr.key,ci);
         this.formResults.push(rr);
@@ -223,7 +203,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
     scgrr.groupName = this.groupName.value;
     scgrr.roleName = this.roleName.value;
     scgrr.domainName = this.domainName.value;
-    scgrr.scopeName = this.scopeName.value;
     scgrr.appIdentifier = this.appIdentifier.value;
     if (scgrr.appIdentifier == "GLOBAL")
     scgrr.appIdentifier = "";
@@ -259,9 +238,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
     this.roleName.valueChanges.subscribe(event=>{
       this.reloadObjects ();
     })
-    this.scopeName.valueChanges.subscribe(event=>{
-      this.reloadObjects();
-    })
     this.domainName.valueChanges.subscribe(event=>{
       this.reloadObjects();
     })
@@ -275,7 +251,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
     this.groupName.setValue("");
     this.roleName.setValue("");
     this.domainName.setValue("");
-    this.scopeName.setValue("");
     this.appIdentifier.setValue("GLOBAL");
   }
 
@@ -285,7 +260,6 @@ export class GroupsToRolesComponent extends BaseForm implements OnInit {
     this.loadViewableDomains ();
     this.loadViewableGroups ();
     this.loadViewableRoles ();
-    this.loadViewableScopes ();
     this.loadViewableObjects ();
     this.loadViewableApps ();
     this.subscribeToChanges();

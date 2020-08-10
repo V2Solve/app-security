@@ -13,7 +13,7 @@ import { CommonCallsService } from '../../../../../../modules/app-security-clien
 import { RequestStatusInformation, DeleteClientRolePermissionRequest, CreateClientRolePermissionRequest, SearchClientRolePermissionRequest } from '../../../../../../modules/app-security-client/type-script/src/client/commmodel';
 
 // Import Security Model
-import { Application,ClientRole,Permission,ClientRolePermission } from '../../../../../../modules/app-security-client/type-script/src/model/model';
+import { Application,ClientRole,Permission,ClientRolePermission, Scope } from '../../../../../../modules/app-security-client/type-script/src/model/model';
 
 // Import constants.
 import { SecurityResources } from '../../../../../../modules/app-security-client/type-script/src/constants/constants';
@@ -41,9 +41,12 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     // selected permission name
   permissionName = new FormControl('',[Validators.required]);
 
+  // scope name - selected scope name
+  scopeName = new FormControl ('',[Validators.maxLength(50)]);
+
   permissionValue = new FormControl('',[Validators.required,Validators.maxLength(50)]); // allow,deny
 
-  formGroup = new FormGroup({"roleName":this.roleName,"permissionName":this.permissionName,"permissionValue":this.permissionValue});
+  formGroup = new FormGroup({"roleName":this.roleName,"permissionName":this.permissionName,"permissionValue":this.permissionValue,"scopeName":this.scopeName});
 
   // the selected appidentifier
   appIdentifier: string;
@@ -63,9 +66,11 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
 
   viewableApps        = new Array<Application>();
 
+  viewableScopes      = new Array<Scope> ();
+
   currentKey: string;
   
-  displayedColumns = ['Select','RoleName','Permission','Value','Owner App'];
+  displayedColumns = ['Select','RoleName','Permission','Value','Scope','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   rowSelected (key: string)
@@ -98,6 +103,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
      car.roleName = this.roleName.value;
      car.permissionName = this.permissionName.value;
      car.value = this.permissionValue.value;
+     car.scopeName = this.scopeName.value;
      car.appIdentifier = this.appIdentifier;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
@@ -147,6 +153,20 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     });
   }
 
+  loadViewableScopes ()
+  {
+    this.viewableScopes.length=0;
+    this.callService.loadViewableScopes().then(values=>{
+      if (values != null && values != undefined) 
+      {
+        values.forEach(element=>{
+          this.viewableScopes.push(element);
+        })
+      }
+    });
+  }
+
+
   loadViewableObjects ()
   {
     this.viewableObjects.length = 0;
@@ -158,6 +178,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     scgrr.roleName = this.roleName.value;
     scgrr.permissionName = this.permissionName.value;
     scgrr.appIdentifier = this.appIdentifier;
+    scgrr.scopeName = this.scopeName.value;
     this.managementClient.searchClientRolePermissions(scgrr).subscribe(element=>{
 
       if (element != null && element.clientRolePermissions != null)
@@ -169,6 +190,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
           ci.push(new CellInfo(cgr.roleName));
           ci.push(new CellInfo(cgr.permissionName));
           ci.push(new CellInfo(cgr.value));
+          ci.push(new CellInfo(cgr.scopeName));
           ci.push(new CellInfo(cgr.appIdentifier));
           let rr = new ResultRow(cgr.key,ci);
           this.formResults.push(rr);
@@ -204,7 +226,11 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     this.loadViewablePermissions ();
     this.loadViewableObjects ();
     this.loadViewableApps ();
+    this.loadViewableScopes ();
     this.roleName.valueChanges.subscribe(event=>{
+      this.reloadObjects();
+    })
+    this.scopeName.valueChanges.subscribe(event=>{
       this.reloadObjects();
     })
 

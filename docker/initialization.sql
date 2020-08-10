@@ -141,7 +141,6 @@ CREATE TABLE CLIENT_GROUP_ROLES (
                 CLIENT_GROUP_id INTEGER NOT NULL,
                 CLIENT_ROLE_id INTEGER NOT NULL,
                 RESOURCE_DOMAIN_id INTEGER,
-                ROLE_SCOPE_id INTEGER,
                 APPLICATION_id INTEGER,
                 propogate BOOLEAN NOT NULL,
                 CONSTRAINT client_group_roles_pkid PRIMARY KEY (id)
@@ -206,6 +205,7 @@ CREATE TABLE CLIENT_ROLE_PERMISSIONS (
                 PERMISSION_id INTEGER NOT NULL,
                 APPLICATION_id INTEGER,
                 value VARCHAR(20) NOT NULL,
+                ROLE_SCOPE_id INTEGER,
                 CONSTRAINT client_role_permission_pkid PRIMARY KEY (id)
 );
 COMMENT ON TABLE CLIENT_ROLE_PERMISSIONS IS 'Association table to associate a permission with a role';
@@ -319,7 +319,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE CLIENT_GROUP_ROLES ADD CONSTRAINT role_scope_client_group_roles_fk1
+ALTER TABLE CLIENT_ROLE_PERMISSIONS ADD CONSTRAINT role_scope_client_role_permissions_fk1
 FOREIGN KEY (ROLE_SCOPE_id)
 REFERENCES ROLE_SCOPE (id)
 ON DELETE NO ACTION

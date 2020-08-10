@@ -145,18 +145,11 @@ public class SecurityDataLogic
 					for (ClientGroupRole cgr : clientGroupRoles)
 					{
 						boolean propogate = cgr.getPropogate();
-						RoleScope rs  = cgr.getRoleScope();
 						ClientRole cr = cgr.getClientRole();
 						String roleName = cr.getName();
 						ResourceDomain rd = cgr.getResourceDomain();
 						Domain roleDomain = updateDomainMap(domainMap, rd);
 						String appIdentifier = null;
-						Scope scope = null;
-						if (rs != null)
-						{
-							appIdentifier = rs.getApplication()==null?null:rs.getApplication().getAppIdentifier();
-							scope = new Scope(rs.getName(),rs.getScopeType().getName(), rs.getScopeValue(),rs.getDescription(),appIdentifier);
-						}
 						
 						List<ClientRolePermission> clientRolePermissions =  cr.getClientRolePermissions();
 						
@@ -164,6 +157,15 @@ public class SecurityDataLogic
 						{
 							for (ClientRolePermission crp : clientRolePermissions)
 							{
+								Scope scope = null;
+								RoleScope rs  = crp.getRoleScope();
+
+								if (rs != null)
+								{
+									appIdentifier = rs.getApplication()==null?null:rs.getApplication().getAppIdentifier();
+									scope = new Scope(rs.getName(),rs.getScopeType().getName(), rs.getScopeValue(),rs.getDescription(),appIdentifier);
+								}
+								
 								String action   = crp.getPermission().getAction().getName();
 								String resource = crp.getPermission().getResource().getName();
 								String permissionValue = crp.getValue().toLowerCase();

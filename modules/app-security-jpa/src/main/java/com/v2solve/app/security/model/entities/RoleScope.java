@@ -22,7 +22,7 @@ public class RoleScope extends com.v2solve.app.security.common.base.BaseEntity i
 	private String description;
 	private String name;
 	private String scopeValue;
-	private List<ClientGroupRole> clientGroupRoles;
+	private List<ClientRolePermission> clientRolePermissions;
 	private Application application;
 	private ScopeType scopeType;
 
@@ -76,26 +76,26 @@ public class RoleScope extends com.v2solve.app.security.common.base.BaseEntity i
 	//bi-directional many-to-one association to ClientGroupRole
 	@OneToMany(mappedBy="roleScope")
 	@JsonManagedReference
-	public List<ClientGroupRole> getClientGroupRoles() {
-		return this.clientGroupRoles;
+	public List<ClientRolePermission> getClientRolePermissions() {
+		return this.clientRolePermissions;
 	}
 
-	public void setClientGroupRoles(List<ClientGroupRole> clientGroupRoles) {
-		this.clientGroupRoles = clientGroupRoles;
+	public void setClientRolePermissions(List<ClientRolePermission> clientRolePermissions) {
+		this.clientRolePermissions = clientRolePermissions;
 	}
 
-	public ClientGroupRole addClientGroupRole(ClientGroupRole clientGroupRole) {
-		getClientGroupRoles().add(clientGroupRole);
-		clientGroupRole.setRoleScope(this);
+	public ClientRolePermission addClientRolePermission(ClientRolePermission clientRolePermission) {
+		getClientRolePermissions().add(clientRolePermission);
+		clientRolePermission.setRoleScope(this);
 
-		return clientGroupRole;
+		return clientRolePermission;
 	}
 
-	public ClientGroupRole removeClientGroupRole(ClientGroupRole clientGroupRole) {
-		getClientGroupRoles().remove(clientGroupRole);
-		clientGroupRole.setRoleScope(null);
+	public ClientRolePermission removeClientRolePermission(ClientRolePermission clientRolePermission) {
+		getClientRolePermissions().remove(clientRolePermission);
+		clientRolePermission.setRoleScope(null);
 
-		return clientGroupRole;
+		return clientRolePermission;
 	}
 
 

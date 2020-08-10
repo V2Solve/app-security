@@ -415,9 +415,6 @@ export class CreateClientGroupRoleRequest extends BaseRequest
 		// Propogation:
 		propogate!: boolean;
 		
-		// The scope
-		scopeName!: string;
-		
 		// The appIdentifier.
 		appIdentifier!: string;
 }
@@ -435,10 +432,11 @@ export class CreateClientRolePermissionRequest extends BaseRequest
 	// The name of the permission in the system
 	permissionName!: string;
 	
-	
 	// The owning app
 	appIdentifier!: string;
 	
+	// The scope
+	scopeName!: string;
 	
 	// value of the permission. (allow, deny)
 	value!: string;

@@ -25,9 +25,6 @@ public class ClientGroupRole {
 	// Name of the domain if any is associated at this level.
 	String domainName;
 	
-	// Name of the scope if any associated.
-	String scopeName;
-	
 	// Owning app for this association.
 	String appIdentifier;
 	

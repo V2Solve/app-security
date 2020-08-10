@@ -22,6 +22,8 @@ public class CreateClientRolePermissionRequest extends BaseRequest {
 	// The name of the permission in the system
 	String permissionName;
 	
+	// The name of the scope if any to be applied.
+	String scopeName;
 	
 	// The owning app
 	String appIdentifier;

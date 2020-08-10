@@ -18,6 +18,29 @@ public class PermitKey implements Serializable
 	static final String NO_ACTIONS     = "NO_ACTION";
 	static final String NO_RESOURCES   = "NO_RESOURCES";
 	
+	static final PermitKey SUPER_PERMIT = new PermitKey(ALL_ACTIONS, ALL_RESOURCES);
+	static final PermitKey SUPER_DENIAL = new PermitKey(NO_ACTIONS,ALL_RESOURCES);
+	 
+	public static PermitKey allActionsOnResource (String resource)
+	{
+		return new PermitKey(ALL_ACTIONS, resource);
+	}
+	
+	public static PermitKey allResourcesForAction (String action)
+	{
+		return new PermitKey(action, ALL_RESOURCES);
+	}
+
+	public static PermitKey noActionsOnResource (String resource)
+	{
+		return new PermitKey(NO_ACTIONS, resource);
+	}
+	
+	public static PermitKey noResourceOnAction (String action)
+	{
+		return new PermitKey(action, NO_RESOURCES);
+	}
+	
 	/**
 	 * 
 	 */

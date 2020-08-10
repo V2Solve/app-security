@@ -58,18 +58,15 @@ public class RelationDataLogic
 		// Lets get the other information as required.
 		String groupName    = request.getGroupName();
 		String roleName   = request.getRoleName();
-		String scopeName  = request.getScopeName();
 		String domainName = request.getDomainName();
 		
 		if (StringUtils.isNullOrZeroLength(groupName) || StringUtils.isNullOrZeroLength(roleName))
 			throw new DataLogicValidationException("Group and role name both must be provided.");
 		
-	    RoleScope rs = null;
+	    
 	    ResourceDomain rd = null;
 		ClientGroup cg = DatalogicUtils.findObject(em, ClientGroup.class, "name", groupName);
 		ClientRole  cr = DatalogicUtils.findObject(em, ClientRole.class, "name", roleName);
-		if (!StringUtils.isNullOrZeroLength(scopeName))
-			rs = DatalogicUtils.findObject(em, RoleScope.class, "name", scopeName);
 		if (!StringUtils.isNullOrZeroLength(domainName))
 			rd = DatalogicUtils.findObject(em, ResourceDomain.class, "name", domainName);
 		
@@ -82,7 +79,6 @@ public class RelationDataLogic
 		objToCreate.setClientRole(cr);
 		objToCreate.setApplication(app);
 		objToCreate.setResourceDomain(rd);
-		objToCreate.setRoleScope(rs);
 		objToCreate.setPropogate(Boolean.valueOf(request.isPropogate()));
 		JPAUtils.createObject(em, objToCreate);
 		return objToCreate;
@@ -110,6 +106,7 @@ public class RelationDataLogic
 		String permissionName   = request.getPermissionName();
 		String roleName         = request.getRoleName();
 		String permissionValue  = request.getValue();
+		String scopeName        = request.getScopeName();
 		
 		if (StringUtils.isNullOrZeroLength(roleName) || StringUtils.isNullOrZeroLength(permissionName) || StringUtils.isNullOrZeroLength(permissionValue))
 			throw new DataLogicValidationException("RoleName/PermissionName/Value all both must be provided.");
@@ -120,10 +117,15 @@ public class RelationDataLogic
 		if (permission == null || cr == null)
 			throw new DataLogicValidationException("Role Name or Permission not found. " + roleName + " / " + permissionName);
 		
+		RoleScope rs = null;
+		if (!StringUtils.isNullOrZeroLength(scopeName))
+			rs = DatalogicUtils.findObject(em, RoleScope.class, "name", scopeName);
+		
 		ClientRolePermission objToCreate = new ClientRolePermission();
 		objToCreate.setPermission(permission);
 		objToCreate.setClientRole(cr);
 		objToCreate.setApplication(app);
+		objToCreate.setRoleScope(rs);
 		objToCreate.setValue(permissionValue);
 		JPAUtils.createObject(em, objToCreate);
 		return objToCreate;
@@ -213,17 +215,6 @@ public class RelationDataLogic
 				whereClause = cb.and(whereClause,wC);
 		}
 		
-		if (!StringUtils.isNullOrZeroLength(request.getScopeName()))
-		{
-			Join<ClientGroupRole, RoleScope> forRoleScope = root.join("roleScope");
-			Path<String> roleScopePath = forRoleScope.get("name");
-			Predicate wC = cb.equal(roleScopePath, request.getScopeName());
-			if (whereClause == null)
-				whereClause = wC;
-			else
-				whereClause = cb.and(whereClause,wC);
-		}
-		
 		if (!StringUtils.isNullOrZeroLength(request.getDomainName()))
 		{
 			Join<ClientGroupRole, ResourceDomain> forResourceDomain = root.join("resourceDomain");
@@ -303,6 +294,18 @@ public class RelationDataLogic
 			else
 				whereClause = cb.and(whereClause,wC);
 		}
+		
+		if (!StringUtils.isNullOrZeroLength(request.getScopeName()))
+		{
+			Join<ClientGroupRole, RoleScope> forRoleScope = root.join("roleScope");
+			Path<String> roleScopePath = forRoleScope.get("name");
+			Predicate wC = cb.equal(roleScopePath, request.getScopeName());
+			if (whereClause == null)
+				whereClause = wC;
+			else
+				whereClause = cb.and(whereClause,wC);
+		}
+		
 		
 		whereClause = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,whereClause);		
 		

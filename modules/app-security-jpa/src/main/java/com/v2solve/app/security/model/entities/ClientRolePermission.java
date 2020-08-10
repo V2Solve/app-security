@@ -20,6 +20,7 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 	private Application application;
 	private ClientRole clientRole;
 	private Permission permission;
+	private RoleScope roleScope;
 
 	public ClientRolePermission() {
 	}
@@ -86,4 +87,16 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 		this.permission = permission;
 	}
 
+	//bi-directional many-to-one association to RoleScope
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="role_scope_id")
+	@JsonBackReference
+	public RoleScope getRoleScope() {
+		return this.roleScope;
+	}
+
+	public void setRoleScope(RoleScope roleScope) {
+		this.roleScope = roleScope;
+	}
+	
 }

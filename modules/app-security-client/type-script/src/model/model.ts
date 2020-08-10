@@ -86,9 +86,6 @@ export class ClientGroupRole {
 	// Whether it is supposed to be propogated or not..
 	propogate!: boolean;
 	
-	// Name of the scope if any associated.
-	scopeName!: string;
-	
 	// Owning app for this association.
 	appIdentifier!: string;
 
@@ -110,6 +107,8 @@ export class ClientRolePermission
 	// The name of the permission in the system
 	permissionName!: string;
 	
+	// Name of the scope if any associated.
+	scopeName!: string;
 	
 	// The owning app
 	appIdentifier!: string;

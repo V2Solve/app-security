@@ -130,14 +130,18 @@ public class ApplicationDataLogic
 			finalPredicate = namePC;
 		}
 		
+		
 		{
-			Path<String> namePath = root.get(DatalogicUtils.APP_IDENTIFIER_PROPERTY);
-			In<String> inClause = cb.in(namePath);
-			Predicate inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
-			if (finalPredicate == null)
-				finalPredicate = inApps;
-			else
-				finalPredicate = cb.and(finalPredicate,inApps);
+			if (limitingAppDomains != null && limitingAppDomains.size() >0)
+			{
+				Path<String> namePath = root.get(DatalogicUtils.APP_IDENTIFIER_PROPERTY);
+				In<String> inClause = cb.in(namePath);
+				Predicate inApps = JPAUtils.buildInvalues(inClause, limitingAppDomains);
+				if (finalPredicate == null)
+					finalPredicate = inApps;
+				else
+					finalPredicate = cb.and(finalPredicate,inApps);
+			}
 		}
 
 		if (finalPredicate != null)

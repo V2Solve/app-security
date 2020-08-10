@@ -168,16 +168,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = c.getApplication() != null?c.getApplication().getAppIdentifier():null;
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			Client deletedObject = c;
 			
@@ -224,19 +215,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Okay so it is trying to create a Global Client. 
-				// Lets check to see if the person has a right to create a global client. 
-				
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check if the object already exists..
 			Client existingObj = DatalogicUtils.findObjectReturnNull(em, Client.class, "clientIdentifier", request.getClientIdentifier());
@@ -246,9 +226,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				Client originalRecord = ReflectUtils.createCopy(existingObj, Client.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
+				
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+				
 				// Okay so has permission..
 				existingObj.setDescription(request.getDescription());
 				Application app = null;
@@ -297,6 +279,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			em = getEm();
 			tw = new TransactionWrapper(em);
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+
 			asc.hasPermissionThrowException(action, resource);
 			
 			Application existingApp = DatalogicUtils.findObjectReturnNull(em, Application.class, "appIdentifier", request.getAppIdentifier());
@@ -349,6 +332,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			em = getEm();
 			tw = new TransactionWrapper(em);
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			
 			asc.hasPermissionThrowException(action, resource,Domains.appDomain(request.getAppIdentifier()));
 			
 			Application existingObj = DatalogicUtils.findObject(em, Application.class, "appIdentifier", request.getAppIdentifier());
@@ -401,20 +385,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-				
-				// Okay since he has not provided any app, the person is trying to create a global app, lets see if he is
-				// Allowed or not..
-				asc.checkNoLimitingDomain(action, resource, Domains.APP_DOMAIN_TYPE);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 
 			// Lets check if the object already exists..
 			Action existingObj = DatalogicUtils.findObjectReturnNull(em, Action.class, "name", request.getName());
@@ -425,8 +397,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				Action originalRecord = ReflectUtils.createCopy(existingObj, Action.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				
+				// Check for permission on AppDomain
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+
 				// Okay so has permission..
 				existingObj.setDescription(request.getDescription());
 				Application app = null;
@@ -482,16 +457,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = actionObj.getApplication()==null?null:actionObj.getApplication().getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			Action deletedObject = actionObj;
 			
@@ -538,16 +505,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 
 			// Lets check if the object already exists..
 			Resource existingObj = DatalogicUtils.findObjectReturnNull(em, Resource.class, "name", request.getName());
@@ -557,9 +517,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				Resource originalRecord = ReflectUtils.createCopy(existingObj, Resource.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
+				
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+
 				// Okay so has permission..
 				existingObj.setDescription(request.getDescription());
 				Application app = null;
@@ -615,16 +577,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = resourceObj.getApplication()==null?null:resourceObj.getApplication().getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action,resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			Resource deletedObject = resourceObj; 
 
@@ -673,16 +627,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			String resourceName = request.getResourceName();
 			String actionName   = request.getActionName();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check if the object already exists..
 			Permission existingObj = DatalogicUtils.findObjectReturnNull(em, Permission.class, "name", request.getName());
@@ -692,9 +638,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				Permission originalRecord = ReflectUtils.createCopy(existingObj, Permission.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
-				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				
+				// Check for permission on AppDomain
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+				
 				// Okay so has permission..
 				existingObj.setDescription(request.getDescription());
 				Application app = null;
@@ -759,16 +707,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = resourceObj.getApplication()==null?null:resourceObj.getApplication().getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action,resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			Permission deletedObject = resourceObj;
 			
@@ -815,16 +755,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check if the object already exists..
 			ClientGroup existingObj = DatalogicUtils.findObjectReturnNull(em, ClientGroup.class, "name", request.getName());
@@ -834,10 +767,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				ClientGroup originalRecord = ReflectUtils.createCopy(existingObj, ClientGroup.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
-				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
 				// Okay so has permission..
+				
 				existingObj.setDescription(request.getDescription());
 				Application app = null;
 				if (appIdentifier != null)
@@ -892,16 +826,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = resourceObj.getApplication()==null?null:resourceObj.getApplication().getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action,resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			ClientGroup deletedObject = resourceObj;
 			
@@ -944,8 +870,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			boolean own = false;
 			
 			// Now let us also check if this permission is avaiable at what scope
-			Scope ownScope = Scopes.clientGroupMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.clientGroupMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL);
 			
 			em = getEm();
 			tw = new TransactionWrapper (em);
@@ -953,18 +879,17 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
+			
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
+			
 			if (!StringUtils.isNullOrZeroLength(appIdentifier))
 			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-				// okay let us see what the scope is for this person..
 				all = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allScope);
 				own = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownScope);
 			}
 			else
 			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
 				all = asc.hasPermissionInScope(action, resource, allScope);
 				own = asc.hasPermissionInScope(action, resource, ownScope);
 			}
@@ -1057,8 +982,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			boolean own = false;
 			
 			// Now let us also check if this permission is avaiable at what scope
-			Scope ownScope = Scopes.clientGroupMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.clientGroupMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL);
 			
 			em = getEm();
 			tw = new TransactionWrapper (em);
@@ -1073,20 +998,19 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			Application app = cgm.getApplication();
 			if (app != null)
 				appIdentifier = app.getAppIdentifier();
+
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check to see if an application has been specified.
 			if (!StringUtils.isNullOrZeroLength(appIdentifier))
 			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
 				// okay let us see what the scope is for this person..
 				all = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allScope);
 				own = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownScope);
 			}
 			else
 			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
 				all = asc.hasPermissionInScope(action, resource, allScope);
 				own = asc.hasPermissionInScope(action, resource, ownScope);
 			}
@@ -1152,6 +1076,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets see over which domain the person has read rights..
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.APPLICATION,Domains.APP_DOMAIN_TYPE);
+
 			List<Application> appList = ApplicationDataLogic.searchApplication(em, request, limitingAppDomains);
 			
 			SearchApplicationsResponse sar = new SearchApplicationsResponse(RequestStatusInformation.SUCCESS);
@@ -1198,7 +1123,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.ACTION);
+			
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.ACTION,Domains.APP_DOMAIN_TYPE);
+			
 			// do business logic..
 			List<Action> listOfActions = PermissionDataLogic.searchActions(em, request, limitingAppDomains);
 			
@@ -1250,7 +1177,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.PERMISSION);
+
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.PERMISSION,Domains.APP_DOMAIN_TYPE);
+
 			// do business logic..
 			List<Permission> listOfPermissions = PermissionDataLogic.searchPermissions(em, request, limitingAppDomains);
 			
@@ -1418,8 +1347,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			boolean own = false;
 			
 			// Now let us also create two scopes
-			Scope ownScope = Scopes.clientGroupMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.clientGroupMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allScope   = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_ALL);
 			
 			{
 				// Lets check at a global level..
@@ -1496,13 +1425,41 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		
 		try
 		{
+			String forAction      = SecurityActions.READ;
+			String forResource     = SecurityResources.CLIENT_ROLE;
+			
 			em = getEm();
 			tw = new TransactionWrapper(em);
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
+			boolean all = false;
+			boolean own = false;
+			
+			// Now let us also create two scopes
+			Scope ownScope = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			
 			// Lets make sure the user can read actions..
-			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.CLIENT_ROLE);
+			{
+				asc.hasPermissionThrowException(forAction, forResource);
+				
+				// Now lets check for scope on 
+				all = asc.hasPermissionInScope(forAction, forResource, allScope);
+				own = asc.hasPermissionInScope(forAction, forResource, ownScope);
+			}
+
+			// Okay so now to check the scope and see which one it is so that we can check correctly..
+			if (all == false)
+			{
+				// OK, so if the person cannot assign at all levels, can he at least assign the groups that it belongs to ...
+				if (own == false)
+				{
+					throw new PermissionException("The client does not have a permission with necessary scope to " + forAction + " on " + forResource);
+				}
+			}
+			
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.CLIENT_ROLE,Domains.APP_DOMAIN_TYPE);
+			
 			// do business logic..
 			List<ClientRole> listOfClientRoles = RoleDataLogic.searchClientRoles(em, request, limitingAppDomains);
 			
@@ -1516,7 +1473,18 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				{
 					String appIdentifier = clientRole.getApplication()!=null?clientRole.getApplication().getAppIdentifier():null;
 					com.v2solve.app.security.securitymodel.ClientRole newClientRole = new com.v2solve.app.security.securitymodel.ClientRole(clientRole.getName(), clientRole.getDescription(),appIdentifier);
-					ll.add(newClientRole);
+					if (all) 
+					{
+						ll.add(newClientRole);
+					}
+					else
+					{
+						if (own==true)
+						{
+							if (asc.hasRole(newClientRole.getName())) // Add only if the group is provided to the person.
+							ll.add(newClientRole);
+						}
+					}
 				}
 				
 				sar.setClientRoles(ll);
@@ -1661,16 +1629,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 
 			// Lets check if the object already exists..
 			ClientRole existingObj = DatalogicUtils.findObjectReturnNull(em, ClientRole.class, "name", request.getName());
@@ -1680,9 +1640,10 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				ClientRole originalRecord = ReflectUtils.createCopy(existingObj, ClientRole.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
+				
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
 				// Okay so has permission..
 				existingObj.setDescription(request.getDescription());
 				Application app = null;
@@ -1733,16 +1694,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			
+			// Check for permissions
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 
 			// Lets check if the object already exists..
 			ResourceDomainType existingObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomainType.class, "name", request.getName());
@@ -1753,8 +1707,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				ResourceDomainType originalRecord = ReflectUtils.createCopy(existingObj, ResourceDomainType.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+				
 				// Okay so has permission..
 				Application app = null;
 				if (appIdentifier != null)
@@ -1804,16 +1759,10 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			
+			// Check for permissions
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
+
 
 			// Lets check if the object already exists..
 			ScopeType existingObj = DatalogicUtils.findObjectReturnNull(em, ScopeType.class, "name", request.getName());
@@ -1823,10 +1772,14 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				ScopeType originalRecord = ReflectUtils.createCopy(existingObj, ScopeType.class);
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
-				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+
+				// Check for permissions
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				// Check for permissions
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+				
 				// Okay so has permission..
+
 				Application app = null;
 				if (appIdentifier != null)
 					app = DatalogicUtils.findObject(em, Application.class, "appIdentifier", appIdentifier);
@@ -1880,16 +1833,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = c.getApplication() != null?c.getApplication().getAppIdentifier():null;
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permissions
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			ClientRole deletedObject = c;
 			
@@ -1940,16 +1885,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = c.getApplication() != null?c.getApplication().getAppIdentifier():null;
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permissions
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			ResourceDomainType deletedObject = c;
 			
@@ -2000,16 +1937,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = c.getApplication() != null?c.getApplication().getAppIdentifier():null;
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permissions
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			ScopeType deletedObject = c;
 			
@@ -2056,16 +1985,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			// Check for permissions
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 
 			// Lets check if the object already exists..
 			ResourceDomain existingObj = DatalogicUtils.findObjectReturnNull(em, ResourceDomain.class, "name", request.getName());
@@ -2096,9 +2017,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				}
 				
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
+				
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				// Check for permissions
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				// Check for permissions
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+
 				// Okay so has permission..
 				Application app = null;
 				if (appIdentifier != null)
@@ -2157,17 +2082,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 	
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = c.getApplication() != null?c.getApplication().getAppIdentifier():null;
-			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			ResourceDomain deletedObject = c;
 			
@@ -2210,7 +2126,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.RESOURCE_DOMAIN);
+			
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.RESOURCE_DOMAIN,Domains.APP_DOMAIN_TYPE);
+			
 			// do business logic..
 			List<ResourceDomain> listOfDomains = DomainScopeDataLogic.searchResourceDomains(em, request, limitingAppDomains);
 			
@@ -2278,17 +2196,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
-
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
+			
 			// Lets check if the object already exists..
 			RoleScope existingObj = DatalogicUtils.findObjectReturnNull(em, RoleScope.class, "name", request.getName());
 			
@@ -2302,8 +2211,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				
 				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
 				// Lets check update Permission..
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(existingAppIdentifier));
-				asc.hasPermissionThrowException(SecurityActions.UPDATE, resource, Domains.appDomain(appIdentifier));
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+				
 				// Okay so has permission..
 				Application app = null;
 				if (appIdentifier != null)
@@ -2355,7 +2265,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.ROLE_SCOPE);
+			
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.ROLE_SCOPE,Domains.APP_DOMAIN_TYPE);
+			
 			// do business logic..
 			List<RoleScope> listOfRoleScopes = DomainScopeDataLogic.searchRoleScopes(em, request, limitingAppDomains);
 			
@@ -2414,17 +2326,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if it is an application identifier..
 			String appIdentifier = resourceObj.getApplication()==null?null:resourceObj.getApplication().getAppIdentifier();
-			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to delete a client for this app...
-				asc.hasPermissionThrowException(action,resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			RoleScope deletedObject = resourceObj;
 			
@@ -2471,22 +2374,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_ALL);
-			Scope ownGroupScope  = Scopes.clientGroupRoleGroupMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allGroupScope  = Scopes.clientGroupRoleGroupMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2561,9 +2455,6 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			tw = new TransactionWrapper(em);
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
-			// Lets check at a global level..
-			asc.hasPermissionThrowException(action, resource);
-			
 			String key = request.getKey();
 			
 			if (StringUtils.isNullOrZeroLength(key))
@@ -2580,17 +2471,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = cgr.getApplication() == null?null:cgr.getApplication().getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_ALL);
-			Scope ownGroupScope  = Scopes.clientGroupRoleGroupMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allGroupScope  = Scopes.clientGroupRoleGroupMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2678,10 +2565,10 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			List<ClientGroupRole> listOfCgrs = RelationDataLogic.searchClientGroupRoles(em, request,limitingAppDomains);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_ALL);
-			Scope ownGroupScope  = Scopes.clientGroupRoleGroupMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allGroupScope  = Scopes.clientGroupRoleGroupMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownGroupScope  = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allGroupScope  = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, null, allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, null, ownRoleScope);
@@ -2695,10 +2582,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				String roleName  = cgr.getClientRole().getName();
 				String groupName = cgr.getClientGroup().getName();
 				String domainName = cgr.getResourceDomain()==null?null:cgr.getResourceDomain().getName();
-				String scopeName  = cgr.getRoleScope()==null?null:cgr.getRoleScope().getName();
 				String appIdentifier = cgr.getApplication()==null?null:cgr.getApplication().getAppIdentifier();
 				boolean propogate = cgr.getPropogate ();
-				com.v2solve.app.security.securitymodel.ClientGroupRole newCgr = new com.v2solve.app.security.securitymodel.ClientGroupRole(""+cgr.getId(), groupName, roleName, domainName, scopeName, appIdentifier,propogate);
+				com.v2solve.app.security.securitymodel.ClientGroupRole newCgr = new com.v2solve.app.security.securitymodel.ClientGroupRole(""+cgr.getId(), groupName, roleName, domainName, appIdentifier,propogate);
 				// Lets check scope before adding this in the list..
 				boolean toAdd = true;
 				if (!allGroups && !ownGroups) 
@@ -2757,20 +2643,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
-			else
-			{
-				// Lets check at a global level..
-				asc.hasPermissionThrowException(action, resource);
-			}
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2827,9 +2704,6 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			tw = new TransactionWrapper(em);
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			
-			// Lets check at a global level..
-			asc.hasPermissionThrowException(action, resource);
-			
 			String key = request.getKey();
 			
 			if (StringUtils.isNullOrZeroLength(key))
@@ -2846,15 +2720,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets check to see if an application has been specified.
 			String appIdentifier = crp.getApplication() == null?null:crp.getApplication().getAppIdentifier();
 			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				// Lets check to see if the person has  a right to create a ACTION for this app...
-				asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
-			}
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2925,8 +2795,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			List<ClientRolePermission> listOfCrps = RelationDataLogic.searchClientRolePermissions(em, request,limitingAppDomains);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientGroupRoleRoleMembershipScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, null, allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, null, ownRoleScope);
@@ -2938,8 +2808,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				String roleName        = crp.getClientRole().getName();
 				String permissionName  = crp.getPermission().getName();
 				String permissionValue = crp.getValue();
+				String scopeName       = crp.getRoleScope()==null?null:crp.getRoleScope().getName();
 				String appIdentifier = crp.getApplication()==null?null:crp.getApplication().getAppIdentifier();
-				com.v2solve.app.security.securitymodel.ClientRolePermission newCrp = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+crp.getId(), roleName, permissionName, permissionValue, appIdentifier);
+				com.v2solve.app.security.securitymodel.ClientRolePermission newCrp = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+crp.getId(), roleName, permissionName, permissionValue, scopeName,appIdentifier);
 				// Lets check scope before adding this in the list..
 				boolean toAdd = true;
 				if (!allRoles && !ownRoles)
@@ -3040,4 +2911,32 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				em.close();
 		}
 	}
+	
+	
+	/**
+	 * Common logic required in all functions above is to check if the caller has permission
+	 * on resource to perform the action , and if he is limited to some app domain, or is it global.
+	 * @param asc
+	 * @param action
+	 * @param resource
+	 * @param appIdentifier
+	 */
+	void checkForAppDomainPermission (AppSecurityContext asc, String action,String resource,String appIdentifier)
+	{
+		if (!StringUtils.isNullOrZeroLength(appIdentifier))
+		{
+			// Lets check to see if the person has  a right to act on this resource for this app...
+			asc.hasPermissionThrowException(action, resource, Domains.appDomain(appIdentifier));
+		}
+		else
+		{
+			// Lets check at a global level..
+			asc.hasPermissionThrowException(action, resource);
+			
+			// Okay since he has not provided any app, the person is trying to act for the global, lets see if he is
+			// allowed or not. 
+			asc.checkNoLimitingDomain(action, resource, Domains.APP_DOMAIN_TYPE);
+		}
+	}
+	
 }

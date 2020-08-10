@@ -26,9 +26,6 @@ public class CreateClientGroupRoleRequest extends BaseRequest {
 	// Whether this should be propogated down.
 	boolean propogate;
 	
-	// The scope
-	String scopeName;
-	
 	// The appIdentifier.
 	String appIdentifier;
 }

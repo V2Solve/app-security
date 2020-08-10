@@ -51,6 +51,16 @@
                           </mat-form-field>                        
                     </td>
                     <td class="form-cell">
+                      <mat-form-field appearance="fill">
+                          <mat-label>Scope</mat-label>
+                          <mat-select [formControl]="scopeName">
+                            <mat-option *ngFor="let item of viewableScopes" [value]="item.scopeName">
+                              {{item.scopeName}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>                        
+                    </td>
+                    <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Associated App</mat-label>
                             <mat-select [(value)]="appIdentifier">
