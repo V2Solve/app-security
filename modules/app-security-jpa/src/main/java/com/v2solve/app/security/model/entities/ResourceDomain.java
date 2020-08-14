@@ -16,7 +16,8 @@ import java.util.List;
 @Entity
 @Table(name="resource_domain")
 @NamedQuery(name="ResourceDomain.findAll", query="SELECT r FROM ResourceDomain r")
-public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEntity implements Serializable {
+public class ResourceDomain extends com.v2solve.app.security.common.base.BaseEntity implements Serializable 
+{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String description;

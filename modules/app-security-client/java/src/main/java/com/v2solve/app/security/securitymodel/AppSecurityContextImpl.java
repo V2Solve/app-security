@@ -683,9 +683,10 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		{
 			for (Scope s: scopes)
 			{
-				if (s.getScopeType().equals(scope.getScopeType()) && s.getScopeName().equals(scope.getScopeName()))
+				if (s.getScopeType().equals(scope.getScopeType()))
 				{
 					List<String> scopeValues = s.getValueTokens();
+					
 					for (String s1: scopeValues)
 					{
 						for (String s2: valuesToCompare)
@@ -780,6 +781,30 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 			return; // all good.
 		
 		throw new PermissionException("Permission for " + action + " on " + resource + " is limited for domainType: " + domainType);
+	}
+	
+	
+	/*
+	 * Returns all the domain names where there is some involvement in some fashion whatsover.
+	 * filters by the domain type..
+	 */
+	@Override
+	public final List<String> getInvolvedDomains (String domainType)
+	{
+		List<String> namesOfDomainsAndDescendants = new ArrayList<>();
+		
+		if (involvedDomains != null)
+		{
+			for (Domain d: involvedDomains.values())
+			{
+				if (d != null && d.getDomainType().equals(domainType))
+				{
+					d.addNamesOfYouAndYourDescendants(namesOfDomainsAndDescendants);
+				}
+			}
+		}
+		
+		return namesOfDomainsAndDescendants;
 	}
 	
 }

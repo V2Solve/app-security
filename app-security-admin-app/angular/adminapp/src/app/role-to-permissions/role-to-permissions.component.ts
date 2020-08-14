@@ -10,7 +10,7 @@ import { SecMgmtApiClientService } from '../../../../../../modules/app-security-
 import { CommonCallsService } from '../../../../../../modules/app-security-client/type-script/src/client-service/common-calls.service'
 
 // Import Communication Model..
-import { RequestStatusInformation, DeleteClientRolePermissionRequest, CreateClientRolePermissionRequest, SearchClientRolePermissionRequest } from '../../../../../../modules/app-security-client/type-script/src/client/commmodel';
+import { RequestStatusInformation, DeleteClientRolePermissionRequest, CreateClientRolePermissionRequest, SearchClientRolePermissionRequest, SearchClientRoleResponse, SearchClientRolePermissionResponse } from '../../../../../../modules/app-security-client/type-script/src/client/commmodel';
 
 // Import Security Model
 import { Application,ClientRole,Permission,ClientRolePermission, Scope } from '../../../../../../modules/app-security-client/type-script/src/model/model';
@@ -46,10 +46,12 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
 
   permissionValue = new FormControl('',[Validators.required,Validators.maxLength(50)]); // allow,deny
 
-  formGroup = new FormGroup({"roleName":this.roleName,"permissionName":this.permissionName,"permissionValue":this.permissionValue,"scopeName":this.scopeName});
+    // the selected appidentifier
+  appIdentifier = new FormControl ('');
 
-  // the selected appidentifier
-  appIdentifier: string;
+
+  formGroup = new FormGroup({"roleName":this.roleName,"permissionName":this.permissionName,"permissionValue":this.permissionValue,"scopeName":this.scopeName,"appIdentifier":this.appIdentifier});
+
 
   // the selected permission value..
   
@@ -104,7 +106,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
      car.permissionName = this.permissionName.value;
      car.value = this.permissionValue.value;
      car.scopeName = this.scopeName.value;
-     car.appIdentifier = this.appIdentifier;
+     car.appIdentifier = this.appIdentifier.value;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
      this.managementClient.createClientRolePermission(car).subscribe(value=>{
@@ -166,6 +168,30 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     });
   }
 
+  async receiveViewableOjects (element: SearchClientRolePermissionResponse)
+  {
+    this.viewableObjects.length = 0;
+    this.formResults.length = 0;
+    if (element != null && element.clientRolePermissions != null)
+    {
+       element.clientRolePermissions.forEach(cgr=>{
+        this.viewableObjects.push(cgr);
+        let ci = new Array<CellInfo> ();
+        ci.push(new CellInfo(cgr.key));
+        ci.push(new CellInfo(cgr.roleName));
+        ci.push(new CellInfo(cgr.permissionName));
+        ci.push(new CellInfo(cgr.value));
+        ci.push(new CellInfo(cgr.scopeName));
+        ci.push(new CellInfo(cgr.appIdentifier));
+        let rr = new ResultRow(cgr.key,ci);
+        this.formResults.push(rr);
+       })
+
+      this.dataSource.data=this.formResults;
+    }
+
+  }
+
 
   loadViewableObjects ()
   {
@@ -177,26 +203,10 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     let scgrr = new SearchClientRolePermissionRequest ();
     scgrr.roleName = this.roleName.value;
     scgrr.permissionName = this.permissionName.value;
-    scgrr.appIdentifier = this.appIdentifier;
+    scgrr.appIdentifier = this.appIdentifier.value;
     scgrr.scopeName = this.scopeName.value;
-    this.managementClient.searchClientRolePermissions(scgrr).subscribe(element=>{
-
-      if (element != null && element.clientRolePermissions != null)
-      {
-         element.clientRolePermissions.forEach(cgr=>{
-          this.viewableObjects.push(cgr);
-          let ci = new Array<CellInfo> ();
-          ci.push(new CellInfo(cgr.key));
-          ci.push(new CellInfo(cgr.roleName));
-          ci.push(new CellInfo(cgr.permissionName));
-          ci.push(new CellInfo(cgr.value));
-          ci.push(new CellInfo(cgr.scopeName));
-          ci.push(new CellInfo(cgr.appIdentifier));
-          let rr = new ResultRow(cgr.key,ci);
-          this.formResults.push(rr);
-         })
-      }
-      this.dataSource.data=this.formResults;
+    this.managementClient.searchClientRolePermissions(scgrr).subscribe(async element=>{
+      await this.receiveViewableOjects(element);
     })
   }
 
@@ -218,6 +228,30 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     });
   }
  
+  clearFormControls ()
+  {
+    this.roleName.setValue("");
+    this.scopeName.setValue("");
+    this.permissionName.setValue("");
+    this.appIdentifier.setValue("GLOBAL");
+  }
+
+  subscribeToChanges ()
+  {
+    this.roleName.valueChanges.subscribe(event=>{
+      this.reloadObjects();
+    })
+    this.scopeName.valueChanges.subscribe(event=>{
+      this.reloadObjects ();
+    })
+    this.permissionName.valueChanges.subscribe(event=>{
+      this.reloadObjects();
+    })
+    this.appIdentifier.valueChanges.subscribe(event=>{
+      this.reloadObjects();
+    })
+  }
+
 
   ngOnInit(): void 
   {
@@ -227,13 +261,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     this.loadViewableObjects ();
     this.loadViewableApps ();
     this.loadViewableScopes ();
-    this.roleName.valueChanges.subscribe(event=>{
-      this.reloadObjects();
-    })
-    this.scopeName.valueChanges.subscribe(event=>{
-      this.reloadObjects();
-    })
-
+    this.subscribeToChanges ();
     this.updatePermissionFlags(SecurityResources.PERMISSION_ROLE_MEMBERSHIP,this.callService);
   }
 

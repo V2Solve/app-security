@@ -165,5 +165,12 @@ public interface AppSecurityContext {
 	 * @param domainType
 	 */
 	public void checkNoLimitingDomain (String action, String resource,String domainType);
+
+
+	/*
+	 * Returns all the domain names where there is some involvement in some fashion whatsover.
+	 * filters by the domain type..
+	 */
+	public List<String> getInvolvedDomains(String domainType);
 	
 }

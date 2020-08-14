@@ -1076,6 +1076,16 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets see over which domain the person has read rights..
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.APPLICATION,Domains.APP_DOMAIN_TYPE);
+			
+			// Lets get all other app domains on which person may have access limitation..
+			List<String> involvedApps = asc.getInvolvedDomains(Domains.APP_DOMAIN_TYPE);
+			if (involvedApps != null && !involvedApps.isEmpty())
+			{
+				if (limitingAppDomains != null)
+					limitingAppDomains.addAll(involvedApps);
+				else
+					limitingAppDomains = involvedApps;
+			}
 
 			List<Application> appList = ApplicationDataLogic.searchApplication(em, request, limitingAppDomains);
 			
@@ -1286,6 +1296,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.CLIENT);
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.CLIENT,Domains.APP_DOMAIN_TYPE);
+			
 			// do business logic..
 			List<Client> listOfClients = ApplicationDataLogic.searchClients(em, request, limitingAppDomains);
 			
@@ -1523,8 +1534,10 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			// Lets make sure the user can read actions..
 			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.CLIENT_ROLE);
 			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.CLIENT_ROLE,Domains.APP_DOMAIN_TYPE);
+			
 			// do business logic..
 			List<ResourceDomainType> listOfDomainTypes = DomainScopeDataLogic.searchDomainTypes(em, request, limitingAppDomains);
+			
 			
 			SearchDomainTypeResponse sar = new SearchDomainTypeResponse(RequestStatusInformation.SUCCESS);
 			
@@ -2565,15 +2578,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			List<ClientGroupRole> listOfCgrs = RelationDataLogic.searchClientGroupRoles(em, request,limitingAppDomains);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
-			Scope ownGroupScope  = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allGroupScope  = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
 					
-			boolean allRoles = asc.hasPermissionInScope(action, resource, null, allRoleScope);
-			boolean ownRoles = asc.hasPermissionInScope(action, resource, null, ownRoleScope);
-			boolean allGroups = asc.hasPermissionInScope(action, resource, null, allGroupScope);
-			boolean ownGroups = asc.hasPermissionInScope(action, resource, null, ownGroupScope);
+			boolean all = asc.hasPermissionInScope(action, resource, null, allScope);
+			boolean own = asc.hasPermissionInScope(action, resource, null, ownScope);
 			
 			List<com.v2solve.app.security.securitymodel.ClientGroupRole> newClientGroupRoles = new ArrayList<>();
 			
@@ -2587,18 +2596,17 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				com.v2solve.app.security.securitymodel.ClientGroupRole newCgr = new com.v2solve.app.security.securitymodel.ClientGroupRole(""+cgr.getId(), groupName, roleName, domainName, appIdentifier,propogate);
 				// Lets check scope before adding this in the list..
 				boolean toAdd = true;
-				if (!allGroups && !ownGroups) 
-					toAdd=false;
-				if (!allRoles && !ownRoles)
+				if (!all && !own) 
 					toAdd=false;
 				if (toAdd)
 				{
-					if (!allGroups && ownGroups)
+					if (!all && own)
+					{
 						if (!asc.hasGroup(groupName))
 							toAdd=false;
-					if (!allRoles && ownRoles)
 						if (!asc.hasRole(roleName))
 							toAdd=false;
+					}
 				}
 				if (toAdd)
 					newClientGroupRoles.add(newCgr);
@@ -2795,8 +2803,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			List<ClientRolePermission> listOfCrps = RelationDataLogic.searchClientRolePermissions(em, request,limitingAppDomains);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.assignPermissionToRoleScope(Scopes.CLIENT_SCOPE_OWN);
+			Scope allRoleScope   = Scopes.assignPermissionToRoleScope(Scopes.CLIENT_SCOPE_ALL);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, null, allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, null, ownRoleScope);
@@ -2873,7 +2881,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			{
 				for (Scope scp: scopes)
 				{
-					if (scp.getScopeType().equals(Scopes.VALUES_SCOPE_TYPE))
+					if (scp.getScopeType().equals(Scopes.CHANGE_LOG_SCOPE_TYPE))
 					{
 						limitData = scp.getLimitDataOnFields(limitData);
 					}

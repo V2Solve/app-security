@@ -2,6 +2,7 @@ package com.v2solve.app.security.securitymodel;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 import lombok.Data;
 
@@ -110,5 +111,23 @@ public class Domain implements Serializable
 	public String getDomainKey ()
 	{
 		return domainType  + "-" + name;
+	}
+	
+	/**
+	 * Returns adds the name of themselves and all the children in this list..
+	 * @return
+	 */
+	public void addNamesOfYouAndYourDescendants (List<String> hiearchyList)
+	{
+		hiearchyList.add(getName());
+		
+		// Lets look if there are child domains.
+		if (childDomains != null)
+		{
+			for (Domain cd: childDomains.values())
+			{
+				cd.addNamesOfYouAndYourDescendants(hiearchyList);
+			}
+		}
 	}
 }

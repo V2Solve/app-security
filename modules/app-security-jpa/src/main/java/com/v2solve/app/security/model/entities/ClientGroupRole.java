@@ -13,7 +13,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="client_group_roles")
 @NamedQuery(name="ClientGroupRole.findAll", query="SELECT c FROM ClientGroupRole c")
-public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEntity implements Serializable {
+public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEntity implements Serializable 
+{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Application application;
@@ -54,9 +55,9 @@ public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEn
 
 
 	//bi-directional many-to-one association to ClientGroup
+	@JsonBackReference
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="client_group_id", nullable=false)
-	@JsonBackReference
 	public ClientGroup getClientGroup() {
 		return this.clientGroup;
 	}
@@ -67,9 +68,9 @@ public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEn
 
 
 	//bi-directional many-to-one association to ClientRole
+	@JsonBackReference
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="client_role_id", nullable=false)
-	@JsonBackReference
 	public ClientRole getClientRole() {
 		return this.clientRole;
 	}
@@ -88,14 +89,16 @@ public class ClientGroupRole extends com.v2solve.app.security.common.base.BaseEn
 	}
 
 	//bi-directional many-to-one association to ResourceDomain
+	@JsonBackReference
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="resource_domain_id")
-	@JsonBackReference
 	public ResourceDomain getResourceDomain() {
 		return this.resourceDomain;
 	}
 
 	public void setResourceDomain(ResourceDomain resourceDomain) {
+		
+		
 		this.resourceDomain = resourceDomain;
 	}
 	
