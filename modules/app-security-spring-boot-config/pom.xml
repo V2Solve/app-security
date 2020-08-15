@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.v2solve.app.security</groupId>
-  <artifactId>app-security-client-java</artifactId>
+  <artifactId>app-security-spring-boot-config</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>app-security-client-java</name>
-  <description>The client side of AppSecurity</description>
+  <name>app-security-spring-boot-config</name>
+  <packaging>jar</packaging>
   
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -18,29 +18,40 @@
 	    <maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	  </properties>
-  
+
   <dependencies>
-  
-  	<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+
+    <dependency>	
+		 <groupId>com.v2solve.app.security</groupId>
+		 <artifactId>app-security-client-java</artifactId>
+		 <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-configuration-processor</artifactId>
+		<optional>true</optional>
+	</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 	<dependency>
 	    <groupId>org.projectlombok</groupId>
 	    <artifactId>lombok</artifactId>
 	    <scope>provided</scope>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webflux -->
-	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-oauth2-client</artifactId>
-	</dependency>
-
-	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webflux -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-webflux</artifactId>
-	</dependency>
-
-	
 </dependencies>
+  
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>14</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   
 </project>
