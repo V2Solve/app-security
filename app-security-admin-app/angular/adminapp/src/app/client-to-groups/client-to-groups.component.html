@@ -44,6 +44,18 @@
 <table style="width: 100%;">
     <tr>
         <td>
+            <mat-form-field appearance="fill">
+            <mat-label>Associated App</mat-label>
+            <mat-select [(value)]="appIdentifier">
+                <mat-option *ngFor="let item of viewableApps" [value]="item.appIdentifier">
+                {{item.appIdentifier}}
+                </mat-option>
+            </mat-select>
+            </mat-form-field>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <div class="mat-elevation-z8">
             <table style="width: 100%;">
                 <tr style="align-content: left; text-align: left;"><td  class="form-cell">Group Membership for <b><i>{{clientIdentifier}}</i></b></td></tr>
@@ -58,7 +70,7 @@
                     <td class="form-cell" style="width: 30%;">
                             <mat-selection-list #asgS>
                                 <mat-list-option *ngFor="let item of assignedGroups" value="{{item.name}}">
-                                  {{item.name}}
+                                  {{item.name}} [{{item.appIdentifier==null?'':item.appIdentifier}}]
                                 </mat-list-option>
                             </mat-selection-list>                                
                     </td>

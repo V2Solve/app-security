@@ -14,7 +14,7 @@ import { CommonCallsService } from '../../../../../../modules/app-security-clien
 import { RequestStatusInformation, SearchClientGroupRequest, SearchClientRequest, DeleteGroupMembershipRequest, CreateGroupMembershipRequest} from '../../../../../../modules/app-security-client/type-script/src/client/commmodel';
 
 // Import Security Model
-import { ClientGroup,AppClient } from '../../../../../../modules/app-security-client/type-script/src/model/model';
+import { ClientGroup,AppClient, Application } from '../../../../../../modules/app-security-client/type-script/src/model/model';
 
 // Import constants.
 import { SecurityResources } from '../../../../../../modules/app-security-client/type-script/src/constants/constants';
@@ -43,6 +43,8 @@ export class ClientToGroupsComponent extends BaseForm implements OnInit {
 
   // The groups that have been assigned already.
   assignedGroups = new Array<ClientGroup>();
+
+  viewableApps = new Array<Application>();
   
   callService: CommonCallsService;
   managementClient: SecMgmtApiClientService;
@@ -133,6 +135,10 @@ export class ClientToGroupsComponent extends BaseForm implements OnInit {
           let aGM = new CreateGroupMembershipRequest ();
           aGM.clientIdentifier = this.clientIdentifier;
           aGM.clientGroupIdentifier = element.value;
+          if (this.appIdentifier == "GLOBAL")
+          aGM.appIdentifier = null;
+          else
+          aGM.appIdentifier = this.appIdentifier;
           await this.managementClient.createGroupMembership(aGM).toPromise().then(async response=>{
             if (response.status.statusCode == RequestStatusInformation.standardSuccessCode)
             {
@@ -241,9 +247,28 @@ export class ClientToGroupsComponent extends BaseForm implements OnInit {
 
   }
 
+  loadViewableApps ()
+  {
+    this.viewableApps.length = 0;
+    let app = new Application();
+    app.appIdentifier="GLOBAL";
+    app.shortIdentifier="GLOBAL";
+    this.viewableApps.push(app);
+    this.callService.loadViewableApps().then(values=>{
+      if (values != null && values != undefined) {
+      values.forEach(element=>{
+        this.viewableApps.push(element);
+      })
+     }
+
+    });
+  }
+
+
   ngOnInit(): void 
   {
-    this.formTitle="Manage Client Group Memberships"
+    this.formTitle="Manage Client Group Memberships";
+    this.loadViewableApps();
     this.updatePermissionFlags(SecurityResources.CLIENT_GROUP_MEMBERSHIP,this.callService);
   }
 
