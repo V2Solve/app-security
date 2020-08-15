@@ -10,11 +10,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.ClientRole;
-import com.v2solve.app.security.sdk.PagingInformation;
-import com.v2solve.app.security.sdk.roles.CreateClientRoleRequest;
-import com.v2solve.app.security.sdk.roles.DeleteClientRoleRequest;
-import com.v2solve.app.security.sdk.roles.SearchClientRoleRequest;
-
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.CreateClientRoleRequest;
+import com.v2solve.app.security.restmodel.request.DeleteClientRoleRequest;
+import com.v2solve.app.security.restmodel.request.SearchClientRoleRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 

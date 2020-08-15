@@ -22,7 +22,7 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// The client for which this SecurityContext is present.
+	// The client whose security context this is
 	AppClient client;
 	
 	// The list of Permissions that are present for this client.
@@ -44,6 +44,7 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 	// Quick reference map to get a list of permission on domain. The key to the map is the domainKey.
 	HashMap<String, List<Permit>> ApermissionsOnDomains = new HashMap<>();
 	HashMap<String, List<Permit>> DpermissionsOnDomains = new HashMap<>();
+	
 	// Key to the map is permitKey Hashmap keys are domains..
 	HashMap<String, HashMap<String,String>> domainsHavingPermit   = new HashMap<>();
 	
@@ -62,7 +63,6 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		this.permissions = permissions;
 		readyData(); // Lets ready the data for quick decision making..
 	}
-	
 	
 	void addPermitToDomainMap (Permit permit)
 	{
@@ -807,4 +807,15 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		return namesOfDomainsAndDescendants;
 	}
 	
+	/**
+	 * Returns the list of permissions which makes up this context.
+	 * @return
+	 */
+	@Override
+	public List<Permit> getListOfPermissions ()
+	{
+		return this.permissions;
+	}
+
+
 }

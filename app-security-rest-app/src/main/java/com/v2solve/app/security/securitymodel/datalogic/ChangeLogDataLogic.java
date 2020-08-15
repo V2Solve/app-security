@@ -16,8 +16,8 @@ import javax.persistence.criteria.Root;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.v2solve.app.security.model.entities.ChangeLog;
-import com.v2solve.app.security.sdk.PagingInformation;
-import com.v2solve.app.security.sdk.application.SearchChangeLogRequest;
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.SearchChangeLogRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 

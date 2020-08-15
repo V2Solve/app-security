@@ -172,5 +172,12 @@ public interface AppSecurityContext {
 	 * filters by the domain type..
 	 */
 	public List<String> getInvolvedDomains(String domainType);
-	
+
+
+	/**
+	 * Returns the list of permissions which makes up this context.
+	 * @return
+	 */
+	List<Permit> getListOfPermissions();
+
 }

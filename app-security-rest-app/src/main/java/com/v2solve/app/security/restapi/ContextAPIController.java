@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.v2solve.app.security.sdk.SecurityContextAPI;
-import com.v2solve.app.security.sdk.application.GetSecurityContextRequest;
-import com.v2solve.app.security.sdk.application.GetSecurityContextResponse;
-import com.v2solve.app.security.sdk.application.SecurityAPIRequest;
-import com.v2solve.app.security.sdk.application.SecurityAPIResponse;
+import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
+import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 
 
 

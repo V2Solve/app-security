@@ -14,13 +14,12 @@ import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.model.entities.ClientGroup;
 import com.v2solve.app.security.model.entities.ClientGroupMembership;
-import com.v2solve.app.security.sdk.PagingInformation;
-import com.v2solve.app.security.sdk.groups.CreateClientGroupRequest;
-import com.v2solve.app.security.sdk.groups.DeleteClientGroupRequest;
-import com.v2solve.app.security.sdk.groups.SearchClientGroupRequest;
-import com.v2solve.app.security.sdk.relations.CreateGroupMembershipRequest;
-import com.v2solve.app.security.sdk.relations.DeleteGroupMembershipRequest;
-
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.CreateClientGroupRequest;
+import com.v2solve.app.security.restmodel.request.CreateGroupMembershipRequest;
+import com.v2solve.app.security.restmodel.request.DeleteClientGroupRequest;
+import com.v2solve.app.security.restmodel.request.DeleteGroupMembershipRequest;
+import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 

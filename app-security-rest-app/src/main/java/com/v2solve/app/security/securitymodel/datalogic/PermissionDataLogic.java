@@ -14,17 +14,16 @@ import com.v2solve.app.security.model.entities.Action;
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Permission;
 import com.v2solve.app.security.model.entities.Resource;
-import com.v2solve.app.security.sdk.PagingInformation;
-import com.v2solve.app.security.sdk.permission.CreateActionRequest;
-import com.v2solve.app.security.sdk.permission.CreatePermissionRequest;
-import com.v2solve.app.security.sdk.permission.CreateResourceRequest;
-import com.v2solve.app.security.sdk.permission.DeleteActionRequest;
-import com.v2solve.app.security.sdk.permission.DeletePermissionRequest;
-import com.v2solve.app.security.sdk.permission.DeleteResourceRequest;
-import com.v2solve.app.security.sdk.permission.SearchActionRequest;
-import com.v2solve.app.security.sdk.permission.SearchPermissionRequest;
-import com.v2solve.app.security.sdk.permission.SearchResourceRequest;
-
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.CreateActionRequest;
+import com.v2solve.app.security.restmodel.request.CreatePermissionRequest;
+import com.v2solve.app.security.restmodel.request.CreateResourceRequest;
+import com.v2solve.app.security.restmodel.request.DeleteActionRequest;
+import com.v2solve.app.security.restmodel.request.DeletePermissionRequest;
+import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
+import com.v2solve.app.security.restmodel.request.SearchActionRequest;
+import com.v2solve.app.security.restmodel.request.SearchPermissionRequest;
+import com.v2solve.app.security.restmodel.request.SearchResourceRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 

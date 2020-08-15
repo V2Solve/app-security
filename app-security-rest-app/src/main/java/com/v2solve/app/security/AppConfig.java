@@ -4,9 +4,10 @@ import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.v2solve.app.security.sdk.SecurityManagementAPI;
+
 import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
-import com.v2solve.app.security.sdk.SecurityContextAPI;
+import com.v2solve.app.security.restapi.SecurityContextAPI;
+import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
 
 /**

@@ -18,14 +18,13 @@ import com.v2solve.app.security.model.entities.ClientRolePermission;
 import com.v2solve.app.security.model.entities.Permission;
 import com.v2solve.app.security.model.entities.ResourceDomain;
 import com.v2solve.app.security.model.entities.RoleScope;
-import com.v2solve.app.security.sdk.PagingInformation;
-import com.v2solve.app.security.sdk.relations.CreateClientGroupRoleRequest;
-import com.v2solve.app.security.sdk.relations.CreateClientRolePermissionRequest;
-import com.v2solve.app.security.sdk.relations.DeleteClientGroupRoleRequest;
-import com.v2solve.app.security.sdk.relations.DeleteClientRolePermissionRequest;
-import com.v2solve.app.security.sdk.relations.SearchClientGroupRoleRequest;
-import com.v2solve.app.security.sdk.relations.SearchClientRolePermissionRequest;
-
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.CreateClientGroupRoleRequest;
+import com.v2solve.app.security.restmodel.request.CreateClientRolePermissionRequest;
+import com.v2solve.app.security.restmodel.request.DeleteClientGroupRoleRequest;
+import com.v2solve.app.security.restmodel.request.DeleteClientRolePermissionRequest;
+import com.v2solve.app.security.restmodel.request.SearchClientGroupRoleRequest;
+import com.v2solve.app.security.restmodel.request.SearchClientRolePermissionRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 

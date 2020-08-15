@@ -5,10 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import com.v2solve.app.security.sdk.application.GetSecurityContextRequest;
-import com.v2solve.app.security.sdk.application.GetSecurityContextResponse;
-import com.v2solve.app.security.sdk.application.SecurityAPIRequest;
-import com.v2solve.app.security.sdk.application.SecurityAPIResponse;
+import com.v2solve.app.security.restapi.SecurityContextAPI;
+import com.v2solve.app.security.restmodel.RequestStatusInformation;
+import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
+import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.Scope;
@@ -380,7 +382,8 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		{
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
 			GetSecurityContextResponse gscr = new GetSecurityContextResponse(RequestStatusInformation.SUCCESS);
-			gscr.setClientSecurityContext(asc);
+			gscr.setAppClient(asc.getClient());
+			gscr.setPermissions(asc.getListOfPermissions());
 			return gscr;
 		}
 		catch (Throwable e)

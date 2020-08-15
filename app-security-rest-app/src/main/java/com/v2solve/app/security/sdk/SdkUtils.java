@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.v2solve.app.security.restmodel.request.BaseRequest;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.datalogic.SecurityDataLogic;
 

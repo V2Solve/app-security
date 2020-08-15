@@ -14,14 +14,13 @@ import javax.persistence.criteria.CriteriaBuilder.In;
 
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
-import com.v2solve.app.security.sdk.PagingInformation;
-import com.v2solve.app.security.sdk.application.CreateApplicationRequest;
-import com.v2solve.app.security.sdk.application.DeleteApplicationRequest;
-import com.v2solve.app.security.sdk.application.SearchApplicationsRequest;
-import com.v2solve.app.security.sdk.client.CreateClientRequest;
-import com.v2solve.app.security.sdk.client.DeleteClientRequest;
-import com.v2solve.app.security.sdk.client.SearchClientRequest;
-
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
+import com.v2solve.app.security.restmodel.request.CreateClientRequest;
+import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
+import com.v2solve.app.security.restmodel.request.DeleteClientRequest;
+import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchClientRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 
