@@ -107,10 +107,10 @@ export class ContextMgmtApiClientService
 		return this.http.post<cobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions ());
 	}
 
-	getSecurityContext (request: cobjs.SecurityAPIRequest): Observable<cobjs.SecurityAPIResponse>
+	getSecurityContext (request: cobjs.GetSecurityContextRequest): Observable<cobjs.GetSecurityContextResponse>
 	{
 		let methodUrl = this.apibaseurl + "/getSecurityContext";
-		return this.http.post<cobjs.SecurityAPIResponse>(methodUrl,request,this.getHttpOptions());
+		return this.http.post<cobjs.GetSecurityContextResponse>(methodUrl,request,this.getHttpOptions());
 	}
 
 	hasPermissionAs (action: string,resource: string): Observable<cobjs.SecurityAPIResponse>

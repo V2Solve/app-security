@@ -50,6 +50,7 @@ import { DynamicResultsTableComponent } from './dynamic-results-table/dynamic-re
 import { SideVerticalMenuComponent } from './side-vertical-menu/side-vertical-menu.component';
 import { TableMenuVertComponent } from './table-menu-vert/table-menu-vert.component';
 import { contextMgmtServiceProvider,securityMgmtServiceProvider } from './base-comps/client.services.provider';
+import { BasicUserManagementComponent } from './basic-user-management/basic-user-management.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { contextMgmtServiceProvider,securityMgmtServiceProvider } from './base-c
     ChangeLogMgmtComponent,
     DynamicResultsTableComponent,
     SideVerticalMenuComponent,
-    TableMenuVertComponent
+    TableMenuVertComponent,
+    BasicUserManagementComponent
   ],
   imports: [
     BrowserModule,

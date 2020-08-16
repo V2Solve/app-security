@@ -22,6 +22,7 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 	private String appShortIdentifier;
 	private String description;
 	private List<Action> actions;
+	private List<BasicAuthClient> basicAuthClients;
 	private List<Client> clients;
 	private List<ClientGroup> clientGroups;
 	private List<ClientGroupMembership> clientGroupMemberships;
@@ -419,4 +420,29 @@ public class Application extends com.v2solve.app.security.common.base.BaseEntity
 		return scopeType;
 	}
 
+	//bi-directional many-to-one association to BasicAuthClient
+	@OneToMany(mappedBy="application")
+	@JsonManagedReference
+	public List<BasicAuthClient> getBasicAuthClients() {
+		return this.basicAuthClients;
+	}
+
+	public void setBasicAuthClients(List<BasicAuthClient> basicAuthClients) {
+		this.basicAuthClients = basicAuthClients;
+	}
+
+	public BasicAuthClient addBasicAuthClient(BasicAuthClient basicAuthClient) {
+		getBasicAuthClients().add(basicAuthClient);
+		basicAuthClient.setApplication(this);
+
+		return basicAuthClient;
+	}
+
+	public BasicAuthClient removeBasicAuthClient(BasicAuthClient basicAuthClient) {
+		getBasicAuthClients().remove(basicAuthClient);
+		basicAuthClient.setApplication(null);
+
+		return basicAuthClient;
+	}
+	
 }

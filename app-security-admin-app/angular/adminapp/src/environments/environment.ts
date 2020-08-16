@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  contextApiBaseUrl: "http://localhost:8080/v1/contextapi",
-  managementApiBaseUrl: "http://localhost:8080/v1/managementapi",
-  username: "hrm_owner",
+  contextApiBaseUrl: "http://localhost:9570/v1/contextapi",
+  managementApiBaseUrl: "http://localhost:9570/v1/managementapi",
+  username: "saurinya@gmail.com",
   password: "admin"
 };
 

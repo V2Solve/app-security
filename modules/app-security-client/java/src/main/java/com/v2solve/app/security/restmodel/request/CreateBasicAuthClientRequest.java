@@ -5,16 +5,15 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DeleteActionRequest extends BaseRequest {
-
+public class CreateBasicAuthClientRequest extends BaseRequest
+{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-	/**
-	 * The name of the basic action user that needs to be deleted..
-	 */
 	String name;
+	String password;
+	boolean enabled;
+	String appIdentifier;
 }

@@ -12,6 +12,7 @@ import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.restmodel.request.BaseRequest;
 import com.v2solve.app.security.restmodel.request.CreateActionRequest;
 import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
+import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientRequest;
@@ -26,6 +27,7 @@ import com.v2solve.app.security.restmodel.request.CreateScopeRequest;
 import com.v2solve.app.security.restmodel.request.CreateScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteActionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
+import com.v2solve.app.security.restmodel.request.DeleteBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientRequest;
@@ -40,6 +42,7 @@ import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.SearchChangeLogRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRoleRequest;
@@ -54,6 +57,7 @@ import com.v2solve.app.security.restmodel.request.SearchScopeRequest;
 import com.v2solve.app.security.restmodel.request.SearchScopeTypeRequest;
 import com.v2solve.app.security.restmodel.response.CreateActionResponse;
 import com.v2solve.app.security.restmodel.response.CreateApplicationResponse;
+import com.v2solve.app.security.restmodel.response.CreateBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientGroupRoleResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientResponse;
@@ -68,6 +72,7 @@ import com.v2solve.app.security.restmodel.response.CreateScopeResponse;
 import com.v2solve.app.security.restmodel.response.CreateScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteActionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteApplicationResponse;
+import com.v2solve.app.security.restmodel.response.DeleteBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientGroupRoleResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientResponse;
@@ -82,6 +87,7 @@ import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationsResponse;
+import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.SearchChangeLogResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupRoleResponse;
@@ -437,6 +443,21 @@ public class SecurityManagementAPIImpl implements SecurityManagementAPI
 		
 		return implementRequest("",request,SearchChangeLogResponse.class);
 		
+	}
+
+	@Override
+	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request) {
+		return implementRequest("",request,CreateBasicAuthClientResponse.class);
+	}
+
+	@Override
+	public DeleteBasicAuthClientResponse implementRequest(DeleteBasicAuthClientRequest request) {
+		return implementRequest("",request,DeleteBasicAuthClientResponse.class);
+	}
+
+	@Override
+	public SearchBasicAuthClientResponse implementRequest(SearchBasicAuthClientRequest request) {
+		return implementRequest("",request,SearchBasicAuthClientResponse.class);
 	}
 	
 }

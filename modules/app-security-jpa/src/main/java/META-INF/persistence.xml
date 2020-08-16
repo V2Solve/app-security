@@ -16,5 +16,6 @@
 		<class>com.v2solve.app.security.model.entities.ResourceDomainType</class>
 		<class>com.v2solve.app.security.model.entities.ScopeType</class>
 		<class>com.v2solve.app.security.model.entities.ChangeLog</class>
+		<class>com.v2solve.app.security.model.entities.BasicAuthClient</class>
 	</persistence-unit>
 </persistence>

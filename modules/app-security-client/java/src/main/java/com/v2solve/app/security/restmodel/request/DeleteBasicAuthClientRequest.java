@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DeleteActionRequest extends BaseRequest {
+public class DeleteBasicAuthClientRequest extends BaseRequest {
 
 	/**
 	 * 
@@ -14,7 +14,7 @@ public class DeleteActionRequest extends BaseRequest {
 	
 	
 	/**
-	 * The name of the basic action user that needs to be deleted..
+	 * The name of the client that needs to be deleted..
 	 */
 	String name;
 }

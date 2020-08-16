@@ -34,6 +34,7 @@ public class SdkUtils
 	static AppSecurityContext getClientSecurityContextForRequest(EntityManager em,BaseRequest br) 
 	{
 		String clientId = br.getCallingClientId();
+		
 		if (StringUtils.isNullOrZeroLength(clientId))
 		{
 			// Lets check to see if there is authentication in place..

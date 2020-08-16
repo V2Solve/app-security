@@ -24,6 +24,8 @@ import com.v2solve.app.security.restmodel.request.SearchClientRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * This is a database access layer for dealing with Application and related security model data

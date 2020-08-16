@@ -172,11 +172,11 @@ export class TopbarComponent extends BaseForm implements OnInit
 
   figureOutLoggedInUser ()
   {
-    let req = new cobjs.SecurityAPIRequest();
+    let req = new cobjs.GetSecurityContextRequest();
     this.apiClient.getSecurityContext(req).subscribe(element=>{
       if (element.status.statusCode = cobjs.RequestStatusInformation.standardSuccessCode)
       {
-      this.loggedInUser = element.clientSecurityContext.client.clientIdentifier;
+      this.loggedInUser = element.appClient.clientIdentifier;
       if (this.loggedInUser == null || this.loggedInUser.length<=0)
         this.loggedInUser = "Unknown.";
     } else 

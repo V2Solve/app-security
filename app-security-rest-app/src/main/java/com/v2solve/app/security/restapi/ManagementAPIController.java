@@ -2,6 +2,7 @@ package com.v2solve.app.security.restapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.v2solve.app.security.restmodel.request.CreateActionRequest;
 import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
+import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientRequest;
@@ -23,6 +25,7 @@ import com.v2solve.app.security.restmodel.request.CreateScopeRequest;
 import com.v2solve.app.security.restmodel.request.CreateScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteActionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
+import com.v2solve.app.security.restmodel.request.DeleteBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientRequest;
@@ -37,6 +40,7 @@ import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.SearchChangeLogRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRoleRequest;
@@ -51,6 +55,7 @@ import com.v2solve.app.security.restmodel.request.SearchScopeRequest;
 import com.v2solve.app.security.restmodel.request.SearchScopeTypeRequest;
 import com.v2solve.app.security.restmodel.response.CreateActionResponse;
 import com.v2solve.app.security.restmodel.response.CreateApplicationResponse;
+import com.v2solve.app.security.restmodel.response.CreateBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientGroupRoleResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientResponse;
@@ -65,6 +70,7 @@ import com.v2solve.app.security.restmodel.response.CreateScopeResponse;
 import com.v2solve.app.security.restmodel.response.CreateScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteActionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteApplicationResponse;
+import com.v2solve.app.security.restmodel.response.DeleteBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientGroupRoleResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientResponse;
@@ -79,6 +85,7 @@ import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationsResponse;
+import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.SearchChangeLogResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupRoleResponse;
@@ -91,13 +98,19 @@ import com.v2solve.app.security.restmodel.response.SearchPermissionResponse;
 import com.v2solve.app.security.restmodel.response.SearchResourceResponse;
 import com.v2solve.app.security.restmodel.response.SearchScopeResponse;
 import com.v2solve.app.security.restmodel.response.SearchScopeTypeResponse;
+import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
 
 @RestController
 @RequestMapping(path = "/v1/managementapi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ManagementAPIController implements SecurityManagementAPI 
 {
 	@Autowired
-	SecurityManagementAPI implementation = null;
+	SecurityManagementAPI implementation;
+	
+	@Autowired
+	SecurityManangementAPIImpl localImpl;
+	
+	@Autowired PasswordEncoder passwordEncoder;
 	
 	@Override
 	@RequestMapping(method = RequestMethod.POST, path = "/deleteClient")
@@ -356,6 +369,24 @@ public class ManagementAPIController implements SecurityManagementAPI
 	@RequestMapping(method = RequestMethod.POST,path = "/searchChangeLogs")
 	public SearchChangeLogResponse implementRequest(@RequestBody SearchChangeLogRequest request) 
 	{
+		return implementation.implementRequest(request);
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST,path = "/createBasicAuthClient")
+	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request) {
+		return localImpl.implementRequest(request,passwordEncoder);
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST,path = "/deleteBasicAuthClient")
+	public DeleteBasicAuthClientResponse implementRequest(DeleteBasicAuthClientRequest request) {
+		return implementation.implementRequest(request);
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST,path = "/searchBasicAuthClients")
+	public SearchBasicAuthClientResponse implementRequest(SearchBasicAuthClientRequest request) {
 		return implementation.implementRequest(request);
 	}
 

@@ -1,3 +1,18 @@
+CREATE TABLE CHANGE_LOG (
+                id INTEGER NOT NULL,
+                action VARCHAR(50) NOT NULL,
+                resource VARCHAR(50) NOT NULL,
+                record_identifier VARCHAR(100) NOT NULL,
+                datetime TIMESTAMP NOT NULL,
+                original_record VARCHAR(2048),
+                changed_record VARCHAR(2048),
+                changer_id VARCHAR(255) NOT NULL,
+                target_id VARCHAR(255),
+                change_title VARCHAR(255) NOT NULL,
+                CONSTRAINT change_log_id PRIMARY KEY (id)
+);
+
+
 CREATE TABLE APPLICATION (
                 id INTEGER NOT NULL,
                 app_identifier VARCHAR(255) NOT NULL,
@@ -14,6 +29,16 @@ CREATE UNIQUE INDEX application_idx
 CREATE UNIQUE INDEX application_idx1
  ON APPLICATION
  ( app_identifier );
+
+CREATE TABLE BASIC_AUTH_CLIENTS (
+                id INTEGER NOT NULL,
+                name VARCHAR(50) NOT NULL,
+                user_password VARCHAR(50) NOT NULL,
+                enabled BOOLEAN NOT NULL,
+                APPLICATION_id INTEGER,
+                CONSTRAINT basic_auth_clients_pk PRIMARY KEY (id)
+);
+
 
 CREATE TABLE RESOURCE_DOMAIN_TYPE (
                 id INTEGER NOT NULL,
@@ -150,7 +175,6 @@ COMMENT ON COLUMN CLIENT_GROUP_ROLES.id IS 'The Primary key to identify record u
 COMMENT ON COLUMN CLIENT_GROUP_ROLES.CLIENT_GROUP_id IS 'The Primary key to identify record uniquely';
 COMMENT ON COLUMN CLIENT_GROUP_ROLES.CLIENT_ROLE_id IS 'The Primary key to identify record uniquely';
 COMMENT ON COLUMN CLIENT_GROUP_ROLES.RESOURCE_DOMAIN_id IS 'The Primary key to identify record uniquely';
-COMMENT ON COLUMN CLIENT_GROUP_ROLES.ROLE_SCOPE_id IS 'The Primary key to identify record uniquely';
 
 
 CREATE TABLE RESOURCE (
@@ -212,6 +236,7 @@ COMMENT ON TABLE CLIENT_ROLE_PERMISSIONS IS 'Association table to associate a pe
 COMMENT ON COLUMN CLIENT_ROLE_PERMISSIONS.id IS 'The Primary key to identify record uniquely';
 COMMENT ON COLUMN CLIENT_ROLE_PERMISSIONS.CLIENT_ROLE_id IS 'The Primary key to identify record uniquely';
 COMMENT ON COLUMN CLIENT_ROLE_PERMISSIONS.PERMISSION_id IS 'The Primary key to identify record uniquely';
+COMMENT ON COLUMN CLIENT_ROLE_PERMISSIONS.ROLE_SCOPE_id IS 'The Primary key to identify record uniquely';
 
 
 ALTER TABLE RESOURCE ADD CONSTRAINT application_resource_fk1
@@ -305,6 +330,13 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
+ALTER TABLE BASIC_AUTH_CLIENTS ADD CONSTRAINT application_basic_auth_clients_fk1
+FOREIGN KEY (APPLICATION_id)
+REFERENCES APPLICATION (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
 ALTER TABLE RESOURCE_DOMAIN ADD CONSTRAINT resource_domain_type_resource_domain_fk1
 FOREIGN KEY (RESOURCE_DOMAIN_TYPE_id)
 REFERENCES RESOURCE_DOMAIN_TYPE (id)
@@ -383,7 +415,7 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE PERMISSION ADD CONSTRAINT action_permission_fk1
-FOREIGN KEY (application_id)
+FOREIGN KEY (ACTION_id)
 REFERENCES ACTION (id)
 ON DELETE RESTRICT
 ON UPDATE NO ACTION
@@ -442,6 +474,8 @@ ALTER SEQUENCE "seq_role_scope_id" OWNER TO postgres;
 CREATE SEQUENCE "seq_scope_type_id" INCREMENT 1  START 10000  MINVALUE 1  MAXVALUE 1000000000 CACHE 1;
 ALTER SEQUENCE "seq_scope_type_id" OWNER TO postgres;
 
+CREATE SEQUENCE "seq_basic_auth_clients_id" INCREMENT 1  START 10000  MINVALUE 1  MAXVALUE 1000000000 CACHE 1;
+ALTER SEQUENCE "seq_basic_auth_clients_id" OWNER TO postgres;
 
 -- NOW INITIALIZING THE DATABASE with some initial Data. (Note the initial super user is created in the init-user-db.sh)
 
@@ -469,14 +503,15 @@ insert into resource (id,name,description,application_id) values (13,'RESOURCE_D
 insert into resource (id,name,description,application_id) values (14,'SCOPE_TYPE','represents a type of scope',null);
 insert into resource (id,name,description,application_id) values (15,'ROLE_SCOPE','represents a scope of a particular type with values',null);
 insert into resource (id,name,description,application_id) values (16,'CHANGE_LOG','represents an entry in the change_log',null);
+insert into resource (id,name,description,application_id) values (17,'BASIC_AUTH_CLIENT','represents basic auth client',null);
 
 -- some default scope information.
-insert into scope_type (id,name,application_id) values (1,'VALUES',null);
+-- insert into scope_type (id,name,application_id) values (1,'VALUES',null);
 
 -- some standard scope
-insert into role_scope (id,name,description,scope_value,application_id,scope_type_id) values (1,'OWNER_SCOPE','Represents a scope representing items owned by the user','OWN',null,1);
-insert into role_scope (id,name,description,scope_value,application_id,scope_type_id) values (2,'ALL_SCOPE','Represents a scope representing all items','ALL',null,1);
-insert into role_scope (id,name,description,scope_value,application_id,scope_type_id) values (3,'DOMAIN_SCOPE','Represents a scope representing all items at assigned domains','DOMAIN',null,1);
+-- insert into role_scope (id,name,description,scope_value,application_id,scope_type_id) values (1,'OWNER_SCOPE','Represents a scope representing items owned by the user','OWN',null,1);
+-- insert into role_scope (id,name,description,scope_value,application_id,scope_type_id) values (2,'ALL_SCOPE','Represents a scope representing all items','ALL',null,1);
+-- insert into role_scope (id,name,description,scope_value,application_id,scope_type_id) values (3,'DOMAIN_SCOPE','Represents a scope representing all items at assigned domains','DOMAIN',null,1);
 
 
 -- Some basic permissions on the resources of the administration application.
@@ -567,7 +602,6 @@ insert into permission (id,name,action_id,resource_id,description,application_id
 insert into permission (id,name,action_id,resource_id,description,application_id) values (510,'UPDATE ON SCOPE_TYPE',4,14,'ALLOWS UPDATE PERMISSION ON SCOPE_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (520,'DELETE ON SCOPE_TYPE',5,14,'ALLOWS DELETE PERMISSION ON SCOPE_TYPE',null);
 
-
 insert into permission (id,name,action_id,resource_id,description,application_id) values (525,'ALL_ACTIONS ON SCOPE',1,15,'ALLOWS ALL_ACTIONS PERMISSION ON SCOPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (530,'CREATE ON SCOPE',2,15,'ALLOWS CREATE PERMISSION ON SCOPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (540,'READ ON SCOPE',3,15,'ALLOWS READ PERMISSION ON SCOPE',null);
@@ -583,3 +617,10 @@ insert into permission (id,name,action_id,resource_id,description,application_id
 insert into permission (id,name,action_id,resource_id,description,application_id) values (620,'READ ON ALL_RESOURCES',3,1,'ALLOWS READ PERMISSION ON ALL RESOURCES',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (630,'UPDATE ON ALL_RESOURCES',4,1,'ALLOWS UPDATE PERMISSION ON ALL RESOURCES',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (640,'DELETE ON ALL_RESOURCES',5,1,'ALLOWS DELETE PERMISSION ON ALL RESOURCES',null);
+
+-- Permissions for Basic Auth Client table.
+insert into permission (id,name,action_id,resource_id,description,application_id) values (650,'ALL_ACTIONS ON BASIC_AUTH_CLIENT',1,17,'ALLOWS ALL_ACTIONS PERMISSION ON BASIC_AUTH_CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (660,'CREATE ON BASIC_AUTH_CLIENT',2,17,'ALLOWS CREATE PERMISSION ON BASIC_AUTH_CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (670,'READ ON BASIC_AUTH_CLIENT',3,17,'ALLOWS READ PERMISSION ON BASIC_AUTH_CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (680,'UPDATE ON BASIC_AUTH_CLIENT',4,17,'ALLOWS UPDATE PERMISSION ON BASIC_AUTH_CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (690,'DELETE ON BASIC_AUTH_CLIENT',5,17,'ALLOWS DELETE PERMISSION ON BASIC_AUTH_CLIENT',null);

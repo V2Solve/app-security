@@ -8,11 +8,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.criteria.CriteriaBuilder.In;
 
+import com.v2solve.app.security.model.entities.Application;
+import com.v2solve.app.security.model.entities.BasicAuthClient;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.model.entities.ClientGroup;
 import com.v2solve.app.security.model.entities.ClientGroupMembership;
@@ -21,6 +27,11 @@ import com.v2solve.app.security.model.entities.ClientRole;
 import com.v2solve.app.security.model.entities.ClientRolePermission;
 import com.v2solve.app.security.model.entities.ResourceDomain;
 import com.v2solve.app.security.model.entities.RoleScope;
+import com.v2solve.app.security.restmodel.PagingInformation;
+import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
+import com.v2solve.app.security.restmodel.request.DeleteBasicAuthClientRequest;
+import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
+import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
 import com.v2solve.app.security.sdk.SecurityActions;
 import com.v2solve.app.security.sdk.SecurityResources;
 import com.v2solve.app.security.securitymodel.AppClient;
@@ -31,6 +42,7 @@ import com.v2solve.app.security.securitymodel.PermitKey;
 import com.v2solve.app.security.securitymodel.Scope;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.utility.JPAUtils;
+import com.v2solve.app.security.utility.StringUtils;
 
 
 
@@ -259,4 +271,89 @@ public class SecurityDataLogic
 		return d;
 	}
 
+
+	public static BasicAuthClient createBasicAuthClient(EntityManager em, CreateBasicAuthClientRequest request,PasswordEncoder encoder) 
+	{
+		// Lets check if an app identifier has been provided or not..
+		Application app = null;
+		String appIdentifier = request.getAppIdentifier();
+		
+		if (!StringUtils.isNullOrZeroLength(appIdentifier))
+		{
+			app = DatalogicUtils.findObject(em, Application.class, "appIdentifier", appIdentifier);
+		}
+		
+		BasicAuthClient objToCreate = new BasicAuthClient();
+		objToCreate.setName(request.getName());
+		objToCreate.setEnabled(request.isEnabled());
+		objToCreate.setUserPassword(encoder.encode(request.getPassword()));
+		if (app != null)
+		objToCreate.setApplication(app);
+		JPAUtils.createObject(em, objToCreate);
+		return objToCreate;
+	}
+
+	public static BasicAuthClient deleteBasicAuthClient(EntityManager em, DeleteBasicAuthClientRequest request) 
+	{
+		BasicAuthClient deletedObj = null;
+		List<BasicAuthClient> listOfObjects = JPAUtils.findObjects(em, BasicAuthClient.class, "name", request.getName()); 
+				
+		if (listOfObjects != null && listOfObjects.isEmpty()==false)
+		{
+			for (BasicAuthClient obj : listOfObjects)
+			{
+				deletedObj = JPAUtils.deleteObject(em, obj.getId(), BasicAuthClient.class);
+				if (deletedObj == null)
+					throw new DataLogicValidationException("Could not deleted the record: " + request.getName());
+			}
+		}
+		
+		return deletedObj;
+	}
+	
+	
+	
+	public static List<BasicAuthClient> searchBasicAuthClients(EntityManager em, SearchBasicAuthClientRequest request,
+			List<String> limitingAppDomains) 
+	{
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<BasicAuthClient> cq = cb.createQuery(BasicAuthClient.class);
+		Root<BasicAuthClient> root = cq.from(BasicAuthClient.class);
+		cq.select(root);
+		
+		Predicate finalPredicate = null;
+		
+		Predicate namePC = null;
+		
+		if (!StringUtils.isNullOrZeroLength(request.getName()))
+		{
+			Path<String> namePath = root.get("name");
+			namePC = cb.like(namePath, "%"+request.getName()+"%");
+			finalPredicate = namePC;
+		}
+		
+		finalPredicate = DatalogicUtils.addLimitingClauseForApps(cb, limitingAppDomains, root, DatalogicUtils.APP_RELATIONSHIP_PROPERTY, DatalogicUtils.APP_IDENTIFIER_PROPERTY,finalPredicate);
+		
+		if (finalPredicate != null)
+		cq.where(finalPredicate);
+		
+		TypedQuery<BasicAuthClient> q = em.createQuery(cq);
+		
+		PagingInformation pagingInfo = request.getPagingInfo();
+		
+		if (pagingInfo != null)
+		{
+			int currentPage = pagingInfo.getCurrentPage();
+			int pageSize = pagingInfo.getPageSize();
+			if (currentPage > 0 && pageSize > 0)
+			{
+				q.setFirstResult((currentPage-1)*pageSize);
+				q.setMaxResults(pageSize);
+			}
+		}
+		
+		List<BasicAuthClient> listOfObjects = q.getResultList();
+		return listOfObjects;
+	}
+	
 }

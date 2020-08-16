@@ -261,3 +261,22 @@ export class Permission
 
 	appIdentifier!: string; // Owner App.
 }
+
+
+export class PermitKey
+{
+	action!: string;
+	resource!: string;
+}
+
+export class Permit
+{
+	permitKey!: PermitKey;
+	allowed!: boolean;		// whether this is an allowed permission, or a deny..
+	domain!: Domain;	        // The domains at which this permit key applies. if null, this is a root domainless permission
+							// meaning applies at all domains.
+	role!: String;		    // The role because of which this permission is available..
+	group!: String;			// The group because of which this permission is available..
+	scope!: String;			// The scope of this permit.
+	propogate!: boolean;		// Whether the permission is to be propogated down the Domain Hiearchy or not..
+}

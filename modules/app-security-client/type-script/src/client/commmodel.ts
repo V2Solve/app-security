@@ -1,4 +1,4 @@
-import { Scope, Domain, ChangeLog, AppClient, Resource, Permission, Application, Action, ClientGroupRole, ClientGroup, ClientRole, ClientRolePermission, DomainType, ScopeType } from "../model/model";
+import { Scope, Domain, ChangeLog, AppClient, Resource, Permission, Application, Action, ClientGroupRole, ClientGroup, ClientRole, ClientRolePermission, DomainType, ScopeType, Permit } from "../model/model";
 
 export class PagingInformation
 {
@@ -105,6 +105,10 @@ export  class SecurityAPIRequest extends BaseRequest
 	resources!: string [];
 }
 
+export  class GetSecurityContextRequest extends BaseRequest
+{
+}
+
 
 export class SearchChangeLogRequest extends BaseRequest 
 {
@@ -149,6 +153,19 @@ export class SecurityAPIResponse extends BaseResponse
 	scopes!: Array<Scope>;
 
 	results!: boolean [];
+}
+
+export class GetSecurityContextResponse extends BaseResponse
+{
+	/**
+	 * The client for which this permissions are..
+	 */
+	appClient!: AppClient;
+
+	/**
+	 * List of permissions.
+	 */
+	permissions!: Array<Permit>;
 }
 
 export class CreateApplicationRequest extends BaseRequest

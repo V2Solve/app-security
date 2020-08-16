@@ -6,9 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.v2solve.app.security.model.entities.Action;
 import com.v2solve.app.security.model.entities.Application;
+import com.v2solve.app.security.model.entities.BasicAuthClient;
 import com.v2solve.app.security.model.entities.ChangeLog;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.model.entities.ClientGroup;
@@ -26,6 +29,7 @@ import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.restmodel.RequestStatusInformation;
 import com.v2solve.app.security.restmodel.request.CreateActionRequest;
 import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
+import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientRequest;
@@ -40,6 +44,7 @@ import com.v2solve.app.security.restmodel.request.CreateScopeRequest;
 import com.v2solve.app.security.restmodel.request.CreateScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteActionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
+import com.v2solve.app.security.restmodel.request.DeleteBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientRequest;
@@ -54,6 +59,7 @@ import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.SearchChangeLogRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRoleRequest;
@@ -68,6 +74,7 @@ import com.v2solve.app.security.restmodel.request.SearchScopeRequest;
 import com.v2solve.app.security.restmodel.request.SearchScopeTypeRequest;
 import com.v2solve.app.security.restmodel.response.CreateActionResponse;
 import com.v2solve.app.security.restmodel.response.CreateApplicationResponse;
+import com.v2solve.app.security.restmodel.response.CreateBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientGroupRoleResponse;
 import com.v2solve.app.security.restmodel.response.CreateClientResponse;
@@ -82,6 +89,7 @@ import com.v2solve.app.security.restmodel.response.CreateScopeResponse;
 import com.v2solve.app.security.restmodel.response.CreateScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteActionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteApplicationResponse;
+import com.v2solve.app.security.restmodel.response.DeleteBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientGroupRoleResponse;
 import com.v2solve.app.security.restmodel.response.DeleteClientResponse;
@@ -96,6 +104,7 @@ import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationsResponse;
+import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.SearchChangeLogResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupRoleResponse;
@@ -121,7 +130,7 @@ import com.v2solve.app.security.securitymodel.datalogic.GroupDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.PermissionDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.RelationDataLogic;
 import com.v2solve.app.security.securitymodel.datalogic.RoleDataLogic;
-
+import com.v2solve.app.security.securitymodel.datalogic.SecurityDataLogic;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.ReflectUtils;
 import com.v2solve.app.security.utility.StringUtils;
@@ -2922,6 +2931,177 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 	}
 	
+
+	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request,PasswordEncoder encoder) 
+	{
+		EntityManager em = null;
+		TransactionWrapper tw = null;
+		
+		try
+		{
+			String action   = SecurityActions.CREATE;
+			String resource = SecurityResources.BASIC_AUTH_CLIENT; 
+			
+			em = getEm();
+			tw = new TransactionWrapper(em);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			
+			// Lets check to see if an application has been specified.
+			String appIdentifier = request.getAppIdentifier();
+			
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
+
+			// Lets check if the object already exists..
+			BasicAuthClient existingObj = DatalogicUtils.findObjectReturnNull(em, BasicAuthClient.class, "name", request.getName());
+			
+			// Update existing record..
+			if (existingObj != null)
+			{
+				BasicAuthClient originalRecord = ReflectUtils.createCopy(existingObj, BasicAuthClient.class);
+				String existingAppIdentifier = existingObj.getApplication()==null?null:existingObj.getApplication().getAppIdentifier();
+				
+				// Lets check update Permission..
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, existingAppIdentifier);
+				checkForAppDomainPermission(asc, SecurityActions.UPDATE, resource, appIdentifier);
+
+				// Okay so has permission..
+				existingObj.setEnabled(request.isEnabled());
+				existingObj.setUserPassword(encoder.encode(request.getPassword()));
+				
+				Application app = null;
+				if (appIdentifier != null)
+					app = DatalogicUtils.findObject(em, Application.class, "appIdentifier", appIdentifier);
+				existingObj.setApplication(app);
+				
+				JPAUtils.updateObject(em, existingObj);
+				ChangeLogDataLogic.createChangeLog(em, SecurityActions.UPDATE, resource, null, existingObj.getName(), null, asc.getClient().getClientIdentifier(), null, existingObj, originalRecord);
+				tw.success();
+				return new CreateBasicAuthClientResponse(RequestStatusInformation.success(RECORD_UPDATED));
+			}
+			
+			BasicAuthClient newObject = SecurityDataLogic.createBasicAuthClient(em,request,encoder);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
+			tw.success();
+			return new CreateBasicAuthClientResponse(RequestStatusInformation.success("Record created"));
+		}
+		catch (Throwable e)
+		{
+			log.error(StringUtils.traceString(e));
+			return new CreateBasicAuthClientResponse(RequestStatusInformation.failure(e.getMessage()));
+		}
+		finally
+		{
+			if (tw != null)
+				tw.commit();
+			if (em != null)
+				em.close();
+		}
+	}
+
+
+	@Override
+	public DeleteBasicAuthClientResponse implementRequest(DeleteBasicAuthClientRequest request) 
+	{
+		EntityManager em = null;
+		TransactionWrapper tw = null;
+		
+		try
+		{
+			String action   = SecurityActions.DELETE;
+			String resource = SecurityResources.BASIC_AUTH_CLIENT; 
+			String identifier = "name";
+			String idValue = request.getName();
+			
+			em = getEm();
+			tw = new TransactionWrapper(em);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+
+			BasicAuthClient resourceObj = DatalogicUtils.findObject(em, BasicAuthClient.class, identifier, idValue);
+			
+			// Lets check to see if it is an application identifier..
+			String appIdentifier = resourceObj.getApplication()==null?null:resourceObj.getApplication().getAppIdentifier();
+			
+			// Check for permission on AppDomain
+			checkForAppDomainPermission(asc, action, resource, appIdentifier);
+			
+			BasicAuthClient deletedObject = resourceObj; 
+
+			// Lets capture the deletedObject String because once deleted we will not have the data to change log.
+			String deletedObjectStr = deletedObject==null?"":new ObjectMapper().writeValueAsString(deletedObject);
+					
+			SecurityDataLogic.deleteBasicAuthClient(em,request);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.DELETE, resource, null, deletedObject.getName(), null, asc.getClient().getClientIdentifier(), null, deletedObjectStr, null);
+			tw.success();
+			return new DeleteBasicAuthClientResponse(RequestStatusInformation.success(RECORD_DELETED));
+		}
+		catch (Throwable e)
+		{
+			log.error(StringUtils.traceString(e));
+			return new DeleteBasicAuthClientResponse(RequestStatusInformation.failure(e.getMessage()));
+		}
+		finally
+		{
+			if (tw != null)
+				tw.commit ();
+			if (em != null)
+				em.close();
+		}
+	}
+
+
+	@Override
+	public SearchBasicAuthClientResponse implementRequest(SearchBasicAuthClientRequest request) 
+	{
+		EntityManager em = null;
+		TransactionWrapper tw = null;
+		
+		try
+		{
+			em = getEm();
+			tw = new TransactionWrapper(em);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			
+			// Lets make sure the user can read actions..
+			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.BASIC_AUTH_CLIENT);
+			List<String> limitingAppDomains = asc.hasPermissionReturnLimitingDomains(SecurityActions.READ, SecurityResources.BASIC_AUTH_CLIENT,Domains.APP_DOMAIN_TYPE);
+			// do business logic..
+			List<BasicAuthClient> listOfBasicAuthClients = SecurityDataLogic.searchBasicAuthClients(em, request, limitingAppDomains);
+			
+			SearchBasicAuthClientResponse sar = new SearchBasicAuthClientResponse(RequestStatusInformation.SUCCESS);
+			
+			if (listOfBasicAuthClients != null && listOfBasicAuthClients.isEmpty()==false)
+			{
+				List<com.v2solve.app.security.securitymodel.BasicAuthClient> ll = new ArrayList<>();
+				
+				for (BasicAuthClient resource : listOfBasicAuthClients) 
+				{
+					String appIdentifier = resource.getApplication()!=null?resource.getApplication().getAppIdentifier():null;
+					com.v2solve.app.security.securitymodel.BasicAuthClient newBasicAuthClient = new com.v2solve.app.security.securitymodel.BasicAuthClient(resource.getName(),"",resource.getEnabled() ,appIdentifier);
+					ll.add(newBasicAuthClient);
+				}
+				
+				sar.setBasicAuthClients(ll);
+			}
+			
+			tw.success();
+			return sar;
+		}
+		catch (Throwable e)
+		{
+			log.error(StringUtils.traceString(e));
+			return new SearchBasicAuthClientResponse(RequestStatusInformation.failure(e.getMessage()));
+		}
+		finally
+		{
+			if (tw != null)
+				tw.commit();
+			if (em != null)
+				em.close();
+		}
+	}
+
 	
 	/**
 	 * Common logic required in all functions above is to check if the caller has permission
@@ -2948,5 +3128,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			asc.checkNoLimitingDomain(action, resource, Domains.APP_DOMAIN_TYPE);
 		}
 	}
-	
+
+
+	@Override
+	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request) {
+		throw new RuntimeException("This method should be called, it should be the one with the password encoder passed to it.");
+	}
+
 }
