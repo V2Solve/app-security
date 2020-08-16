@@ -102,6 +102,7 @@ public class SecurityManagementAPIImpl implements SecurityManagementAPI
 {
 	AuthHeaderValueProvider vp = null;
 	String appSecurityServerEndPoint = null;
+	String contextUri = "v1/managementapi";
 	
 	WebClient getWebClient ()
 	{
@@ -120,6 +121,10 @@ public class SecurityManagementAPIImpl implements SecurityManagementAPI
 	public SecurityManagementAPIImpl (String appSecurityServerEndPoint,AuthHeaderValueProvider authHeaderValueProvider)
 	{
 		this.vp = authHeaderValueProvider;
+		if (appSecurityServerEndPoint.endsWith("/"))
+			appSecurityServerEndPoint += contextUri;
+		else
+			appSecurityServerEndPoint += "/" + contextUri;
 	}
 	
 	<T> T getMappedResponse (Mono<ClientResponse> crM, Class<T> clzz)

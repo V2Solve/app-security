@@ -8,9 +8,11 @@ import com.v2solve.app.security.securitymodel.DomainType;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class SearchDomainTypeResponse extends BaseResponse {
 
 	/**

@@ -3,6 +3,7 @@ package com.v2solve.app.security.securitymodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a Permit (Or Permission) and the associated data of how that permission came about..
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Permit implements java.io.Serializable 
 {
 	/**

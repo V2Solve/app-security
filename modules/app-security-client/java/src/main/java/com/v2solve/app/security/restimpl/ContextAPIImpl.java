@@ -19,10 +19,14 @@ import reactor.core.publisher.Mono;
 public class ContextAPIImpl implements SecurityContextAPI 
 {
 	AuthHeaderValueProvider vp = null;
-	String appSecurityServerEndPoint = null;
+	String appServerEndPoint = null;
+	String contextUri = "v1/contextapi";
 	
-	WebClient getWebClient ()
+	WebClient getWebClient (String endPoint)
 	{
+		String finalBase = appServerEndPoint;
+		if (endPoint != null)
+			finalBase += endPoint;
 		String authHeaderValue = null;
 		if (vp != null)
 			authHeaderValue = vp.getAuthHeaderValue();
@@ -30,7 +34,7 @@ public class ContextAPIImpl implements SecurityContextAPI
 		Builder builder = WebClient.builder();
 		if (authHeaderValue != null && authHeaderValue.trim().length() > 0)
 			builder.defaultHeader("Authorization", authHeaderValue);
-			builder.baseUrl(appSecurityServerEndPoint);
+			builder.baseUrl(finalBase);
 		
 		return builder.build();
 	}
@@ -38,6 +42,11 @@ public class ContextAPIImpl implements SecurityContextAPI
 	public ContextAPIImpl (String appSecurityServerEndPoint,AuthHeaderValueProvider authHeaderValueProvider)
 	{
 		this.vp = authHeaderValueProvider;
+		this.appServerEndPoint = appSecurityServerEndPoint;
+		if (this.appServerEndPoint.endsWith("/"))
+			this.appServerEndPoint += contextUri;
+		else
+			this.appServerEndPoint += "/" + contextUri;
 	}
 	
 	<T> T getMappedResponse (Mono<ClientResponse> crM, Class<T> clzz)
@@ -50,9 +59,9 @@ public class ContextAPIImpl implements SecurityContextAPI
 	
 	<T> T implementRequest (String endPointUri, BaseRequest br,Class<T> responseClass)
 	{
-		WebClient wc = getWebClient();
+		WebClient wc = getWebClient(null);
 		Mono<ClientResponse> response = wc.post()
-										  .uri(endPointUri, (Map<?,?>)null)
+										  .uri(endPointUri,(Map<?,?>)null)
 				                          .accept(MediaType.APPLICATION_JSON)
 				                          .bodyValue(br)
 				                          .exchange();

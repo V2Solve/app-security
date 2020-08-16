@@ -1,0 +1,14 @@
+spring: 
+  cache: 
+    type: "none"
+
+com:
+  v2solve:
+    app:
+      security:
+        basic: true
+        connection:
+          basic:
+            username: saurinya@gmail.com
+            password: admin
+          serverEndPoint: "http://localhost:9570"

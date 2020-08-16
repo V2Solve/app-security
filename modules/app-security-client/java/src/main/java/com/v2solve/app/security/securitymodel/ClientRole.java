@@ -2,6 +2,7 @@ package com.v2solve.app.security.securitymodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents an Client Role which is utilizing this model.
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ClientRole 
 {
 	/**

@@ -2,6 +2,7 @@ package com.v2solve.app.security.securitymodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Permission for purpose of domain model
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Permission {
 
 	/**

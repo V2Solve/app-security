@@ -2,6 +2,7 @@ package com.v2solve.app.security.securitymodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AppClient implements java.io.Serializable 
 {
 	

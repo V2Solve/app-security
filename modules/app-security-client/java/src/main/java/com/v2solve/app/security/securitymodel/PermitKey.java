@@ -3,6 +3,7 @@ package com.v2solve.app.security.securitymodel;
 import java.io.Serializable;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
 public class PermitKey implements Serializable 
 {
 	static final String ALL_ACTIONS    = "ALL_ACTIONS"; 

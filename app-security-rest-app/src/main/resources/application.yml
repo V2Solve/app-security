@@ -65,4 +65,7 @@ app:
 logging:  level:    com:
       v2solve:
         app:
-          security: DEBUG      
+          security: DEBUG
+
+server:
+  port: 9570      

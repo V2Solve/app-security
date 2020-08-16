@@ -3,6 +3,7 @@ package com.v2solve.app.security.restmodel;
 import java.util.List;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This class represents a request/response data structure for paging information to be passed in API calls
@@ -11,6 +12,7 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
 public class SortingInformation implements java.io.Serializable 
 {
 	/**

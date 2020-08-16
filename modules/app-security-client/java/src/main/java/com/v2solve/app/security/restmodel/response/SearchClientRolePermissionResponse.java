@@ -8,9 +8,11 @@ import com.v2solve.app.security.securitymodel.ClientRolePermission;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class SearchClientRolePermissionResponse extends BaseResponse {
 
 	/**

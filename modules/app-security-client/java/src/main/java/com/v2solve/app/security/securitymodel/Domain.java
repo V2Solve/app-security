@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -13,6 +14,7 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
 public class Domain implements Serializable 
 {
 	/**

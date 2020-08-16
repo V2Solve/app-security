@@ -5,6 +5,7 @@ import com.v2solve.app.security.restmodel.PagingInformation;
 import com.v2solve.app.security.restmodel.RequestStatusInformation;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * A base response class which all the response will extend.
@@ -12,6 +13,7 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
 public class BaseResponse implements java.io.Serializable 
 {	/**
 	 * 

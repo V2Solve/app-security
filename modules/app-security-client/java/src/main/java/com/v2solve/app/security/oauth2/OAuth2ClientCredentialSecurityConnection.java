@@ -20,7 +20,6 @@ import com.v2solve.app.security.securitymodel.AppSecurityContextImpl;
  */
 public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConnection,AuthHeaderValueProvider
 {
-	AppSecurityContext securityContext = null;
 	OAuthClientTokenCredentials credentials = null;
 	String appSecurityServerEndpoint = null;
 	OAuth2AccessToken accessToken = null;
@@ -36,28 +35,15 @@ public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConn
 	@Override
 	public AppSecurityContext getSecurityContext(String clientIdentifier,List<String> assumeGroups) 
 	{
-		if (securityContext == null)
-		{
-			// Lets try to get the security context..
-			synchronized (this)
-			{
-				if (securityContext == null)
-				{
-					GetSecurityContextRequest gscr = new GetSecurityContextRequest();
-					if (clientIdentifier != null)
-						gscr.setCallingClientId(clientIdentifier);
-					
-					if (assumeGroups != null)
-						gscr.setGroups(assumeGroups);
-					
-					GetSecurityContextResponse gscrr = scapi.getSecurityContext(gscr);
-					securityContext = new AppSecurityContextImpl(gscrr.getAppClient(),gscrr.getPermissions());
-				}
-			}
-			
-		}
+		GetSecurityContextRequest gscr = new GetSecurityContextRequest();
+		if (clientIdentifier != null)
+			gscr.setCallingClientId(clientIdentifier);
 		
-		return securityContext;
+		if (assumeGroups != null)
+			gscr.setGroups(assumeGroups);
+		
+		GetSecurityContextResponse gscrr = scapi.getSecurityContext(gscr);
+		return new AppSecurityContextImpl(gscrr.getAppClient(),gscrr.getPermissions());
 	}
 
 	@Override

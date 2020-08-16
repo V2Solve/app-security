@@ -1,6 +1,7 @@
 package com.v2solve.app.security.restmodel;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
 public class RequestStatusInformation implements java.io.Serializable 
 {
 	/**
