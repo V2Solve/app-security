@@ -167,6 +167,14 @@ export class TopbarComponent extends BaseForm implements OnInit
         menuItems.push(item);
       }
 
+      {
+        let item = new MenuItem("BasicAuthClients","Manage Basic Authentication Clients","/basicAuthClientManagement");
+        resources.push(constants.SecurityResources.BASIC_AUTH_CLIENT);
+        item.imageLink="security";
+        menuItems.push(item);
+      }
+
+
       this.setUpMenuBasedOnPermission(secApiRequest,resources,menuItems);
   }
 

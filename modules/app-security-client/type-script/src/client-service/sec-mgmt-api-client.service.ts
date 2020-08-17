@@ -311,10 +311,28 @@ export class SecMgmtApiClientService {
 		return this.http.post<cobjs.DeleteClientGroupRoleResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
 
-
 	searchChangeLogs (request: cobjs.SearchChangeLogRequest): Observable<cobjs.SearchChangeLogResponse>
 	{
 		let methodUrl = this.apibaseurl + "/searchChangeLogs";
 		return this.http.post<cobjs.SearchChangeLogResponse>(methodUrl,request,this.getHttpOptions ());
 	}
+
+	createBasicAuthClient (request: cobjs.CreateBasicAuthClientRequest): Observable<cobjs.CreateBasicAuthClientResponse>
+	{
+		let methodUrl = this.apibaseurl + "/createBasicAuthClient";
+		return this.http.post<cobjs.CreateBasicAuthClientResponse>(methodUrl,request,this.getHttpOptions ());
+	}				
+
+	deleteBasicAuthClient (request: cobjs.DeleteBasicAuthClientRequest): Observable<cobjs.DeleteBasicAuthClientResponse>
+	{
+		let methodUrl = this.apibaseurl + "/deleteBasicAuthClient";
+		return this.http.post<cobjs.DeleteBasicAuthClientResponse>(methodUrl,request,this.getHttpOptions ());
+	}				
+
+	searchBasicAuthClients (request: cobjs.SearchBasicAuthClientRequest): Observable<cobjs.SearchBasicAuthClientResponse>
+	{
+		let methodUrl = this.apibaseurl + "/searchBasicAuthClients";
+		return this.http.post<cobjs.SearchBasicAuthClientResponse>(methodUrl,request,this.getHttpOptions ());
+	}				
+
 }

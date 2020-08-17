@@ -36,6 +36,7 @@ export class SecurityResources {
 	static GROUP_ROLE_MEMBERSHIP:  string     = "GROUP_ROLE_MEMBERSHIP";
 	static PERMISSION_ROLE_MEMBERSHIP: string = "PERMISSION_ROLE_MEMBERSHIP";
 	static CHANGE_LOG: string                 = "CHANGE_LOG";
+	static BASIC_AUTH_CLIENT: string          = "BASIC_AUTH_CLIENT";
 }
 
 

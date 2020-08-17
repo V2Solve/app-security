@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpXsrfTokenExtractor } from '@an
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import * as cobjs from '../client/commmodel';
-import { Scope, Domain, ChangeLog, AppClient, Resource, Permission, Application, Action, ClientGroupRole, ClientGroup, ClientRole, ClientRolePermission, DomainType, ScopeType } from "../model/model";
+import { Scope, Domain, ChangeLog, AppClient, Resource, Permission, Application, Action, ClientGroupRole, ClientGroup, ClientRole, ClientRolePermission, DomainType, ScopeType, BasicAuthClient } from "../model/model";
 import { SecMgmtApiClientService } from './sec-mgmt-api-client.service'
 import { ContextMgmtApiClientService } from './context-mgmt-api-client.service'
 
@@ -34,6 +34,14 @@ export class CommonCallsService {
     let sarr = await this.managementClient.searchActions(sar).toPromise();
     return sarr.actions;
   }
+
+  async loadViewableBasicAuthClients (): Promise<Array<BasicAuthClient>>
+  {
+    let sar = new cobjs.SearchBasicAuthClientRequest()
+    let sarr = await this.managementClient.searchBasicAuthClients(sar).toPromise();
+    return sarr.basicAuthClients;
+  }
+
 
   async loadViewableResources (): Promise<Array<Resource>>
   {

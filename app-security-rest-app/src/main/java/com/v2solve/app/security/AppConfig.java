@@ -27,7 +27,7 @@ public class AppConfig
 	 * @param emf
 	 * @return
 	 */
-	@Bean
+	@Bean(name = "localSecurityManagementIMPL")
 	public SecurityManangementAPIImpl securityAPIImpl (@Autowired final EntityManagerFactory emf)
 	{
 		return new SecurityManangementAPIImpl(emf);
@@ -38,7 +38,7 @@ public class AppConfig
 	 * @param emf
 	 * @return
 	 */
-	@Bean
+	@Bean (name="securityAPI")
 	public SecurityManagementAPI securityAPI (@Autowired final EntityManagerFactory emf)
 	{
 		return new SecurityManangementAPIImpl(emf);

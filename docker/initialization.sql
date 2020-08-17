@@ -33,7 +33,7 @@ CREATE UNIQUE INDEX application_idx1
 CREATE TABLE BASIC_AUTH_CLIENTS (
                 id INTEGER NOT NULL,
                 name VARCHAR(50) NOT NULL,
-                user_password VARCHAR(50) NOT NULL,
+                user_password VARCHAR(1024) NOT NULL,
                 enabled BOOLEAN NOT NULL,
                 APPLICATION_id INTEGER,
                 CONSTRAINT basic_auth_clients_pk PRIMARY KEY (id)

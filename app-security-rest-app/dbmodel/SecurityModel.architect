@@ -1112,7 +1112,7 @@
     <column id="COL318" populated="true" UUID="87038709-f06d-4c6a-939d-05688af6a230" autoIncrement="false" autoIncrementSequenceName="BASIC_AUTH_CLIENTS_name_seq" defaultValue="" name="name" nullable="0" physicalName="name" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL319" populated="true" UUID="5a32bf75-a8ee-405c-9a60-5cff698b43c7" autoIncrement="false" autoIncrementSequenceName="BASIC_AUTH_CLIENTS_user_password_seq" defaultValue="" name="user_password" nullable="0" physicalName="user_password" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL319" populated="true" UUID="5a32bf75-a8ee-405c-9a60-5cff698b43c7" autoIncrement="false" autoIncrementSequenceName="BASIC_AUTH_CLIENTS_user_password_seq" defaultValue="" name="user_password" nullable="0" physicalName="user_password" precision="1024" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL320" populated="true" UUID="154f3a25-7633-4c88-aa40-d780ebf203c2" autoIncrement="false" autoIncrementSequenceName="BASIC_AUTH_CLIENTS_enabled_seq" defaultValue="" name="enabled" nullable="0" physicalName="enabled" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
@@ -1219,7 +1219,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="securitydbschema"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537144" viewportX="0" viewportY="32" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537144" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB170" x="1101" y="70" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB181" x="1427" y="64" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB190" x="1428" y="337" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>

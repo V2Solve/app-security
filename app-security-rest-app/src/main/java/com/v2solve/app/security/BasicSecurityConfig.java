@@ -105,42 +105,42 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter
     throws Exception 
     {
     	log.debug("configuring the jdbc authentication for basic auth.");
+    	
     	auth.jdbcAuthentication()
     	    .dataSource(dataSource)
     	    .usersByUsernameQuery("select name as username,user_password as password,enabled from basic_auth_clients where name = ?")
     	    .authoritiesByUsernameQuery("select name as username,'ADMIN' as authority from basic_auth_clients where name = ?");
     		
     	
-//    	if (basicUserList != null && basicUserList.getUsers() != null)
-//    	{
-//    		for (UserInformation ui: basicUserList.getUsers())
-//    		{
-//    			List<String> roles = new ArrayList<>();
-//    			
-//    			if (ui.getRoles() != null)
-//    			{
-//    				final StringTokenizer st = new StringTokenizer(ui.getRoles(),",; ");
-//    				while (st.hasMoreTokens())
-//    				{
-//    					roles.add(st.nextToken());
-//    				}
-//    			}
-//    			
-//    			log.debug("Adding user: " + ui.getUsername() + " with roles: " + roles);
-//    			log.debug("Authorization: " + "Basic " + Base64.getEncoder().encodeToString((ui.getUsername()+":"+ui.getPassword()).getBytes()));
-//    			
-//    			String rolesstr [] = roles.toArray(new String[0]);
-//    			
-//    	        auth.inMemoryAuthentication()
-//    	          .withUser(ui.getUsername()).password(nativePasswordEncoder().encode(ui.getPassword()))
-//    	          .authorities(rolesstr);
-//    		}
-//    	}
-//    	else
-//    	{
-//    		log.warn("No users have been configured for Basic Authentication , could not find configuration, gm.security.basic-auth-user-list.users[0].username = ..... and so forth");
-//    	}
-    	
+    	if (basicUserList != null && basicUserList.getUsers() != null)
+    	{
+    		for (UserInformation ui: basicUserList.getUsers())
+    		{
+    			List<String> roles = new ArrayList<>();
+    			
+    			if (ui.getRoles() != null)
+    			{
+    				final StringTokenizer st = new StringTokenizer(ui.getRoles(),",; ");
+    				while (st.hasMoreTokens())
+    				{
+    					roles.add(st.nextToken());
+    				}
+    			}
+    			
+    			log.debug("Adding user: " + ui.getUsername() + " with roles: " + roles);
+    			log.debug("Authorization: " + "Basic " + Base64.getEncoder().encodeToString((ui.getUsername()+":"+ui.getPassword()).getBytes()));
+    			
+    			String rolesstr [] = roles.toArray(new String[0]);
+    			
+    	        auth.inMemoryAuthentication()
+    	          .withUser(ui.getUsername()).password(nativePasswordEncoder().encode(ui.getPassword()))
+    	          .authorities(rolesstr);
+    		}
+    	}
+    	else
+    	{
+    		log.warn("No users have been configured for Basic Authentication , could not find configuration, gm.security.basic-auth-user-list.users[0].username = ..... and so forth");
+    	}
     	
     }    
 	

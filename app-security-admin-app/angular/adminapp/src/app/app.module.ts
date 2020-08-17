@@ -6,8 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from './spinner/spinner.component';
+import {MatCheckboxModule} from '@angular/material/checkbox'
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table'
 import {MatSortModule} from '@angular/material/sort'
@@ -88,6 +89,7 @@ import { BasicUserManagementComponent } from './basic-user-management/basic-user
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     MatIconModule,
     MatTableModule,
     MatSortModule,
@@ -102,7 +104,8 @@ import { BasicUserManagementComponent } from './basic-user-management/basic-user
     MatNativeDateModule,
     MatExpansionModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,useClass: LoaderInterceptor, multi: true},

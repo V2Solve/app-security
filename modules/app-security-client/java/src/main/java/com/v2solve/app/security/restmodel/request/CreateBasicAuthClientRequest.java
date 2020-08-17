@@ -14,6 +14,7 @@ public class CreateBasicAuthClientRequest extends BaseRequest
 	
 	String name;
 	String password;
+	String oldpassword;	// Used if updating.
 	boolean enabled;
 	String appIdentifier;
 }

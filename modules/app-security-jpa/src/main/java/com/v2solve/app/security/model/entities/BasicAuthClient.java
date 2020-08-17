@@ -55,7 +55,7 @@ public class BasicAuthClient extends com.v2solve.app.security.common.base.BaseEn
 	}
 
 
-	@Column(name="user_password")
+	@Column(name="user_password",length = 1024)
 	public String getUserPassword() {
 		return this.userPassword;
 	}

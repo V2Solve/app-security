@@ -1,1 +1,86 @@
-<p>basic-user-management works!</p>
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table>
+<tr>
+    <td>
+        <div class="mat-elevation-z8">
+        <table>
+            <tr> <!-- Row for form elements-->
+                    <td class="form-cell">
+                        <mat-form-field>
+                            <mat-label>Client/UserName</mat-label>
+                            <input matInput placeholder="Unique Resource Name" [formControl]="objectName">
+                            <mat-error *ngIf="objectName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="objectName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="password" [formControl]="newPassword" type="password">
+                            <mat-error *ngIf="newPassword.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="newPassword.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>Old Password</mat-label>
+                            <input matInput placeholder="oldpassword if updating" [formControl]="oldPassword" type="password">
+                            <mat-error *ngIf="oldPassword.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="oldPassword.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <br/>
+                            <mat-checkbox [(ngModel)]="disabled" [checked]="disabled" name="disabled">Disabled?</mat-checkbox>
+                        <br/>
+                        <br/>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Associated App</mat-label>
+                            <mat-select [(value)]="appIdentifier">
+                              <mat-option *ngFor="let item of viewableApps" [value]="item.appIdentifier">
+                                {{item.appIdentifier}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                        
+                        <br/>
+                        <br/>
+                    </td>
+            </tr>
+            <tr>    <!-- Row for buttons-->
+                <td class="form-cell">
+                    <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
+                        <button (click)="updateObject()" mat-icon-button title="Save Record" [disabled]="formGroup.invalid">
+                            Save<mat-icon style="font-size: 24px;">save</mat-icon>
+                        </button>
+                    </span>
+                </td>
+                <td class="form-cell">
+                    <span class="{{isDeletePermission()?'visibleItem':'hiddenItem'}}">
+                        <button (click)="deleteObject()" mat-icon-button title="Delete Record" [disabled]="formGroup.invalid">
+                            Delete<mat-icon style="font-size: 24px;">delete</mat-icon>
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        </div>
+    </td>
+</tr>
+</table>
+</div>
+<p></p>
+<!-- Results -->
+<span class="{{isReadPermission()?'visibleItem':'hiddenItem'}}">
+<table class="section-heading">
+    <tr>
+        <td class="section-title">Existing Records</td>
+    </tr>
+</table>
+<app-results-table [selectFunction]="isCreateOrDeletePermission()" (currentRowSelected)="rowSelected($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-results-table>
+</span>

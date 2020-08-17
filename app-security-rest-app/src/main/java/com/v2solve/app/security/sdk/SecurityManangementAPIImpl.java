@@ -2967,7 +2967,19 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 
 				// Okay so has permission..
 				existingObj.setEnabled(request.isEnabled());
-				existingObj.setUserPassword(encoder.encode(request.getPassword()));
+				if (!StringUtils.isNullOrZeroLength(request.getPassword()))
+				{
+					// Okay so password needs to be updated..
+					if (StringUtils.isNullOrZeroLength(request.getOldpassword()))
+						throw new DataLogicValidationException("If password is to be updated then you must supply old password/ otherwise donot keep the password blank.");
+					
+					String oldEncoded = encoder.encode(request.getOldpassword());
+					if (!oldEncoded.equals(existingObj.getUserPassword()))
+							throw new DataLogicValidationException("Old password not valid.");
+					
+					// Cool, so it is valid, lets update the new password.
+					existingObj.setUserPassword(encoder.encode(request.getPassword()));
+				}
 				
 				Application app = null;
 				if (appIdentifier != null)
@@ -2979,6 +2991,9 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				tw.success();
 				return new CreateBasicAuthClientResponse(RequestStatusInformation.success(RECORD_UPDATED));
 			}
+			
+			if (StringUtils.isNullOrZeroLength(request.getPassword()))
+				throw new DataLogicValidationException("Non Zero length password is required.");
 			
 			BasicAuthClient newObject = SecurityDataLogic.createBasicAuthClient(em,request,encoder);
 			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getName(), null, asc.getClient().getClientIdentifier(), null, newObject, null);

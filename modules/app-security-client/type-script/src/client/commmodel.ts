@@ -1,4 +1,4 @@
-import { Scope, Domain, ChangeLog, AppClient, Resource, Permission, Application, Action, ClientGroupRole, ClientGroup, ClientRole, ClientRolePermission, DomainType, ScopeType, Permit } from "../model/model";
+import { Scope, Domain, ChangeLog, AppClient, Resource, Permission, Application, Action, ClientGroupRole, ClientGroup, ClientRole, ClientRolePermission, DomainType, ScopeType, Permit, BasicAuthClient } from "../model/model";
 
 export class PagingInformation
 {
@@ -109,6 +109,32 @@ export  class GetSecurityContextRequest extends BaseRequest
 {
 }
 
+export  class CreateBasicAuthClientRequest extends BaseRequest
+{
+	name!: string;
+	oldpassword!: string;
+	password!: string;
+	enabled!: boolean;
+	appIdentifier!: string;	
+}
+
+export  class CreateBasicAuthClientResponse extends BaseResponse {
+}
+
+export  class DeleteBasicAuthClientResponse extends BaseResponse {
+}
+
+export  class DeleteBasicAuthClientRequest extends BaseRequest {
+	name!: string;
+}
+
+export class SearchBasicAuthClientRequest extends CreateBasicAuthClientRequest {
+}
+
+export  class SearchBasicAuthClientResponse extends BaseResponse 
+{
+	basicAuthClients!: Array<BasicAuthClient>
+}
 
 export class SearchChangeLogRequest extends BaseRequest 
 {

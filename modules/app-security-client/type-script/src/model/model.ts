@@ -280,3 +280,12 @@ export class Permit
 	scope!: String;			// The scope of this permit.
 	propogate!: boolean;		// Whether the permission is to be propogated down the Domain Hiearchy or not..
 }
+
+
+export class BasicAuthClient
+{
+	username!: string;
+	password!: string;
+	enabled!: boolean;
+	appIdentifier!: string;
+}
