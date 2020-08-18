@@ -35,12 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter 
 {
 	
-    @Value("${app.security.authwhitelist:\"\"}")
+    @Value("${v2solve.app.security.authwhitelist:\"\"}")
     String [] authWhiteList;
 	
-    @Value("${app.security.basic.realm:securityrealm}")
+    @Value("${v2solve.app.security.basic.realm:securityrealm:'v2sove-realm'}")
     String realmName;
-
     
     @Bean
     public PasswordEncoder nativePasswordEncoder() {
@@ -111,7 +110,6 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter
     	    .usersByUsernameQuery("select name as username,user_password as password,enabled from basic_auth_clients where name = ?")
     	    .authoritiesByUsernameQuery("select name as username,'ADMIN' as authority from basic_auth_clients where name = ?");
     		
-    	
     	if (basicUserList != null && basicUserList.getUsers() != null)
     	{
     		for (UserInformation ui: basicUserList.getUsers())
@@ -139,9 +137,8 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter
     	}
     	else
     	{
-    		log.warn("No users have been configured for Basic Authentication , could not find configuration, gm.security.basic-auth-user-list.users[0].username = ..... and so forth");
+    		log.warn("No users have been configured for Basic Authentication, could not find configuration, v2solve.app.security.basic.users[0].username=..... and so forth");
+    		log.warn("So at this point, only users present in the database may work for basic authentication");
     	}
-    	
     }    
-	
 }

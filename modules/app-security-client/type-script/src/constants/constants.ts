@@ -21,8 +21,8 @@ export class SecurityActions {
  */
 export class SecurityResources {
 
-	static APPLICATION: string                = "APPLICATION";
 	static ACTION: string                     = "ACTION";
+	static APPLICATION: string                = "APPLICATION";
 	static RESOURCE: string                   = "RESOURCE";
 	static CLIENT: string                     = "CLIENT";
 	static PERMISSION: string                 = "PERMISSION";

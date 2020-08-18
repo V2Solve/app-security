@@ -32,20 +32,21 @@ export class TopbarComponent extends BaseForm implements OnInit
 
   allMenuItems: Array<MenuItem> = new Array<MenuItem>();
   
-  setUpMenuBasedOnPermission (secApiRequest: cobjs.SecurityAPIRequest,resources: string[],mi: Array<MenuItem>): void
+  setUpMenuBasedOnPermission (secApiRequest: cobjs.SecurityAPIRequest,mi: Array<MenuItem>): void
   {
-      secApiRequest.resources = resources;
+      this.allMenuItems.length = 0;
       let observable = this.apiClient.hasPermissions(secApiRequest);
       observable.subscribe((value: cobjs.SecurityAPIResponse) => {
-        let count = 0;
         if (value.results != null)
         {
-          value.results.forEach(element => {
+          let count = 0;
+          value.results.forEach(element => 
+          {
             if (element == true)
             {
               this.allMenuItems.push(mi[count]);
-              count++;
             }
+            count++;
           });
         }
       });
@@ -174,8 +175,9 @@ export class TopbarComponent extends BaseForm implements OnInit
         menuItems.push(item);
       }
 
-
-      this.setUpMenuBasedOnPermission(secApiRequest,resources,menuItems);
+      // Let us assign the resources..
+      secApiRequest.resources = resources;
+      this.setUpMenuBasedOnPermission(secApiRequest,menuItems);
   }
 
   figureOutLoggedInUser ()

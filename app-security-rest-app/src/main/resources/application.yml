@@ -8,6 +8,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+
 # Setup for OAuth2 Security
   security:
     oauth2:
@@ -31,37 +33,36 @@ spring:
 ##If want to see very extensive logging
 #spring.jpa.properties.hibernate.generate_statistics=true
 #logging.level.org.hibernate.type=trace
-#logging.level.org.hibernate.stat=debug    
-app:
-  security:
-    basic:
-      realm: appsecurity
-      users:
-        - username: saurinya@gmail.com 
-          password: admin
-          roles: superuser
-        - username: crm_owner 
-          password: admin
-          roles: superuser
-        - username: hrm_owner 
-          password: admin
-          roles: appowner
-        - username: whm_owner 
-          password: admin
-          roles: developer
-        - username: accouting_owner 
-          password: admin
-          roles: auditor
-        - username: sales_owner 
-          password: admin
-          roles: auditor
-        - username: marketting_owner 
-          password: admin
-          roles: auditor
-          
+#logging.level.org.hibernate.stat=debug
+v2solve:    
+  app:
+    security:
+      basic:
+        realm: appsecurity
+        users:
+          - username: saurinya@gmail.com 
+            password: admin
+            roles: superuser
+          - username: crm_owner 
+            password: admin
+            roles: superuser
+          - username: hrm_owner 
+            password: admin
+            roles: appowner
+          - username: whm_owner 
+            password: admin
+            roles: developer
+          - username: accouting_owner 
+            password: admin
+            roles: auditor
+          - username: sales_owner 
+            password: admin
+            roles: auditor
+          - username: marketting_owner 
+            password: admin
+            roles: auditor
           
 #    authwhitelist: /index.html
-
 logging:  level:    com:
       v2solve:
         app:
