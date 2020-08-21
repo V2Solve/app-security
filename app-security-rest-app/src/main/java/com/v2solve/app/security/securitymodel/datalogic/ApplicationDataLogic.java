@@ -3,14 +3,15 @@ package com.v2solve.app.security.securitymodel.datalogic;
 
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CriteriaBuilder.In;
 
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.Client;
@@ -23,8 +24,6 @@ import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
-
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
