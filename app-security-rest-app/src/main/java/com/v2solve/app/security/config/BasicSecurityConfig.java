@@ -1,4 +1,4 @@
-package com.v2solve.app.security;
+package com.v2solve.app.security.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,7 +25,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.v2solve.app.security.BasicAuthUserListProperties.UserInformation;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,14 +32,15 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration  // Commented of, because we are using OuthWebSecurity
 @Slf4j
 @NoArgsConstructor
+@Conditional(ConfigConditions.EnableBasicAuthSecurity.class)
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter 
 {
 	
     @Value("${v2solve.app.security.authwhitelist:\"\"}")
     String [] authWhiteList;
 	
-    @Value("${v2solve.app.security.basic.realm:securityrealm:'v2sove-realm'}")
-    String realmName;
+    @Autowired 
+    BasicSecurityProperties basicSecurityProperties;
     
     @Bean
     public PasswordEncoder nativePasswordEncoder() {
@@ -75,7 +76,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter
 		http.httpBasic().authenticationEntryPoint(new BasicAuthenticationEntryPoint() {
 			@Override
 			public void afterPropertiesSet() {
-				setRealmName(realmName);
+				setRealmName(basicSecurityProperties.getRealm());
 				super.afterPropertiesSet();
 			}
 		});
@@ -98,7 +99,6 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter
 	 */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth,
-    		@Autowired BasicAuthUserListProperties basicUserList,
     		@Autowired DataSource dataSource,
     		@Autowired Environment springEnv) 
     throws Exception 
@@ -109,10 +109,12 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter
     	    .dataSource(dataSource)
     	    .usersByUsernameQuery("select name as username,user_password as password,enabled from basic_auth_clients where name = ?")
     	    .authoritiesByUsernameQuery("select name as username,'ADMIN' as authority from basic_auth_clients where name = ?");
+    	
+    	List<BasicAuthUser> basicUserList = basicSecurityProperties.getUsers();
     		
-    	if (basicUserList != null && basicUserList.getUsers() != null)
+    	if (basicUserList != null)
     	{
-    		for (UserInformation ui: basicUserList.getUsers())
+    		for (BasicAuthUser ui: basicUserList)
     		{
     			List<String> roles = new ArrayList<>();
     			

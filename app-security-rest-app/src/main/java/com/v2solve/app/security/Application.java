@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Saurinya
  *
  */
-@SpringBootApplication
+@SpringBootApplication (scanBasePackages = "com.v2solve.app.security.config")
 public class Application 
 {
 	/**

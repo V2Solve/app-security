@@ -23,7 +23,7 @@ export class ContextMgmtApiClientService
 		this.http = httpClient;
 		this.username = username;
 		this.password = password;
-	} 
+	}
 
 	/**
 	 * Returns the http options to be appended.

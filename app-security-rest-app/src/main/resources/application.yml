@@ -9,36 +9,52 @@ spring:
       hibernate:
         format_sql: true
 
-
-# Setup for OAuth2 Security
-  security:
-    oauth2:
-      client:
-        registration:
-          okta:
-            client-id: "0oam02zxsNkBAw5xo4x6"
-            client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
-            authorization-grant-type: "authorization_code"
-            client-name: Okta
-            scope:
-            - email
-            - profile
-            - openid
-        provider:
-          okta:
-            user-name-attribute: email
-            issuer-uri: "https://dev-869380.okta.com"      
-        
-
 ##If want to see very extensive logging
 #spring.jpa.properties.hibernate.generate_statistics=true
 #logging.level.org.hibernate.type=trace
 #logging.level.org.hibernate.stat=debug
+
 v2solve:    
   app:
     security:
+      jwt:
+        enable: false
+        client:
+          registration:
+            okta:
+              provider: "https://dev-869380.okta.com"
+          provider:
+            okta:
+              user-name-attribute: email
+              issuer-uri: "https://dev-869380.okta.com"
+          provider-extension:
+            okta:
+              claim-checks:                aud:
+                  allowed-values:                  - myfairlady 
+                  - mylesslady
+                acr:
+                  allowed-values:                  - heyBaby
+                  - nahlayak
+      oauth2:
+        enable: true
+        client:
+          registration:
+            okta:
+              provider: "https://dev-869380.okta.com"
+              client-id: "0oam02zxsNkBAw5xo4x6"
+              client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
+              client-name: Okta
+              scope:
+              - email
+              - profile
+              - openid
+          provider:
+            okta:
+              user-name-attribute: email
+              issuer-uri: "https://dev-869380.okta.com"
       basic:
-        realm: appsecurity
+        enable: false
+        realm: v2solve
         users:
           - username: saurinya@gmail.com 
             password: admin
