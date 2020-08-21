@@ -36,7 +36,7 @@ v2solve:
                   allowed-values:                  - heyBaby
                   - nahlayak
       oauth2:
-        enable: true
+        enable: false
         client:
           registration:
             okta:
@@ -53,7 +53,7 @@ v2solve:
               user-name-attribute: email
               issuer-uri: "https://dev-869380.okta.com"
       basic:
-        enable: false
+        enable: true
         realm: v2solve
         users:
           - username: saurinya@gmail.com 
