@@ -1,5 +1,7 @@
 package com.v2solve.app.security.config;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,11 +10,14 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CommonConfigAdapter extends WebSecurityConfigurerAdapter 
 {
     CorsConfigurationSource corsConfigurationSource(CommonSecurityProperties csp) 
     {
-    	if (csp == null)
+    	if (csp == null || csp.getCors() == null)
     		return null;
     	
         CorsConfigurationSource ccs = new CorsConfigurationSource() 
@@ -30,18 +35,37 @@ public class CommonConfigAdapter extends WebSecurityConfigurerAdapter
     void setXframeOptions (HttpSecurity http, CommonSecurityProperties csp) 
     throws Exception
     {
-    	http.headers().frameOptions().disable();	// Default..
-    		
     	if (csp != null)
     	{
     		String xframeOption = csp.getXframeOption();
     		if (xframeOption != null)
     		{
     			if (xframeOption.equalsIgnoreCase("deny"))
+    			{
+    				log.info("FrameOptions: deny");
     				http.headers().frameOptions().deny();
+    			}
     			else if (xframeOption.equalsIgnoreCase("same-origin") || xframeOption.equalsIgnoreCase("sameorigin"))
+    			{
+    				log.info("FrameOptions: same-origin");
     				http.headers().frameOptions().sameOrigin();
+    			}
+    			else
+    			{
+    				log.info("FrameOptions: disabled");
+    				http.headers().frameOptions().disable();	// Default..
+    			}
     		}
+    		else
+    		{
+    			log.info("FrameOptions: disabled");
+    			http.headers().frameOptions().disable();	// Default..
+    		}
+    	}
+    	else
+    	{
+    		log.info("FrameOptions: disabled");
+    		http.headers().frameOptions().disable();	// Default..
     	}
     }
     
@@ -51,11 +75,38 @@ public class CommonConfigAdapter extends WebSecurityConfigurerAdapter
     {
     	setXframeOptions(http, csp);
     	CorsConfigurationSource ccs = corsConfigurationSource(csp);
-    	if (ccs != null)
-    		http.cors().configurationSource(ccs);
-    	else
-    		http.cors().disable();
     	
+    	if (ccs != null)
+    	{
+    		log.info("CorsConfiguration: " + csp.getCors());
+    		http.cors().configurationSource(ccs);
+    	}
+    	else
+    	{
+    		log.info("CorsConfiguration: disabled");
+    		http.cors().disable();
+    	}
+    	
+    	log.info("CSRFConfiguration: CookieCsrfTokenRepository.withHttpOnlyFalse()");
     	http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    }
+    
+    void setCommonAuthPattern (HttpSecurity http, CommonSecurityProperties csp) 
+    throws Exception
+    {
+    	String [] authWhiteList = null;
+    	
+    	if (csp != null)
+    	authWhiteList = csp.getAuthwhitelist(); 
+    	
+    	log.info("AuthenticationWhiteList: " + Arrays.asList(authWhiteList));
+	    
+    	http
+	      .antMatcher("/**")
+	      .authorizeRequests()
+	      .antMatchers(authWhiteList)
+	      .permitAll()
+	      .anyRequest()
+	      .authenticated();
     }
 }

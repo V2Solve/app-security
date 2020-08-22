@@ -75,12 +75,6 @@ public class OAuthWebSecurityConfig extends CommonConfigAdapter {
 			http.oauth2Login().clientRegistrationRepository(clientRepository);
 		}
 		
-	    http
-	      .antMatcher("/**")
-	      .authorizeRequests()
-	      .antMatchers(commonSecurityProperties.getAuthwhitelist())
-	      .permitAll()
-	      .anyRequest()
-	      .authenticated();
+		setCommonAuthPattern(http, commonSecurityProperties);
 	}
 }

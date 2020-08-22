@@ -49,12 +49,6 @@ public class JwtSecurityConfig extends CommonConfigAdapter {
 			http.oauth2ResourceServer();
 		}
 		
-	    http
-	      .antMatcher("/**")
-	      .authorizeRequests()
-	      .antMatchers(commonSecurityProperties.getAuthwhitelist())
-	      .permitAll()
-	      .anyRequest()
-	      .authenticated();
+		setCommonAuthPattern(http, commonSecurityProperties);
 	}
 }

@@ -57,13 +57,7 @@ public class BasicSecurityConfig extends CommonConfigAdapter
 		});
 		
 		
-	    http
-	      .antMatcher("/**")
-	      .authorizeRequests()
-	      .antMatchers(commonSecurityProperties.getAuthwhitelist())
-	      .permitAll()
-	      .anyRequest()
-	      .authenticated();
+		setCommonAuthPattern(http, commonSecurityProperties);
 	}
 	
 	
