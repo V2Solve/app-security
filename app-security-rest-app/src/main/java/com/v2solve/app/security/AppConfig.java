@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
+import com.v2solve.app.security.config.EnableSecurity;
 import com.v2solve.app.security.restapi.SecurityContextAPI;
 import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
@@ -19,6 +20,7 @@ import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
  *
  */
 @Configuration
+@EnableSecurity
 public class AppConfig 
 {
 

@@ -1,0 +1,30 @@
+v2solve:    
+  app:
+    security:
+      oauth2:
+        enable: true
+        client:
+          registration:
+            okta:
+              provider: "https://dev-869380.okta.com"
+              client-id: "0oam02zxsNkBAw5xo4x6"
+              client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
+              client-name: Okta
+              scope:
+              - email
+              - profile
+              - openid
+          provider:
+            okta:
+              user-name-attribute: email
+              issuer-uri: "https://dev-869380.okta.com"
+#    authwhitelist: /index.html
+logging:
+  level:
+    com:
+      v2solve:
+        app:
+          security: DEBUG
+
+server:
+  port: 8080

@@ -1,0 +1,104 @@
+.results-odd-row
+{
+    border: 1px solid lightgray;
+    padding: 5px;
+    font-size: smaller;
+}
+
+.results-even-row
+{
+    border: 1px solid lightgray;
+    padding: 5px;
+    background-color: rgb(252, 252, 252);
+    font-size: smaller;
+}
+
+.results-heading-row
+{
+    border: 1px solid lightgray;
+    padding: 5px;
+    font-size: larger;
+}
+
+.section-heading
+{
+    width: 100%; 
+    align-content: left; 
+    border: 0;
+}
+
+.section-title
+{
+    font-size: large;
+    font-weight: bold;
+}
+
+.form-button
+{
+    margin: 2px;
+}
+
+
+.form-label
+{
+    font-size: inherit;
+}
+
+.hiddenItem
+{
+    display: none;
+}
+
+.visibleItem
+{
+    display: inherit;
+}
+
+.infoMessage
+{
+    color: green;
+    font-size: smaller;
+}
+
+.errorMessage
+{
+    color: red;
+    font-size: smaller;
+}
+
+.info-block-title-row
+{
+    background-color: black;
+    color: white;
+    font-weight: normal;
+}
+
+.info-block-button
+{
+    margin: 2px;
+}
+
+.table-menu-cell
+{
+    width: auto;
+    padding: 10px;
+}
+
+.mat-icon
+{
+    font-size: 40px;
+    align-content: center;
+}
+
+
+.form-cell
+{
+    padding: 10px;
+    padding-bottom: 20px;
+}
+
+.info-block-form-cell
+{
+    padding: 5px;
+    font-size: smaller;
+}

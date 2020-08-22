@@ -1,0 +1,1 @@
+ng build --output-path=../../../admin-app-spring-boot/src/main/resources/static
