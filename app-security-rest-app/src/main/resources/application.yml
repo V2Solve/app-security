@@ -17,6 +17,7 @@ spring:
 v2solve:    
   app:
     security:
+      authwhitelist: "/oidc-support**"
       jwt:
         enable: false
         client:
@@ -77,8 +78,7 @@ v2solve:
           - username: marketting_owner 
             password: admin
             roles: auditor
-          
-#    authwhitelist: /index.html
+            
 logging:  level:    com:
       v2solve:
         app:
