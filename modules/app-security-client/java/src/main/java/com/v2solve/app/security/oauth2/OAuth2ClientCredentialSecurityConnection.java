@@ -1,4 +1,5 @@
 package com.v2solve.app.security.oauth2;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.AppSecurityContextImpl;
+import com.v2solve.app.security.utility.oauth2.OAuth2Utils;
 
 /**
  * This is a connection class which will connect to the App Security server and 
@@ -20,12 +22,12 @@ import com.v2solve.app.security.securitymodel.AppSecurityContextImpl;
  */
 public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConnection,AuthHeaderValueProvider
 {
-	OAuthClientTokenCredentials credentials = null;
+	OAuth2ClientTokenCredentials credentials = null;
 	String appSecurityServerEndpoint = null;
 	OAuth2AccessToken accessToken = null;
 	SecurityContextAPI scapi = null;
 	
-	public OAuth2ClientCredentialSecurityConnection(OAuthClientTokenCredentials credentials,String appSecurityServerEndpoint) 
+	public OAuth2ClientCredentialSecurityConnection(OAuth2ClientTokenCredentials credentials,String appSecurityServerEndpoint) 
 	{
 		this.credentials = credentials;
 		this.appSecurityServerEndpoint = appSecurityServerEndpoint;
@@ -53,7 +55,7 @@ public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConn
 		
 		if (accessToken == null || accessToken.getExpiresAt().isAfter(toCompare))
 		{
-			accessToken = OAuthUtils.getClientCredentialToken(credentials.getClientId(), credentials.getClientSecret(), credentials.getIssuerDomain());
+			accessToken = OAuth2Utils.getClientCredentialToken(credentials.getClientId(), credentials.getClientSecret(), credentials.getIssuerDomain());
 		}
 		
 		return "Bearer " + accessToken.getTokenValue();

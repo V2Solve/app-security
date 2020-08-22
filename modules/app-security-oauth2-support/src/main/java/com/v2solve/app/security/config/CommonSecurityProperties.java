@@ -11,6 +11,11 @@ import lombok.Data;
 @Data
 public class CommonSecurityProperties {
 
+	/**
+	 * Global flag to disable all security
+	 */
+	boolean disable;
+	
 	String xframeOption;
 	String [] authwhitelist;
 	CorsConfiguration cors;

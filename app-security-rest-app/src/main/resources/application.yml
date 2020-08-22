@@ -17,6 +17,10 @@ spring:
 v2solve:    
   app:
     security:
+      xframe-option: none
+      cors:        allowed-methods:        - "*"
+        allowed-origins:        - "*"
+        allowed-headers:        - "*"
       authwhitelist: "/oidc-support**"
       jwt:
         enable: false

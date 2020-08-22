@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 import org.springframework.context.annotation.Import;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Import(value = {AppSecurityAutoConfig.class})
+@Import(value = {AppSecurityEnablementFlagsProperties.class,BasicCredentialProperties.class,OAuth2ClientCredentialProperties.class,AppSecurityAutoConfig.class})
 public @interface EnableAppSecurity {
 
 }

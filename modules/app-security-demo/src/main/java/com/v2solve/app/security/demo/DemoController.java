@@ -16,7 +16,7 @@ public class DemoController
 	@Autowired AppSecurityConnection appSecurityConnection;
 	
 	@RequestMapping(path = "/viewSecurityContext",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-	public AppSecurityContext viewSecurityContext (@RequestParam(name = "clientIdentifier") String clientIdentifier)
+	public AppSecurityContext viewSecurityContext (@RequestParam(name = "clientIdentifier",required = false) String clientIdentifier)
 	{
 		return appSecurityConnection.getSecurityContext(clientIdentifier, null);
 	}

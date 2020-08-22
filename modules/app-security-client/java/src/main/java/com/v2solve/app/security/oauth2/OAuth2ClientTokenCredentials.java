@@ -2,10 +2,12 @@ package com.v2solve.app.security.oauth2;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class OAuthClientTokenCredentials 
+@NoArgsConstructor
+public class OAuth2ClientTokenCredentials 
 {
 	/**
 	 * The client id..

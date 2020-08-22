@@ -12,7 +12,7 @@ public class AppSecurityConfigConditions
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) 
 		{
 			// Lets check if a property exists
-			Boolean propValue = context.getEnvironment().getProperty("com.v2solve.app.security.basic",Boolean.class);
+			Boolean propValue = context.getEnvironment().getProperty(AppSecurityEnablementFlagsProperties.BasicConnectionEnabledPropertyKey,Boolean.class);
 			return (propValue != null && propValue.booleanValue());
 		}
 		
@@ -24,7 +24,7 @@ public class AppSecurityConfigConditions
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) 
 		{
 			// Lets check if a property exists
-			Boolean propValue = context.getEnvironment().getProperty("com.v2solve.app.security.oauth2",Boolean.class);
+			Boolean propValue = context.getEnvironment().getProperty(AppSecurityEnablementFlagsProperties.OAuth2ConnectionEnabledPropertyKey,Boolean.class);
 			return (propValue != null && propValue.booleanValue());
 		}
 		

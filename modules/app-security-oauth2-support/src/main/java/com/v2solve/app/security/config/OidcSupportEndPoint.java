@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties.Provider;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties.Registration;
 import org.springframework.http.MediaType;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +24,6 @@ import lombok.Data;
  * @author Saurinya
  *
  */
-
-
 @RestController
 @RequestMapping(path = "/oidc-support", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OidcSupportEndPoint 
@@ -58,7 +57,20 @@ public class OidcSupportEndPoint
 				
 				if (reg != null)
 				{
-					ClientConfiguration cc = new ClientConfiguration(reg,p,cp);
+					Registration newR = new Registration(); 
+					Provider newP = new Provider();
+					CustomProvider newCp = new CustomProvider();
+					
+					ReflectionUtils.shallowCopyFieldState(reg, newR);
+					if (p != null)
+						ReflectionUtils.shallowCopyFieldState(p, newP);
+					if (cp != null)
+						ReflectionUtils.shallowCopyFieldState(cp, newCp);
+					
+					if (newR.getClientSecret() != null)
+						newR.setClientSecret("--masked--");
+					
+					ClientConfiguration cc = new ClientConfiguration(newR,newP,newCp);
 					listOfClientConfigurations.add(cc);
 				}
 			}

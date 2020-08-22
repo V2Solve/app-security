@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+// import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -23,8 +23,9 @@ public class CommonConfigAdapter extends WebSecurityConfigurerAdapter
         CorsConfigurationSource ccs = new CorsConfigurationSource() 
         {
 			@Override
-			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-				return csp.getCors();
+			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) 
+			{
+		        return csp.getCors();
 			}
 		};
 		
@@ -87,8 +88,9 @@ public class CommonConfigAdapter extends WebSecurityConfigurerAdapter
     		http.cors().disable();
     	}
     	
-    	log.info("CSRFConfiguration: CookieCsrfTokenRepository.withHttpOnlyFalse()");
-    	http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    	http.csrf().disable();
+    	// log.info("CSRFConfiguration: CookieCsrfTokenRepository.withHttpOnlyFalse()");
+    	// http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
     
     void setCommonAuthPattern (HttpSecurity http, CommonSecurityProperties csp) 
@@ -97,16 +99,23 @@ public class CommonConfigAdapter extends WebSecurityConfigurerAdapter
     	String [] authWhiteList = null;
     	
     	if (csp != null)
-    	authWhiteList = csp.getAuthwhitelist(); 
-    	
-    	log.info("AuthenticationWhiteList: " + Arrays.asList(authWhiteList));
+    		authWhiteList = csp.getAuthwhitelist(); 
 	    
+    	
+    	if (authWhiteList != null)
+    	{
+    		log.info("AuthenticationWhiteList: " + Arrays.asList(authWhiteList));
+	    	http.antMatcher("/**")
+	    	    .authorizeRequests()
+	    	    .antMatchers(authWhiteList)
+		        .permitAll();
+    	}
+    	
     	http
 	      .antMatcher("/**")
 	      .authorizeRequests()
-	      .antMatchers(authWhiteList)
-	      .permitAll()
 	      .anyRequest()
 	      .authenticated();
+    	
     }
 }

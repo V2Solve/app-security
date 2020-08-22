@@ -1,7 +1,6 @@
 package com.v2solve.app.security.utility.oauth2;
 
 
-
 import java.net.MalformedURLException;
 //import java.net.URI;
 import java.util.ArrayList;
@@ -14,11 +13,16 @@ import java.util.Set;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties.Provider;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties.Registration;
+import org.springframework.security.oauth2.client.endpoint.OAuth2ClientCredentialsGrantRequest;
+import org.springframework.security.oauth2.client.endpoint.WebClientReactiveClientCredentialsTokenResponseClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrations;
 import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
 import org.springframework.security.oauth2.core.AuthenticationMethod;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -43,8 +47,6 @@ import reactor.core.publisher.Mono;
  */
 public class OAuth2Utils 
 {
-
-	
 	static List<String> getScopesFromMetadata (OIDCProviderMetadata metadata)
 	{
 		Scope scope =  metadata.getScopes();
@@ -401,4 +403,23 @@ public class OAuth2Utils
 		return mapOfDecoders;
 	}
 	
+	/**
+	 * Obtains a client token, by building a client registration object from the issuerDomain,
+	 * 
+	 * @param clientId
+	 * @param clientSecret
+	 * @param issuerDomain
+	 * @return
+	 */
+	public static OAuth2AccessToken getClientCredentialToken (String clientId,String clientSecret,String issuerDomain)
+	{
+		ClientRegistration cr = ClientRegistrations.fromIssuerLocation(issuerDomain)
+				                                   .clientId(clientId).clientSecret(clientSecret).build();
+		OAuth2ClientCredentialsGrantRequest o2cc = new OAuth2ClientCredentialsGrantRequest(cr);
+		WebClientReactiveClientCredentialsTokenResponseClient wrcctr = new WebClientReactiveClientCredentialsTokenResponseClient();
+		Mono<OAuth2AccessTokenResponse> responseM = wrcctr.getTokenResponse(o2cc);
+		OAuth2AccessTokenResponse response = responseM.block();
+		OAuth2AccessToken accessToken = response.getAccessToken();
+		return accessToken;
+	}	
 }

@@ -10,7 +10,18 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  *
  */
 
-public class ConfigConditions {
+public class ConfigConditions 
+{
+	
+	public static class DisableSecurity implements Condition
+	{
+		@Override
+		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) 
+		{
+			Boolean b = Boolean.parseBoolean(context.getEnvironment().getProperty("v2solve.app.security.disable","false"));
+			return b;
+		}
+	}
 
 	public static class EnableBasicAuthSecurity implements Condition
 	{

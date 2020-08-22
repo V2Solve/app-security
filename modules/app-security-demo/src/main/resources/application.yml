@@ -1,14 +1,16 @@
-spring: 
-  cache: 
-    type: "none"
-
-com:
-  v2solve:
-    app:
-      security:
-        basic: true
-        connection:
-          basic:
-            username: saurinya@gmail.com
-            password: admin
-          serverEndPoint: "http://localhost:9570"
+v2solve:
+  appsecurityclient:
+    connection:
+      server-end-point: "http://localhost:9570" 
+      basic: true
+      basic-credentials:
+        username: saurinya@gmail.com
+        password: admin
+      oauth2: false
+      oauth2-credentials:
+        client-id:
+        client-secret:
+        issuer-domain:
+  app:
+    security:
+      disable: true
