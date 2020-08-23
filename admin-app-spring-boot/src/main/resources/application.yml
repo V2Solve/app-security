@@ -1,3 +1,5 @@
+# This is the logon setup for the 
+# spring boot app before it serves the angular app
 v2solve:    
   app:
     security:
@@ -18,6 +20,21 @@ v2solve:
             okta:
               user-name-attribute: email
               issuer-uri: "https://dev-869380.okta.com"
+
+# From this point onwards is the client connection to the security server
+  appsecurityclient:
+    connection:
+      server-end-point: "http://localhost:9570" 
+      basic: true
+      basic-credentials:
+        username: saurinya@gmail.com
+        password: admin
+      oauth2: false
+      oauth2-credentials:
+        client-id:
+        client-secret:
+        issuer-domain:
+
 #    authwhitelist: /index.html
 logging:
   level:
@@ -25,6 +42,5 @@ logging:
       v2solve:
         app:
           security: DEBUG
-
 server:
   port: 8080

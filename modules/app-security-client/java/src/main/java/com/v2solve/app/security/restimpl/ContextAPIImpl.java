@@ -13,8 +13,6 @@ import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
 import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
 import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
-
-import io.netty.handler.codec.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
 public class ContextAPIImpl implements SecurityContextAPI 

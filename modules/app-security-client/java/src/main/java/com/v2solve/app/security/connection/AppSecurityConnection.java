@@ -2,6 +2,8 @@ package com.v2solve.app.security.connection;
 
 import java.util.List;
 
+import com.v2solve.app.security.restapi.SecurityContextAPI;
+import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 
 public interface AppSecurityConnection 
@@ -13,4 +15,19 @@ public interface AppSecurityConnection
 	 * @return
 	 */
 	AppSecurityContext getSecurityContext (String clientIdentifier,List<String> assumeGroups);
+
+	
+	/**
+	 * Returns the security Context API..
+	 * @return
+	 */
+	SecurityContextAPI getSecurityContextApi();
+
+
+	/**
+	 * Returns the security management API.
+	 * @return
+	 */
+	SecurityManagementAPI getSecurityManagementApi();
+	
 }

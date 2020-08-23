@@ -7,8 +7,10 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 
 import com.v2solve.app.security.connection.AppSecurityConnection;
 import com.v2solve.app.security.restapi.SecurityContextAPI;
+import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.restimpl.AuthHeaderValueProvider;
 import com.v2solve.app.security.restimpl.ContextAPIImpl;
+import com.v2solve.app.security.restimpl.SecurityManagementAPIImpl;
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
@@ -26,12 +28,14 @@ public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConn
 	String appSecurityServerEndpoint = null;
 	OAuth2AccessToken accessToken = null;
 	SecurityContextAPI scapi = null;
+	SecurityManagementAPI smapi = null;
 	
 	public OAuth2ClientCredentialSecurityConnection(OAuth2ClientTokenCredentials credentials,String appSecurityServerEndpoint) 
 	{
 		this.credentials = credentials;
 		this.appSecurityServerEndpoint = appSecurityServerEndpoint;
 		scapi = new ContextAPIImpl(appSecurityServerEndpoint, this);
+		smapi = new SecurityManagementAPIImpl(appSecurityServerEndpoint, this);
 	}
 	
 	@Override
@@ -60,4 +64,15 @@ public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConn
 		
 		return "Bearer " + accessToken.getTokenValue();
 	}
+
+	@Override
+	public SecurityContextAPI getSecurityContextApi() {
+		return scapi;
+	}
+
+	@Override
+	public SecurityManagementAPI getSecurityManagementApi() {
+		return smapi;
+	}
+	
 }

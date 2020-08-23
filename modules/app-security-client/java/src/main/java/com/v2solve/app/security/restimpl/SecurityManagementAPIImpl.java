@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.ClientResponse.Headers;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.v2solve.app.security.restapi.SecurityManagementAPI;
@@ -138,6 +139,29 @@ public class SecurityManagementAPIImpl implements SecurityManagementAPI
 		ClientResponse cr = crM.block();
 		Mono<T> mT = cr.bodyToMono(clzz);
 		T t = mT.block();
+		
+		if (t == null)
+		{
+			String headerValues = null;
+			
+			// Lets just try to get it as normal object.
+			Mono<Object> objM = cr.bodyToMono(Object.class);
+			Object obj = objM.block();
+			// Lets capture headers as well..
+			Headers hdrs = cr.headers();
+			if (hdrs != null)
+			{
+			   org.springframework.http.HttpHeaders httpHdrs = hdrs.asHttpHeaders();
+			   if (httpHdrs != null)
+			   {
+				   headerValues = "" + httpHdrs.values();
+			   }
+			}
+			
+			throw new RuntimeException("Could not convert reponse back to " + clzz.getName() + " response object was: " + obj + " status code was: " + cr.rawStatusCode() + " and headers were: " + headerValues);
+		}
+		
+		
 		return t;
 	}
 	

@@ -18,6 +18,12 @@
 	<dependencies>
 	    <dependency>	
 		 <groupId>com.v2solve.app.security</groupId>
+		 <artifactId>app-security-spring-boot-config</artifactId>
+		 <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	
+	    <dependency>	
+		 <groupId>com.v2solve.app.security</groupId>
 		 <artifactId>app-security-oauth2-support</artifactId>
 		 <version>0.0.1-SNAPSHOT</version>
 		</dependency>
