@@ -39,7 +39,7 @@ import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
-import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.SearchChangeLogRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
@@ -84,7 +84,7 @@ import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
-import com.v2solve.app.security.restmodel.response.SearchApplicationsResponse;
+import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.SearchChangeLogResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupResponse;
@@ -192,7 +192,7 @@ public class ManagementAPIController implements SecurityManagementAPI
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST,path = "/searchApplications")
-	public SearchApplicationsResponse implementRequest(@RequestBody SearchApplicationsRequest request) {
+	public SearchApplicationResponse implementRequest(@RequestBody SearchApplicationRequest request) {
 		return securityAPI.implementRequest(request);
 	}
 

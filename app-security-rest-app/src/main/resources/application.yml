@@ -58,6 +58,10 @@ v2solve:
               user-name-attribute: email
               issuer-uri: "https://dev-869380.okta.com"
       basic:
+        jdbc:
+          enable: true
+          usersByUsernameQuery: "select name as username,user_password as password,enabled from basic_auth_clients where name = ?"
+          authoritiesByUsernameQuery: "select name as username,'ADMIN' as authority from basic_auth_clients where name = ?"
         enable: true
         realm: v2solve
         users:

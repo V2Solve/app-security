@@ -3,6 +3,7 @@ package com.v2solve.app.security.securitymodel;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -12,6 +13,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ScopeType implements Serializable 
 {
 	/**

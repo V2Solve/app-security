@@ -1,16 +1,7 @@
 package com.v2solve.app.security.restimpl;
 
 
-import java.util.Map;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.ClientResponse.Headers;
-import org.springframework.web.reactive.function.client.WebClient.Builder;
-
 import com.v2solve.app.security.restapi.SecurityManagementAPI;
-import com.v2solve.app.security.restmodel.request.BaseRequest;
 import com.v2solve.app.security.restmodel.request.CreateActionRequest;
 import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
 import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
@@ -41,8 +32,9 @@ import com.v2solve.app.security.restmodel.request.DeletePermissionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
+import com.v2solve.app.security.restmodel.request.RequestUtils;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
-import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.SearchChangeLogRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientGroupRequest;
@@ -87,7 +79,7 @@ import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
-import com.v2solve.app.security.restmodel.response.SearchApplicationsResponse;
+import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
 import com.v2solve.app.security.restmodel.response.SearchChangeLogResponse;
 import com.v2solve.app.security.restmodel.response.SearchClientGroupResponse;
@@ -102,386 +94,322 @@ import com.v2solve.app.security.restmodel.response.SearchResourceResponse;
 import com.v2solve.app.security.restmodel.response.SearchScopeResponse;
 import com.v2solve.app.security.restmodel.response.SearchScopeTypeResponse;
 
-import reactor.core.publisher.Mono;
-
 // Remote over the network rest mapping for the SecurityManagementAPI..
-public class SecurityManagementAPIImpl implements SecurityManagementAPI
+public class SecurityManagementAPIImpl extends BaseApiImpl implements SecurityManagementAPI
 {
-	AuthHeaderValueProvider vp = null;
-	String appSecurityServerEndPoint = null;
-	String contextUri = "v1/managementapi";
+	static final String contextUri = "v1/managementapi";
 	
-	WebClient getWebClient ()
-	{
-		String authHeaderValue = null;
-		if (vp != null)
-			authHeaderValue = vp.getAuthHeaderValue();
-		
-		Builder builder = WebClient.builder();
-		if (authHeaderValue != null && authHeaderValue.trim().length() > 0)
-			builder.defaultHeader("Authorization", authHeaderValue);
-			builder.baseUrl(appSecurityServerEndPoint);
-		
-		return builder.build();
-	}
-			
 	public SecurityManagementAPIImpl (String appSecurityServerEndPoint,AuthHeaderValueProvider authHeaderValueProvider)
 	{
-		this.vp = authHeaderValueProvider;
-		if (appSecurityServerEndPoint.endsWith("/"))
-			appSecurityServerEndPoint += contextUri;
-		else
-			appSecurityServerEndPoint += "/" + contextUri;
-	}
-	
-	<T> T getMappedResponse (Mono<ClientResponse> crM, Class<T> clzz)
-	{
-		ClientResponse cr = crM.block();
-		Mono<T> mT = cr.bodyToMono(clzz);
-		T t = mT.block();
-		
-		if (t == null)
-		{
-			String headerValues = null;
-			
-			// Lets just try to get it as normal object.
-			Mono<Object> objM = cr.bodyToMono(Object.class);
-			Object obj = objM.block();
-			// Lets capture headers as well..
-			Headers hdrs = cr.headers();
-			if (hdrs != null)
-			{
-			   org.springframework.http.HttpHeaders httpHdrs = hdrs.asHttpHeaders();
-			   if (httpHdrs != null)
-			   {
-				   headerValues = "" + httpHdrs.values();
-			   }
-			}
-			
-			throw new RuntimeException("Could not convert reponse back to " + clzz.getName() + " response object was: " + obj + " status code was: " + cr.rawStatusCode() + " and headers were: " + headerValues);
-		}
-		
-		
-		return t;
-	}
-	
-	<T> T implementRequest (String endPointUri, BaseRequest br,Class<T> responseClass)
-	{
-		WebClient wc = getWebClient();
-		Mono<ClientResponse> response = wc.post()
-										  .uri(endPointUri, (Map<?,?>)null)
-				                          .accept(MediaType.APPLICATION_JSON)
-				                          .bodyValue(br)
-				                          .exchange();
-		return getMappedResponse(response, responseClass);
+		super(appSecurityServerEndPoint, contextUri,authHeaderValueProvider);
 	}
 
 	@Override
 	public DeleteClientResponse implementRequest(DeleteClientRequest request) {
 		
-		return implementRequest("",request,DeleteClientResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteClientResponse.class);
 		
 	}
 
 	@Override
 	public CreateClientResponse implementRequest(CreateClientRequest request) {
 		
-		return implementRequest("",request,CreateClientResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateClientResponse.class);
 	}
 
 	@Override
 	public CreateApplicationResponse implementRequest(CreateApplicationRequest request) {
 		
-		return implementRequest("",request,CreateApplicationResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateApplicationResponse.class);
 		
 	}
 
 	@Override
 	public DeleteApplicationResponse implementRequest(DeleteApplicationRequest request) {
 		
-		return implementRequest("",request,DeleteApplicationResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteApplicationResponse.class);
 		
 	}
 
 	@Override
 	public CreateActionResponse implementRequest(CreateActionRequest request) {
 		
-		return implementRequest("",request,CreateActionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateActionResponse.class);
 		
 	}
 
 	@Override
 	public DeleteActionResponse implementRequest(DeleteActionRequest request) {
 		
-		return implementRequest("",request,DeleteActionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteActionResponse.class);
 		
 	}
 
 	@Override
 	public CreateResourceResponse implementRequest(CreateResourceRequest request) {
 		
-		return implementRequest("",request,CreateResourceResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateResourceResponse.class);
 		
 	}
 
 	@Override
 	public DeleteResourceResponse implementRequest(DeleteResourceRequest request) {
 		
-		return implementRequest("",request,DeleteResourceResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteResourceResponse.class);
 		
 	}
 
 	@Override
 	public CreatePermissionResponse implementRequest(CreatePermissionRequest request) {
 		
-		return implementRequest("",request,CreatePermissionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreatePermissionResponse.class);
 		
 	}
 
 	@Override
 	public DeletePermissionResponse implementRequest(DeletePermissionRequest request) {
 		
-		return implementRequest("",request,DeletePermissionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeletePermissionResponse.class);
 		
 	}
 
 	@Override
 	public CreateGroupMembershipResponse implementRequest(CreateGroupMembershipRequest request) {
 		
-		return implementRequest("",request,CreateGroupMembershipResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateGroupMembershipResponse.class);
 		
 	}
 
 	@Override
 	public DeleteGroupMembershipResponse implementRequest(DeleteGroupMembershipRequest request) {
 		
-		return implementRequest("",request,DeleteGroupMembershipResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteGroupMembershipResponse.class);
 		
 	}
 
 	@Override
-	public SearchApplicationsResponse implementRequest(SearchApplicationsRequest request) {
+	public SearchApplicationResponse implementRequest(SearchApplicationRequest request) {
 		
-		return implementRequest("",request,SearchApplicationsResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchApplicationResponse.class);
 		
 	}
 
 	@Override
 	public SearchActionResponse implementRequest(SearchActionRequest request) {
 		
-		return implementRequest("",request,SearchActionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchActionResponse.class);
 		
 	}
 
 	@Override
 	public SearchResourceResponse implementRequest(SearchResourceRequest request) {
 		
-		return implementRequest("",request,SearchResourceResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchResourceResponse.class);
 		
 	}
 
 	@Override
 	public SearchClientResponse implementRequest(SearchClientRequest request) {
 		
-		return implementRequest("",request,SearchClientResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchClientResponse.class);
 		
 	}
 
 	@Override
 	public SearchClientGroupResponse implementRequest(SearchClientGroupRequest request) {
 		
-		return implementRequest("",request,SearchClientGroupResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchClientGroupResponse.class);
 		
 	}
 
 	@Override
 	public SearchClientRoleResponse implementRequest(SearchClientRoleRequest request) {
 		
-		return implementRequest("",request,SearchClientRoleResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchClientRoleResponse.class);
 		
 	}
 
 	@Override
 	public SearchDomainTypeResponse implementRequest(SearchDomainTypeRequest request) {
 		
-		return implementRequest("",request,SearchDomainTypeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchDomainTypeResponse.class);
 		
 	}
 
 	@Override
 	public SearchScopeTypeResponse implementRequest(SearchScopeTypeRequest request) {
 		
-		return implementRequest("",request,SearchScopeTypeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchScopeTypeResponse.class);
 		
 	}
 
 	@Override
 	public CreateClientGroupResponse implementRequest(CreateClientGroupRequest request) {
 		
-		return implementRequest("",request,CreateClientGroupResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateClientGroupResponse.class);
 		
 	}
 
 	@Override
 	public CreateClientRoleResponse implementRequest(CreateClientRoleRequest request) {
 		
-		return implementRequest("",request,CreateClientRoleResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateClientRoleResponse.class);
 		
 	}
 
 	@Override
 	public CreateDomainTypeResponse implementRequest(CreateDomainTypeRequest request) {
 		
-		return implementRequest("",request,CreateDomainTypeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateDomainTypeResponse.class);
 		
 	}
 
 	@Override
 	public CreateScopeTypeResponse implementRequest(CreateScopeTypeRequest request) {
 		
-		return implementRequest("",request,CreateScopeTypeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateScopeTypeResponse.class);
 		
 	}
 
 	@Override
 	public DeleteClientGroupResponse implementRequest(DeleteClientGroupRequest request) {
 		
-		return implementRequest("",request,DeleteClientGroupResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteClientGroupResponse.class);
 		
 	}
 
 	@Override
 	public DeleteClientRoleResponse implementRequest(DeleteClientRoleRequest request) {
 		
-		return implementRequest("",request,DeleteClientRoleResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteClientRoleResponse.class);
 		
 	}
 
 	@Override
 	public DeleteDomainTypeResponse implementRequest(DeleteDomainTypeRequest request) {
 		
-		return implementRequest("",request,DeleteDomainTypeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteDomainTypeResponse.class);
 		
 	}
 
 	@Override
 	public DeleteScopeTypeResponse implementRequest(DeleteScopeTypeRequest request) {
 		
-		return implementRequest("",request,DeleteScopeTypeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteScopeTypeResponse.class);
 		
 	}
 
 	@Override
 	public SearchPermissionResponse implementRequest(SearchPermissionRequest request) {
 		
-		return implementRequest("",request,SearchPermissionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchPermissionResponse.class);
 		
 	}
 
 	@Override
 	public CreateDomainResponse implementRequest(CreateDomainRequest request) {
 		
-		return implementRequest("",request,CreateDomainResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateDomainResponse.class);
 		
 	}
 
 	@Override
 	public DeleteDomainResponse implementRequest(DeleteDomainRequest request) {
 		
-		return implementRequest("",request,DeleteDomainResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteDomainResponse.class);
 		
 	}
 
 	@Override
 	public SearchDomainResponse implementRequest(SearchDomainRequest request) {
 		
-		return implementRequest("",request,SearchDomainResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchDomainResponse.class);
 		
 	}
 
 	@Override
 	public CreateScopeResponse implementRequest(CreateScopeRequest request) {
 		
-		return implementRequest("",request,CreateScopeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateScopeResponse.class);
 		
 	}
 
 	@Override
 	public SearchScopeResponse implementRequest(SearchScopeRequest request) {
 		
-		return implementRequest("",request,SearchScopeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchScopeResponse.class);
 		
 	}
 
 	@Override
 	public DeleteScopeResponse implementRequest(DeleteScopeRequest request) {
 		
-		return implementRequest("",request,DeleteScopeResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteScopeResponse.class);
 		
 	}
 
 	@Override
 	public CreateClientGroupRoleResponse implementRequest(CreateClientGroupRoleRequest request) {
 		
-		return implementRequest("",request,CreateClientGroupRoleResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateClientGroupRoleResponse.class);
 		
 	}
 
 	@Override
 	public DeleteClientGroupRoleResponse implementRequest(DeleteClientGroupRoleRequest request) {
 		
-		return implementRequest("",request,DeleteClientGroupRoleResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteClientGroupRoleResponse.class);
 		
 	}
 
 	@Override
 	public SearchClientGroupRoleResponse implementRequest(SearchClientGroupRoleRequest request) {
 		
-		return implementRequest("",request,SearchClientGroupRoleResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchClientGroupRoleResponse.class);
 		
 	}
 
 	@Override
 	public CreateClientRolePermissionResponse implementRequest(CreateClientRolePermissionRequest request) {
 		
-		return implementRequest("",request,CreateClientRolePermissionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateClientRolePermissionResponse.class);
 		
 	}
 
 	@Override
 	public DeleteClientRolePermissionResponse implementRequest(DeleteClientRolePermissionRequest request) {
 		
-		return implementRequest("",request,DeleteClientRolePermissionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteClientRolePermissionResponse.class);
 		
 	}
 
 	@Override
 	public SearchClientRolePermissionResponse implementRequest(SearchClientRolePermissionRequest request) {
 		
-		return implementRequest("",request,SearchClientRolePermissionResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchClientRolePermissionResponse.class);
 		
 	}
 
 	@Override
 	public SearchChangeLogResponse implementRequest(SearchChangeLogRequest request) {
 		
-		return implementRequest("",request,SearchChangeLogResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchChangeLogResponse.class);
 		
 	}
 
 	@Override
 	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request) {
-		return implementRequest("",request,CreateBasicAuthClientResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateBasicAuthClientResponse.class);
 	}
 
 	@Override
 	public DeleteBasicAuthClientResponse implementRequest(DeleteBasicAuthClientRequest request) {
-		return implementRequest("",request,DeleteBasicAuthClientResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,DeleteBasicAuthClientResponse.class);
 	}
 
 	@Override
 	public SearchBasicAuthClientResponse implementRequest(SearchBasicAuthClientRequest request) {
-		return implementRequest("",request,SearchBasicAuthClientResponse.class);
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchBasicAuthClientResponse.class);
 	}
 	
 }

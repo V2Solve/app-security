@@ -20,7 +20,7 @@ import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientRequest;
 import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientRequest;
-import com.v2solve.app.security.restmodel.request.SearchApplicationsRequest;
+import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientRequest;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
@@ -112,7 +112,7 @@ public class ApplicationDataLogic
 	 * @param limitingAppDomains
 	 * @return
 	 */
-	public static List<Application> searchApplication(EntityManager em,SearchApplicationsRequest searchApplicationRequest,List<String> limitingAppDomains)
+	public static List<Application> searchApplication(EntityManager em,SearchApplicationRequest searchApplicationRequest,List<String> limitingAppDomains)
 	{
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Application> cq = cb.createQuery(Application.class);

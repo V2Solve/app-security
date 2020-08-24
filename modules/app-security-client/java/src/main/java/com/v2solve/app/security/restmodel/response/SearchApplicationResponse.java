@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class SearchApplicationsResponse extends BaseResponse {
+public class SearchApplicationResponse extends BaseResponse {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public SearchApplicationsResponse(RequestStatusInformation rsi, PagingInformation pageInfo) {
+	public SearchApplicationResponse(RequestStatusInformation rsi, PagingInformation pageInfo) {
 		super(rsi, pageInfo);
 	}
 
-	public SearchApplicationsResponse(RequestStatusInformation rsi) {
+	public SearchApplicationResponse(RequestStatusInformation rsi) {
 		super(rsi);
 	}
 	

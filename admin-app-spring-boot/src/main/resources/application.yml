@@ -27,8 +27,8 @@ v2solve:
       server-end-point: "http://localhost:9570" 
       basic: true
       basic-credentials:
-        username: saurinya@gmail.com
-        password: admin
+        username: ADMIN_CONSOLE
+        password: secretsauce
       oauth2: false
       oauth2-credentials:
         client-id:

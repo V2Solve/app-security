@@ -1,97 +1,23 @@
 package com.v2solve.app.security.restimpl;
 
-import java.util.Map;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.ClientResponse.Headers;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.v2solve.app.security.restapi.SecurityContextAPI;
-import com.v2solve.app.security.restmodel.request.BaseRequest;
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
 import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
 import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
-import reactor.core.publisher.Mono;
 
-public class ContextAPIImpl implements SecurityContextAPI 
+
+public class ContextAPIImpl extends BaseApiImpl implements SecurityContextAPI 
 {
-	AuthHeaderValueProvider vp = null;
-	String appServerEndPoint = null;
-	String contextUri = "v1/contextapi";
+	static final String contextUri = "v1/contextapi";
 	
-	WebClient getWebClient (String endPoint)
-	{
-		String finalBase = appServerEndPoint;
-		if (endPoint != null)
-			finalBase += endPoint;
-		String authHeaderValue = null;
-		if (vp != null)
-			authHeaderValue = vp.getAuthHeaderValue();
-		
-		Builder builder = WebClient.builder();
-		if (authHeaderValue != null && authHeaderValue.trim().length() > 0)
-			builder.defaultHeader("Authorization", authHeaderValue);
-			builder.baseUrl(finalBase);
-		
-		return builder.build();
-	}
 			
 	public ContextAPIImpl (String appSecurityServerEndPoint,AuthHeaderValueProvider authHeaderValueProvider)
 	{
-		this.vp = authHeaderValueProvider;
-		this.appServerEndPoint = appSecurityServerEndPoint;
-		if (this.appServerEndPoint.endsWith("/"))
-			this.appServerEndPoint += contextUri;
-		else
-			this.appServerEndPoint += "/" + contextUri;
+		super(appSecurityServerEndPoint,contextUri,authHeaderValueProvider);
 	}
 	
-	<T> T getMappedResponse (Mono<ClientResponse> crM, Class<T> clzz)
-	{
-		ClientResponse cr = crM.block();
-		Mono<T> mT = cr.bodyToMono(clzz);
-		T t = mT.block();
-		
-		if (t == null)
-		{
-			String headerValues = null;
-			
-			// Lets just try to get it as normal object.
-			Mono<Object> objM = cr.bodyToMono(Object.class);
-			Object obj = objM.block();
-			// Lets capture headers as well..
-			Headers hdrs = cr.headers();
-			if (hdrs != null)
-			{
-			   org.springframework.http.HttpHeaders httpHdrs = hdrs.asHttpHeaders();
-			   if (httpHdrs != null)
-			   {
-				   headerValues = "" + httpHdrs.values();
-			   }
-			}
-			
-			throw new RuntimeException("Could not convert reponse back to " + clzz.getName() + " response object was: " + obj + " status code was: " + cr.rawStatusCode() + " and headers were: " + headerValues);
-		}
-		
-		return t;
-	}
-	
-	<T> T implementRequest (String endPointUri, BaseRequest br,Class<T> responseClass)
-	{
-		WebClient wc = getWebClient(null);
-		Mono<ClientResponse> response = wc.post()
-										  .uri(endPointUri,(Map<?,?>)null)
-				                          .accept(MediaType.APPLICATION_JSON)
-				                          .bodyValue(br)
-				                          .exchange();
-		 
-		T objectToReturn = getMappedResponse(response, responseClass);
-		return objectToReturn;
-	}
-	
-
 	@Override
 	public SecurityAPIResponse hasPermission(SecurityAPIRequest request) 
 	{

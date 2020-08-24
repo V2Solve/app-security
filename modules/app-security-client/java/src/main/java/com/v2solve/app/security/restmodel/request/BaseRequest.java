@@ -43,5 +43,4 @@ public class BaseRequest implements java.io.Serializable
 	 * data about how information returned should be sorted - helpful in searches.
 	 */
 	SortingInformation sortingInfo;
-	
 }
