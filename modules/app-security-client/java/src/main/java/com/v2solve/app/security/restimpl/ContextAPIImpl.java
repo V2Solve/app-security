@@ -3,8 +3,10 @@ package com.v2solve.app.security.restimpl;
 
 import com.v2solve.app.security.restapi.SecurityContextAPI;
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.GetSecuritySetupRequest;
 import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.GetSecuritySetupResponse;
 import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 
 
@@ -70,6 +72,11 @@ public class ContextAPIImpl extends BaseApiImpl implements SecurityContextAPI
 	public SecurityAPIResponse hasPermissions(SecurityAPIRequest request) 
 	{
 		return implementRequest("/hasPermissions", request, SecurityAPIResponse.class);		
+	}
+
+	@Override
+	public GetSecuritySetupResponse getSecuritySetup(GetSecuritySetupRequest request) {
+		return implementRequest("/getSecuritySetup", request, GetSecuritySetupResponse.class);
 	}
 
 }

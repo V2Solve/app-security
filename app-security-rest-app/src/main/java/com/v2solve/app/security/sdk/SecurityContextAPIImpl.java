@@ -8,13 +8,16 @@ import javax.persistence.EntityManagerFactory;
 import com.v2solve.app.security.restapi.SecurityContextAPI;
 import com.v2solve.app.security.restmodel.RequestStatusInformation;
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.GetSecuritySetupRequest;
 import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.GetSecuritySetupResponse;
 import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.Scope;
-
+import com.v2solve.app.security.securitymodel.SecuritySetupModel;
+import com.v2solve.app.security.securitymodel.datalogic.SecurityDataLogic;
 import com.v2solve.app.security.utility.StringUtils;
 
 
@@ -390,6 +393,31 @@ public class SecurityContextAPIImpl implements SecurityContextAPI
 		{
 			log.error(StringUtils.traceString(e));
 			return new GetSecurityContextResponse(RequestStatusInformation.failure(e.getMessage()));
+		}
+		finally
+		{
+			if (em != null)
+				em.close();
+		}
+	}
+
+	@Override
+	public GetSecuritySetupResponse getSecuritySetup(GetSecuritySetupRequest request) 
+	{
+		EntityManager em = getEm();
+		try
+		{
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			asc.hasPermissionThrowException(SecurityActions.READ, SecurityResources.SECURITY_DB);
+			SecuritySetupModel ssm = SecurityDataLogic.getSecuritySetupModel(em, request);
+			GetSecuritySetupResponse gscr = new GetSecuritySetupResponse(RequestStatusInformation.SUCCESS);
+			gscr.setSecuritySetup(ssm);
+			return gscr;
+		}
+		catch (Throwable e)
+		{
+			log.error(StringUtils.traceString(e));
+			return new GetSecuritySetupResponse(RequestStatusInformation.failure(e.getMessage()));
 		}
 		finally
 		{

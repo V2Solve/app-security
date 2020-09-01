@@ -39,7 +39,7 @@
     <dependency>	
 	 <groupId>com.v2solve.app.security</groupId>
 	 <artifactId>app-security-oauth2-support</artifactId>
-	 <version>0.0.1-SNAPSHOT</version>
+	 <version>233.1.0.RELEASE</version>
 	</dependency>
 	
 	<dependency>

@@ -1,8 +1,10 @@
 package com.v2solve.app.security.restapi;
 
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.GetSecuritySetupRequest;
 import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.GetSecuritySetupResponse;
 import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 
 public interface SecurityContextAPI {
@@ -85,5 +87,13 @@ public interface SecurityContextAPI {
 	 * @param request
 	 * @return
 	 */
-	SecurityAPIResponse hasPermissions(SecurityAPIRequest request);	
+	SecurityAPIResponse hasPermissions(SecurityAPIRequest request);
+
+	/**
+	 * This method returns the complete security setup for an applicaition.
+	 * may be used to store it offline for later use.
+	 * @param request
+	 * @return
+	 */
+	GetSecuritySetupResponse getSecuritySetup(GetSecuritySetupRequest request);	
 }

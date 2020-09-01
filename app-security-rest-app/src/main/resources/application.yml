@@ -40,6 +40,15 @@ v2solve:
                 acr:
                   allowed-values:                  - heyBaby
                   - nahlayak
+#      client-credentials:
+#        enable: true
+#        client:
+#          registration:
+#            okta:
+#              provider: "https://dev-869380.okta.com"
+#              client-id: "0oam02zxsNkBAw5xo4x6"
+#              client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
+#              client-name: Okta
       oauth2:
         enable: false
         client:

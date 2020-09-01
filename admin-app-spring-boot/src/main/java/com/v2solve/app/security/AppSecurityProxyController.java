@@ -45,6 +45,7 @@ import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.GetSecuritySetupRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
@@ -92,6 +93,7 @@ import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.GetSecuritySetupResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
@@ -577,6 +579,13 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	{
 		insertCallingClientId(request);
 		return connection.getSecurityContextApi().hasPermissions(request);
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST, path = "/getSecuritySetup")
+	public GetSecuritySetupResponse getSecuritySetup(GetSecuritySetupRequest request) {
+		insertCallingClientId(request);
+		return connection.getSecurityContextApi().getSecuritySetup(request);
 	}
 	
 }

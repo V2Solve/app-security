@@ -1,15 +1,18 @@
 package com.v2solve.app.security.restapi;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.v2solve.app.security.restmodel.request.GetSecurityContextRequest;
+import com.v2solve.app.security.restmodel.request.GetSecuritySetupRequest;
 import com.v2solve.app.security.restmodel.request.SecurityAPIRequest;
 import com.v2solve.app.security.restmodel.response.GetSecurityContextResponse;
+import com.v2solve.app.security.restmodel.response.GetSecuritySetupResponse;
 import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 
 
@@ -18,13 +21,13 @@ import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
 @RequestMapping(path = "/v1/contextapi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ContextAPIController implements SecurityContextAPI 
 {
-	
 	@Autowired
 	SecurityContextAPI implementation;
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermission")
-	public SecurityAPIResponse hasPermission(@RequestBody SecurityAPIRequest request) {
+	public SecurityAPIResponse hasPermission(@RequestBody SecurityAPIRequest request) 
+	{
 		return implementation.hasPermission(request);
 	}
 
@@ -77,4 +80,11 @@ public class ContextAPIController implements SecurityContextAPI
 	public SecurityAPIResponse hasPermissions(@RequestBody SecurityAPIRequest request) {
 		return implementation.hasPermissions(request);
 	}
+	
+	@Override
+	@RequestMapping(method = RequestMethod.POST, path = "/getSecuritySetup")
+	public GetSecuritySetupResponse getSecuritySetup(@RequestBody GetSecuritySetupRequest request) {
+		return implementation.getSecuritySetup(request);
+	}
+	
 }

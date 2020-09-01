@@ -204,6 +204,8 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     scgrr.roleName = this.roleName.value;
     scgrr.permissionName = this.permissionName.value;
     scgrr.appIdentifier = this.appIdentifier.value;
+    if (scgrr.appIdentifier == "GLOBAL")
+    scgrr.appIdentifier=null;
     scgrr.scopeName = this.scopeName.value;
     this.managementClient.searchClientRolePermissions(scgrr).subscribe(async element=>{
       await this.receiveViewableOjects(element);

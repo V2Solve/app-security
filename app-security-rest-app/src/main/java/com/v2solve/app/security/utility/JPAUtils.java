@@ -112,5 +112,26 @@ public class JPAUtils
 		List<T> listOfObjs = tq.getResultList();
 		return listOfObjs;
 	}
+
+	/**
+	 * Returns all records in the table..
+	 * @param <T>
+	 * @param em
+	 * @param clzz
+	 * @return - All records.
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	public static <T> List<T> findAll (EntityManager em,Class<T> clzz) 
+	{
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(clzz);
+		cq.from(clzz);
+		TypedQuery<T> tq = em.createQuery(cq);
+		List<T> listOfObjs = tq.getResultList();
+		return listOfObjs;
+	}
 	
 }

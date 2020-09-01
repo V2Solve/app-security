@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.criteria.CriteriaBuilder.In;
 
+import com.v2solve.app.security.model.entities.Action;
 import com.v2solve.app.security.model.entities.Application;
 import com.v2solve.app.security.model.entities.BasicAuthClient;
 import com.v2solve.app.security.model.entities.Client;
@@ -24,11 +25,16 @@ import com.v2solve.app.security.model.entities.ClientGroupMembership;
 import com.v2solve.app.security.model.entities.ClientGroupRole;
 import com.v2solve.app.security.model.entities.ClientRole;
 import com.v2solve.app.security.model.entities.ClientRolePermission;
+import com.v2solve.app.security.model.entities.Permission;
+import com.v2solve.app.security.model.entities.Resource;
 import com.v2solve.app.security.model.entities.ResourceDomain;
+import com.v2solve.app.security.model.entities.ResourceDomainType;
 import com.v2solve.app.security.model.entities.RoleScope;
+import com.v2solve.app.security.model.entities.ScopeType;
 import com.v2solve.app.security.restmodel.PagingInformation;
 import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
 import com.v2solve.app.security.restmodel.request.DeleteBasicAuthClientRequest;
+import com.v2solve.app.security.restmodel.request.GetSecuritySetupRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
 import com.v2solve.app.security.sdk.SecurityActions;
 import com.v2solve.app.security.sdk.SecurityResources;
@@ -38,6 +44,7 @@ import com.v2solve.app.security.securitymodel.Domain;
 import com.v2solve.app.security.securitymodel.Permit;
 import com.v2solve.app.security.securitymodel.PermitKey;
 import com.v2solve.app.security.securitymodel.Scope;
+import com.v2solve.app.security.securitymodel.SecuritySetupModel;
 import com.v2solve.app.security.securitymodel.AppSecurityContext;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
@@ -352,6 +359,264 @@ public class SecurityDataLogic
 		
 		List<BasicAuthClient> listOfObjects = q.getResultList();
 		return listOfObjects;
+	}
+
+
+	/**
+	 * This is a large method, it returns the entire security database for offline access
+	 * @param em
+	 * @param request
+	 * @return
+	 */
+	public static SecuritySetupModel getSecuritySetupModel (EntityManager em,GetSecuritySetupRequest request)
+	{
+		SecuritySetupModel ssm = new SecuritySetupModel();
+
+		{
+			// Okay lets start with Applications;
+			List<Application> listOfObjects = JPAUtils.findAll(em, Application.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.Application> newObjects = new HashMap<>();
+				for (Application a: listOfObjects)
+				{
+					com.v2solve.app.security.securitymodel.Application newObject = new com.v2solve.app.security.securitymodel.Application(a.getAppIdentifier(),a.getAppShortIdentifier(),a.getDescription());
+					newObjects.put(a.getAppIdentifier(),newObject);
+				}
+				ssm.setApplications(newObjects);
+			}
+		}
+
+		{
+			// Okay lets start with Clients;
+			List<Client> listOfObjects = JPAUtils.findAll(em, Client.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.AppClient> newObjects = new HashMap<>();
+				for (Client a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.AppClient newObject = new com.v2solve.app.security.securitymodel.AppClient(a.getClientIdentifier(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getClientIdentifier(),newObject);
+				}
+				ssm.setClients(newObjects);
+			}
+		}
+
+		
+		{
+			// Okay lets start with Actions;
+			List<Action> listOfObjects = JPAUtils.findAll(em, Action.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.Action> newObjects = new HashMap<>();
+				for (Action a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.Action newObject = new com.v2solve.app.security.securitymodel.Action(a.getName(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setActions(newObjects);
+			}
+		}
+		
+		{
+			// Okay lets start with Resources;
+			List<Resource> listOfObjects = JPAUtils.findAll(em, Resource.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.Resource> newObjects = new HashMap<>();
+				for (Resource a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.Resource newObject = new com.v2solve.app.security.securitymodel.Resource(a.getName(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setResources(newObjects);
+			}
+		}
+		
+
+		{
+			// Okay lets start with ScopeTypes;
+			List<ScopeType> listOfObjects = JPAUtils.findAll(em, ScopeType.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.ScopeType> newObjects = new HashMap<>();
+				for (ScopeType a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.ScopeType newObject = new com.v2solve.app.security.securitymodel.ScopeType(a.getName(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setScopeTypes(newObjects);
+			}
+		}
+		
+		{
+			// Okay lets start with ResourceDomainTypes;
+			List<ResourceDomainType> listOfObjects = JPAUtils.findAll(em, ResourceDomainType.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.DomainType> newObjects = new HashMap<>();
+				for (ResourceDomainType a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.DomainType newObject = new com.v2solve.app.security.securitymodel.DomainType(a.getName(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				
+				ssm.setDomainTypes(newObjects);
+			}
+		}
+
+		{
+			// Okay lets start with ResourceDomains;
+			List<ResourceDomain> listOfObjects = JPAUtils.findAll(em, ResourceDomain.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.Domain> newObjects = new HashMap<>();
+				for (ResourceDomain a: listOfObjects)
+				{
+					Domain parentDomain = null;
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					if (a.getResourceDomain() != null)
+					{
+						parentDomain = new Domain();
+						parentDomain.setName(a.getResourceDomain().getName());
+					}
+					com.v2solve.app.security.securitymodel.Domain newObject = new com.v2solve.app.security.securitymodel.Domain(a.getName(),a.getResourceDomainType().getName(),parentDomain,a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				
+				ssm.setDomains(newObjects);
+			}
+		}
+		
+		{
+			// Okay lets start with Scopes;
+			List<RoleScope> listOfObjects = JPAUtils.findAll(em, RoleScope.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.Scope> newObjects = new HashMap<>();
+				for (RoleScope a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.Scope newObject = new com.v2solve.app.security.securitymodel.Scope(a.getName(),a.getScopeType().getName(),a.getScopeValue(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setScopes(newObjects);
+			}
+		}
+		
+		
+		{
+			// Okay lets start with Permissions;
+			List<Permission> listOfObjects = JPAUtils.findAll(em, Permission.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.Permission> newObjects = new HashMap<>();
+				for (Permission a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.Permission newObject = new com.v2solve.app.security.securitymodel.Permission(a.getName(),a.getAction().getName(),a.getResource().getName(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setPermissions(newObjects);
+			}
+		}
+		
+		{
+			// Okay lets start with ClientRoles;
+			List<ClientRole> listOfObjects = JPAUtils.findAll(em, ClientRole.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.ClientRole> newObjects = new HashMap<>();
+				for (ClientRole a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.ClientRole newObject = new com.v2solve.app.security.securitymodel.ClientRole(a.getName(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setClientRoles(newObjects);
+			}
+		}
+
+		{
+			// Okay lets start with ClientGroups;
+			List<ClientGroup> listOfObjects = JPAUtils.findAll(em, ClientGroup.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				HashMap<String,com.v2solve.app.security.securitymodel.ClientGroup> newObjects = new HashMap<>();
+				for (ClientGroup a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.ClientGroup newObject = new com.v2solve.app.security.securitymodel.ClientGroup(a.getName(),a.getDescription(),appIdentifier);
+					newObjects.put(a.getName(),newObject);
+				}
+				ssm.setClientGroups(newObjects);
+			}
+		}
+		
+		// Now for the associations..
+		
+		{
+			// Okay lets start with ClientGroupMemberships;
+			List<ClientGroupMembership> listOfObjects = JPAUtils.findAll(em, ClientGroupMembership.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				List<com.v2solve.app.security.securitymodel.ClientGroupMembership> newObjects = new ArrayList<>();
+				for (ClientGroupMembership a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					com.v2solve.app.security.securitymodel.ClientGroupMembership newObject = new com.v2solve.app.security.securitymodel.ClientGroupMembership(a.getClient().getClientIdentifier(),a.getClientGroup().getName(),appIdentifier);
+					newObjects.add(newObject);
+				}
+				ssm.setClientsToGroups(newObjects);
+			}
+		}
+		
+		{
+			// Okay lets start with ClientGroupRoles;
+			List<ClientGroupRole> listOfObjects = JPAUtils.findAll(em, ClientGroupRole.class);
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				List<com.v2solve.app.security.securitymodel.ClientGroupRole> newObjects = new ArrayList<>();
+				for (ClientGroupRole a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					String domainName = null;
+					if (a.getResourceDomain() != null)
+						domainName = a.getResourceDomain().getName();
+					com.v2solve.app.security.securitymodel.ClientGroupRole newObject = new com.v2solve.app.security.securitymodel.ClientGroupRole(""+a.getId(),a.getClientGroup().getName(),a.getClientRole().getName(),domainName,appIdentifier,a.getPropogate());
+					newObjects.add(newObject);
+				}
+				ssm.setRoleToGroups(newObjects);
+			}
+		}
+
+		{
+			// Okay lets start with ClientRolePermissions;
+			List<ClientRolePermission> listOfObjects = JPAUtils.findAll(em, ClientRolePermission.class);
+			
+			if (listOfObjects != null && listOfObjects.size() > 0)
+			{
+				List<com.v2solve.app.security.securitymodel.ClientRolePermission> newObjects = new ArrayList<>();
+				for (ClientRolePermission a: listOfObjects)
+				{
+					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
+					String scopeName = null;
+					if (a.getRoleScope() != null)
+						scopeName = a.getRoleScope().getName();
+					
+					com.v2solve.app.security.securitymodel.ClientRolePermission newObject = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+a.getId(),a.getClientRole().getName(),a.getPermission().getName(),a.getValue(),scopeName,appIdentifier);
+					newObjects.add(newObject);
+				}
+				ssm.setRoleToPermissions(newObjects);
+			}
+		}
+		
+		return ssm;
 	}
 	
 }
