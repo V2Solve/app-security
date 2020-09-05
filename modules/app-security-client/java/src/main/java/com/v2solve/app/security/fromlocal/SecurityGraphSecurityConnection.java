@@ -29,7 +29,7 @@ public class SecurityGraphSecurityConnection implements AppSecurityConnection
 	{
 		GetSecurityContextRequest gscr = new GetSecurityContextRequest();
 		if (clientIdentifier != null)
-			gscr.setCallingClientId(clientIdentifier);
+			gscr.setClientId(clientIdentifier);
 		
 		if (assumeGroups != null)
 			gscr.setGroups(assumeGroups);
@@ -51,6 +51,6 @@ public class SecurityGraphSecurityConnection implements AppSecurityConnection
 	
 	private AppSecurityContext getSecurityContext (GetSecurityContextRequest request)
 	{
-		return securitySetupModel.getSecurityContext(request.getCallingClientId(), request.getGroups());
+		return securitySetupModel.getSecurityContext(request.getClientId(), request.getGroups());
 	}
 }

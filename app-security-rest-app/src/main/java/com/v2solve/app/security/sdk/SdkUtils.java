@@ -30,7 +30,7 @@ public class SdkUtils
 	 */
 	static AppSecurityContext getClientSecurityContextForRequest(EntityManager em,BaseRequest br) 
 	{
-		String clientId = br.getCallingClientId();
+		String clientId = br.getClientId();
 		List<String> additionalGroups = br.getGroups();
 		
 		if (StringUtils.isNullOrZeroLength(clientId))

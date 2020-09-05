@@ -38,7 +38,7 @@ public class BasicAuthCredentialSecurityConnection implements AppSecurityConnect
 	{
 		GetSecurityContextRequest gscr = new GetSecurityContextRequest();
 		if (clientIdentifier != null)
-			gscr.setCallingClientId(clientIdentifier);
+			gscr.setClientId(clientIdentifier);
 		
 		if (assumeGroups != null)
 			gscr.setGroups(assumeGroups);

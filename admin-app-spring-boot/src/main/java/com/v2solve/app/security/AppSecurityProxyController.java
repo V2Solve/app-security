@@ -129,13 +129,13 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	
 	@Autowired ApplicationContext appCtx;
 
-	private void insertCallingClientId (BaseRequest br)
+	private void insertLoggedInId (BaseRequest br)
 	{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (auth.isAuthenticated())
 		{
-			br.setCallingClientId(auth.getName());
+			br.setClientId(auth.getName());
 		}
 	}
 	
@@ -143,7 +143,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/deleteClient")
 	public DeleteClientResponse implementRequest(@RequestBody DeleteClientRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -151,7 +151,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createClient")
 	public CreateClientResponse implementRequest(@RequestBody CreateClientRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -159,7 +159,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createApplication")
 	public CreateApplicationResponse implementRequest(@RequestBody CreateApplicationRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -167,7 +167,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteApplication")
 	public DeleteApplicationResponse implementRequest(@RequestBody DeleteApplicationRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -175,7 +175,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createAction")
 	public CreateActionResponse implementRequest(@RequestBody CreateActionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -183,7 +183,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteAction")
 	public DeleteActionResponse implementRequest(@RequestBody DeleteActionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -191,7 +191,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createResource")
 	public CreateResourceResponse implementRequest(@RequestBody CreateResourceRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -199,7 +199,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteResource")
 	public DeleteResourceResponse implementRequest(@RequestBody DeleteResourceRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -207,7 +207,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createPermission")
 	public CreatePermissionResponse implementRequest(@RequestBody CreatePermissionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -215,7 +215,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deletePermission")
 	public DeletePermissionResponse implementRequest(@RequestBody DeletePermissionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -223,7 +223,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteClientGroup")
 	public DeleteClientGroupResponse implementRequest(@RequestBody DeleteClientGroupRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -231,7 +231,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createGroupMembership")
 	public CreateGroupMembershipResponse implementRequest(@RequestBody CreateGroupMembershipRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -239,7 +239,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteGroupMembership")
 	public DeleteGroupMembershipResponse implementRequest(@RequestBody DeleteGroupMembershipRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -247,7 +247,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchApplications")
 	public SearchApplicationResponse implementRequest(@RequestBody SearchApplicationRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -255,7 +255,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchActions")
 	public SearchActionResponse implementRequest(@RequestBody SearchActionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 	
@@ -263,7 +263,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchResources")
 	public SearchResourceResponse implementRequest(@RequestBody SearchResourceRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -271,7 +271,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchClients")
 	public SearchClientResponse implementRequest(@RequestBody SearchClientRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -279,7 +279,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchClientGroups")
 	public SearchClientGroupResponse implementRequest(@RequestBody SearchClientGroupRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -287,7 +287,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchClientRoles")
 	public SearchClientRoleResponse implementRequest(@RequestBody SearchClientRoleRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -295,7 +295,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchDomainTypes")
 	public SearchDomainTypeResponse implementRequest(@RequestBody SearchDomainTypeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -303,7 +303,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchScopeTypes")
 	public SearchScopeTypeResponse implementRequest(@RequestBody SearchScopeTypeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -312,7 +312,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createClientGroup")
 	public CreateClientGroupResponse implementRequest(@RequestBody CreateClientGroupRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -320,7 +320,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createClientRole")
 	public CreateClientRoleResponse implementRequest(@RequestBody CreateClientRoleRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 	
@@ -329,7 +329,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createDomainType")
 	public CreateDomainTypeResponse implementRequest(@RequestBody CreateDomainTypeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -338,7 +338,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createScopeType")
 	public CreateScopeTypeResponse implementRequest(@RequestBody CreateScopeTypeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 	
@@ -346,7 +346,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createScope")
 	public CreateScopeResponse implementRequest(@RequestBody CreateScopeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 	
@@ -355,7 +355,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteScope")
 	public DeleteScopeResponse implementRequest(@RequestBody DeleteScopeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -364,7 +364,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteClientRole")
 	public DeleteClientRoleResponse implementRequest(@RequestBody DeleteClientRoleRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -372,7 +372,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteDomainType")
 	public DeleteDomainTypeResponse implementRequest(@RequestBody DeleteDomainTypeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -380,7 +380,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteScopeType")
 	public DeleteScopeTypeResponse implementRequest(@RequestBody DeleteScopeTypeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -388,7 +388,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchPermissions")
 	public SearchPermissionResponse implementRequest(@RequestBody SearchPermissionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 	
@@ -397,7 +397,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchScopes")
 	public SearchScopeResponse implementRequest(@RequestBody SearchScopeRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 	
@@ -406,7 +406,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createDomain")
 	public CreateDomainResponse implementRequest(@RequestBody CreateDomainRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -414,7 +414,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteDomain")
 	public DeleteDomainResponse implementRequest(@RequestBody DeleteDomainRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -422,7 +422,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchDomains")
 	public SearchDomainResponse implementRequest(@RequestBody SearchDomainRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -430,7 +430,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createClientGroupRole")
 	public CreateClientGroupRoleResponse implementRequest(@RequestBody CreateClientGroupRoleRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -438,7 +438,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteClientGroupRole")
 	public DeleteClientGroupRoleResponse implementRequest(@RequestBody DeleteClientGroupRoleRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -446,7 +446,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchClientGroupRoles")
 	public SearchClientGroupRoleResponse implementRequest(@RequestBody SearchClientGroupRoleRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -454,7 +454,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createClientRolePermission")
 	public CreateClientRolePermissionResponse implementRequest(@RequestBody CreateClientRolePermissionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);	
 	}
 
@@ -462,7 +462,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteClientRolePermission")
 	public DeleteClientRolePermissionResponse implementRequest(@RequestBody DeleteClientRolePermissionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -470,7 +470,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchClientRolePermissions")
 	public SearchClientRolePermissionResponse implementRequest(@RequestBody SearchClientRolePermissionRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -478,7 +478,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchChangeLogs")
 	public SearchChangeLogResponse implementRequest(@RequestBody SearchChangeLogRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -486,7 +486,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/createBasicAuthClient")
 	public CreateBasicAuthClientResponse implementRequest(@RequestBody CreateBasicAuthClientRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -494,7 +494,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/deleteBasicAuthClient")
 	public DeleteBasicAuthClientResponse implementRequest(@RequestBody DeleteBasicAuthClientRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -502,7 +502,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/searchBasicAuthClients")
 	public SearchBasicAuthClientResponse implementRequest(@RequestBody SearchBasicAuthClientRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityManagementApi().implementRequest(request);
 	}
 
@@ -512,7 +512,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermission")
 	public SecurityAPIResponse hasPermission(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasPermission(request);
 	}
 
@@ -520,7 +520,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermissionReturnRoles")
 	public SecurityAPIResponse hasPermissionReturnRoles(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasPermissionReturnRoles(request);
 	}
 
@@ -528,7 +528,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermissionReturnGroups")
 	public SecurityAPIResponse hasPermissionReturnGroups(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasPermissionReturnGroups(request);
 	}
 
@@ -536,7 +536,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermissionReturnScopes")
 	public SecurityAPIResponse hasPermissionReturnScopes(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasPermissionReturnScopes(request);
 	}
 
@@ -544,7 +544,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermissionInScope")
 	public SecurityAPIResponse hasPermissionInScope(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasPermissionInScope(request);
 	}
 
@@ -552,7 +552,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasRole")
 	public SecurityAPIResponse hasRole(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasRole(request);
 	}
 
@@ -560,7 +560,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasGroup")
 	public SecurityAPIResponse hasGroup(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasGroup(request);
 	}
 
@@ -568,7 +568,7 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST,path = "/getSecurityContext")
 	public GetSecurityContextResponse getSecurityContext(@RequestBody GetSecurityContextRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		GetSecurityContextResponse resp = connection.getSecurityContextApi().getSecurityContext(request);
 		return resp;
 	}
@@ -577,14 +577,14 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermissions")
 	public SecurityAPIResponse hasPermissions(@RequestBody SecurityAPIRequest request) 
 	{
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().hasPermissions(request);
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST, path = "/getSecuritySetup")
 	public GetSecuritySetupResponse getSecuritySetup(GetSecuritySetupRequest request) {
-		insertCallingClientId(request);
+		insertLoggedInId(request);
 		return connection.getSecurityContextApi().getSecuritySetup(request);
 	}
 	

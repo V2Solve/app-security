@@ -60,7 +60,7 @@ export  class BaseRequest
 	/**
 	 * Unique Calling Client Id;
 	 */
-	callingClientId!: string;
+	clientId!: string;
 	
 	/**
 	 * Additional groups that the client must be assumed to belong to 

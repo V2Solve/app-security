@@ -43,7 +43,7 @@ public class OAuth2ClientCredentialSecurityConnection implements AppSecurityConn
 	{
 		GetSecurityContextRequest gscr = new GetSecurityContextRequest();
 		if (clientIdentifier != null)
-			gscr.setCallingClientId(clientIdentifier);
+			gscr.setClientId(clientIdentifier);
 		
 		if (assumeGroups != null)
 			gscr.setGroups(assumeGroups);

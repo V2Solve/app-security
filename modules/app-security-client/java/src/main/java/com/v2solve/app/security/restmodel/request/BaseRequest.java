@@ -23,9 +23,9 @@ public class BaseRequest implements java.io.Serializable
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Unique Calling Client Id;
+	 * Unique client id which represents the client on behalf of which the call is being made.
 	 */
-	String callingClientId;
+	String clientId;
 	
 	/**
 	 * Additional groups that the client must be assumed to belong to 
