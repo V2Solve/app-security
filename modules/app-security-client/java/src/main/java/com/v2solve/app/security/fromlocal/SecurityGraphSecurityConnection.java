@@ -40,12 +40,12 @@ public class SecurityGraphSecurityConnection implements AppSecurityConnection
 
 	@Override
 	public SecurityContextAPI getSecurityContextApi() {
-		throw new RuntimeException("getSecurityContextApi method is not supported in a stream security connection.");
+		throw new RuntimeException("getSecurityContextApi method is not supported in a graph security connection.");
 	}
 
 	@Override
 	public SecurityManagementAPI getSecurityManagementApi() {
-		throw new RuntimeException("getSecurityManagementApi method is not supported in a stream security connection.");
+		throw new RuntimeException("getSecurityManagementApi method is not supported in a graph security connection.");
 	}
 
 	
