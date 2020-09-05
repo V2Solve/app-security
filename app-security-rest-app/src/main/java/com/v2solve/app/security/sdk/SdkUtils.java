@@ -44,7 +44,7 @@ public class SdkUtils
 			}
 			
 			if (StringUtils.isNullOrZeroLength(clientId))
-				throw new SecurityException("Calling client id, not provided, it is a required field.");
+				throw new SecurityException("Client id, not provided, it is a required field.");
 		}
 		else
 		{
@@ -66,7 +66,7 @@ public class SdkUtils
 		}
 
 		if (StringUtils.isNullOrZeroLength(clientId))
-			throw new SecurityException("Calling client id, not provided, it is a required field.");
+			throw new SecurityException("Client id, not provided, it is a required field.");
 		
 		AppSecurityContext asc = SecurityDataLogic.readAppSecurityContextForClient(em, clientId, additionalGroups);
 		return asc;
