@@ -532,6 +532,7 @@ insert into permission (id,name,action_id,resource_id,description,application_id
 insert into permission (id,name,action_id,resource_id,description,application_id) values (100,'READ ON CLIENT',3,4,'ALLOWS READ PERMISSION ON CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (110,'UPDATE ON CLIENT',4,4,'ALLOWS UPDATE PERMISSION ON CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (120,'DELETE ON CLIENT',5,4,'ALLOWS DELETE PERMISSION ON CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (121,'ASSUME ON CLIENT',6,4,'ALLOWS ASSUME ON CLIENT',null);
 
 
 insert into permission (id,name,action_id,resource_id,description,application_id) values (125,'ALL_ACTIONS ON CLIENT_GROUP',1,5,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT_GROUP',null);
@@ -624,3 +625,86 @@ insert into permission (id,name,action_id,resource_id,description,application_id
 insert into permission (id,name,action_id,resource_id,description,application_id) values (670,'READ ON BASIC_AUTH_CLIENT',3,17,'ALLOWS READ PERMISSION ON BASIC_AUTH_CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (680,'UPDATE ON BASIC_AUTH_CLIENT',4,17,'ALLOWS UPDATE PERMISSION ON BASIC_AUTH_CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (690,'DELETE ON BASIC_AUTH_CLIENT',5,17,'ALLOWS DELETE PERMISSION ON BASIC_AUTH_CLIENT',null);
+
+
+
+-- We CREATE some out of the box roles here and assign permissions to make it easy for folks to get started on Application Security..
+
+-- Trusted_App role - for applications which can call the security api, on behalf of clients that they logged in
+insert into client_role (id,name,description,application_id) values (10,'TRUSTED_APP','This role provides the rights for a trusted application act on behalf of clients',null);
+-- App Onboarder role to be able to onboard an application, this role is owned by SUPER_APP
+insert into client_role (id,name,description,application_id) values (15,'APP_ONBOARDER','This role provides the rights for a client to onboard an app.',0);
+-- App Owner role to be able to define resources for an application.
+insert into client_role (id,name,description,application_id) values (20,'APP_OWNER','This role provides the rights for a client to define resources for an app.',null);
+
+
+-- PERMISSIONS for TRUSTED APP ROLE.
+-- adding ASSUME ON CLIENT
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (10,10,121,null,'allow',null);
+-- adding ASSUME ON CLIENT_GROUP
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (15,10,161,null,'allow',null);
+
+
+-- PERMISSIONS for APP_ONBOARDER ROLE..
+-- CREATE ON APPLICATION	50		
+-- DELETE ON APPLICATION	80		
+-- ALL ACTIONS ON BASIC_AUTH_CLIENT 650		
+-- READ ON APPLICATION 60 
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (20,15,50,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (25,15,80,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (30,15,650,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (35,15,60,null,'allow',null);
+
+-- PERMISSIONS for APP_OWNER ROLE..
+--  READ ON APPLICATION	60		
+--  ALL_ACTIONS ON CLIENT_GROUP 125 			
+--  ALL_ACTIONS ON ROLE 205			
+-- 	ALL_ACTIONS ON PERMISSION_ROLE_MEMBERSHIP 325			
+-- 	ALL_ACTIONS ON CLIENT_GROUP_MEMBERSHIP 165			 
+-- 	ALL_ACTIONS ON GROUP_ROLE_MEMBERSHIP 245			
+-- 	ALL_ACTIONS ON ACTION	5		
+-- 	ALL_ACTIONS ON CLIENT	85		
+-- 	ALL_ACTIONS ON PERMISSION 285		
+-- 	ALL_ACTIONS ON RESOURCE	365		
+-- 	ALL_ACTIONS ON DOMAIN	405		
+-- 	ALL_ACTIONS ON DOMAIN_TYPE 445			
+-- 	ALL_ACTIONS ON SCOPE_TYPE  485 			
+-- 	ALL_ACTIONS ON SCOPE	525
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (40,20,60,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (45,20,125,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (50,20,205,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (55,20,325,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (60,20,165,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (65,20,245,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (70,20,5,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (75,20,85,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (80,20,285,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (85,20,365,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (90,20,405,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (95,20,445,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (100,20,485,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (105,20,525,null,'allow',null);
+
+
+-- Lets create some out of box groups..
+insert into client_group (id,name,description,application_id) values (10,'TRUSTED_APPS','This group is to hold trusted application clients',null);
+insert into client_group (id,name,description,application_id) values (15,'APP_ONBOARDERS','This group is to hold app onboarders - clients who can onboard apps',null);
+
+-- Lets also create the default AppDomain as a resource domain type.
+insert into resource_domain_type (id,name,application_id) values (0,'AppDomain',0);
+
+
+-- Lets create group membership role for the groups that we created.
+-- assign trusted apps group to role trusted app
+insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,role_scope_id,application_id) values (10,10,10,null,null,null);
+
+-- assign App Onboarders group to role app onboarders
+insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,role_scope_id,application_id) values (15,15,15,null,null,null);
+
+
+-- Now let us create an inbuilt clients called app_onboarder
+insert into client (id,client_identifier,description,application_id) values (10,'app_onboarder','This client is a built in app onboarder',0);
+
+-- The app onboarder will be a part of the app onboarders group
+insert into client_group_membership (id,client_id,client_group_id,application_id) values (10,10,15,0);
+

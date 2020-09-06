@@ -12,7 +12,7 @@ insert into client_group (id,name,description,application_id) values (0,'SUPER_C
 
 
 -- create the connection between the super user and the super group..
-insert into client_group_membership (id,client_id,client_group_id,application_id) values (1,1,1,0);
+insert into client_group_membership (id,client_id,client_group_id,application_id) values (0,1,1,0);
 
 -- create the super action - the super action is useful so we will keep application as null, meaning available to others.
 insert into action (id,name,description,application_id) values (0,'ALL_ACTIONS','The super action that stands for all actions',null);
@@ -34,4 +34,6 @@ insert into client_role_permissions (id,client_role_id,permission_id,value,appli
 
 -- assign the super role to the super clients group..
 insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,role_scope_id,application_id) values (0,1,1,null,null,0);
+
+
 EOSQL
