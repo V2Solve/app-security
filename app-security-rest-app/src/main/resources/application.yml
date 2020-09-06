@@ -13,7 +13,6 @@ spring:
 #spring.jpa.properties.hibernate.generate_statistics=true
 #logging.level.org.hibernate.type=trace
 #logging.level.org.hibernate.stat=debug
-
 v2solve:    
   app:
     security:
@@ -22,50 +21,6 @@ v2solve:
         allowed-origins:        - "*"
         allowed-headers:        - "*"
       authwhitelist: "/oidc-support**"
-      jwt:
-        enable: false
-        client:
-          registration:
-            okta:
-              provider: "https://dev-869380.okta.com"
-          provider:
-            okta:
-              user-name-attribute: email
-              issuer-uri: "https://dev-869380.okta.com"
-          provider-extension:
-            okta:
-              claim-checks:                aud:
-                  allowed-values:                  - myfairlady 
-                  - mylesslady
-                acr:
-                  allowed-values:                  - heyBaby
-                  - nahlayak
-#      client-credentials:
-#        enable: true
-#        client:
-#          registration:
-#            okta:
-#              provider: "https://dev-869380.okta.com"
-#              client-id: "0oam02zxsNkBAw5xo4x6"
-#              client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
-#              client-name: Okta
-      oauth2:
-        enable: false
-        client:
-          registration:
-            okta:
-              provider: "https://dev-869380.okta.com"
-              client-id: "0oam02zxsNkBAw5xo4x6"
-              client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
-              client-name: Okta
-              scope:
-              - email
-              - profile
-              - openid
-          provider:
-            okta:
-              user-name-attribute: email
-              issuer-uri: "https://dev-869380.okta.com"
       basic:
         jdbc:
           enable: true
@@ -74,32 +29,15 @@ v2solve:
         enable: true
         realm: v2solve
         users:
-          - username: saurinya@gmail.com 
-            password: admin
+          - username: admin 
+            password: system
             roles: superuser
-          - username: crm_owner 
-            password: admin
+          - username: app_onboarder 
+            password: system
             roles: superuser
-          - username: hrm_owner 
-            password: admin
-            roles: appowner
-          - username: whm_owner 
-            password: admin
-            roles: developer
-          - username: accouting_owner 
-            password: admin
-            roles: auditor
-          - username: sales_owner 
-            password: admin
-            roles: auditor
-          - username: marketting_owner 
-            password: admin
-            roles: auditor
-            
 logging:  level:    com:
       v2solve:
         app:
-          security: DEBUG
-
+          security: INFO
 server:
   port: 9570      
