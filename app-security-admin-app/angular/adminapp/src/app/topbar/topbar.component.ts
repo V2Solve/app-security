@@ -200,12 +200,16 @@ export class TopbarComponent extends BaseForm implements OnInit
 
   ngOnInit(): void 
   {
-      this.figureOutLoggedInUser ();
-      this.figureOutMenutItems();
       // console.log("Subscribing to the loadService..");
       this.loadService.httpProgress().subscribe(element=>{
           this.spinBarVisibility = element;
       });
+  }
+
+  ngAfterViewInit ()
+  {
+    this.figureOutLoggedInUser ();
+    this.figureOutMenutItems();
   }
   
 }

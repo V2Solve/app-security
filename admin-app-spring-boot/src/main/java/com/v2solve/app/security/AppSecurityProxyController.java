@@ -120,9 +120,8 @@ import com.v2solve.app.security.restmodel.response.SecurityAPIResponse;
  * @author Saurinya
  *
  */
-
 @RestController
-@RequestMapping(path = "/proxyController",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = {"/v1/contextapi","/v1/managementapi"},produces = MediaType.APPLICATION_JSON_VALUE)
 public class AppSecurityProxyController implements SecurityContextAPI,SecurityManagementAPI 
 {
 	@Autowired AppSecurityConnection connection;
@@ -135,7 +134,8 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 		
 		if (auth.isAuthenticated())
 		{
-			br.setClientId(auth.getName());
+			String clientId = auth.getName();
+			br.setClientId(clientId);
 		}
 	}
 	

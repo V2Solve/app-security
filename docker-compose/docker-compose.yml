@@ -1,0 +1,22 @@
+version: '3'
+volumes:
+  post-gres-sql-db_data:
+services:
+  post-gres-sql-db:
+    volumes:
+      - post-gres-sql-db_data=/var/lib/postgresql/data/pgdata
+    environment:
+     - SUPER_CLIENT_ID=admin
+     - POSTGRES_PASSWORD=password
+     - PGDATA=/var/lib/postgresql/data/pgdata
+    image: "appsecdb:1.0"
+    ports:
+     - "5432:5432"
+  app-security-rest-app:
+    image: "app-sec-rest-app:1.0"
+    ports:
+      - "9570:9570"
+  admin-app-spring-boot:
+    image: "admin-app-spring-boot:1.0"
+    ports:
+     - "8080:8080"      

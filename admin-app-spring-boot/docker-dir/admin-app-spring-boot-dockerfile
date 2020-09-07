@@ -1,0 +1,7 @@
+## Lets start OpenJDK order to be able to run the spring boot app..
+FROM openjdk:14
+COPY target/admin-app-spring-boot-0.0.1-SNAPSHOT.jar /usr/src/myapp/admin-app-spring-boot-0.0.1-SNAPSHOT.jar
+WORKDIR /usr/src/myapp
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar"] 
+CMD ["admin-app-spring-boot-0.0.1-SNAPSHOT.jar"]

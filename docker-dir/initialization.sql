@@ -479,8 +479,11 @@ ALTER SEQUENCE "seq_basic_auth_clients_id" OWNER TO postgres;
 
 -- NOW INITIALIZING THE DATABASE with some initial Data. (Note the initial super user is created in the init-user-db.sh)
 
+-- create the first application, the super APP , which holds super folks..
+insert into application (id,app_identifier,app_short_identifier,description) values (0,'SUPER_APP','SUPER_APP','This is the app that holds the initial super user.');
 
 -- Some basic actions that are part of the basic admin application
+insert into action (id,name,description,application_id) values (0,'ALL_ACTIONS','The super action that stands for all actions',null);
 insert into action (id,name,description,application_id) values (2,'CREATE','The super action that stands for all actions',null);
 insert into action (id,name,description,application_id) values (3,'READ','should impart ability to read or view some resource',null);
 insert into action (id,name,description,application_id) values (4,'UPDATE','should impart the ability to update some resource',null);
@@ -488,6 +491,8 @@ insert into action (id,name,description,application_id) values (5,'DELETE','shou
 insert into action (id,name,description,application_id) values (6,'ASSUME','should impart the ability to assume some something',null);
 
 -- Some basic resources that are a part of the basic admin application
+-- create the super resource - super resource cannot be available globally.. must belong to super APP..
+insert into resource (id,name,description,application_id) values (0,'ALL_RESOURCES','The super resource keyword that stands for all resources',0);
 insert into resource (id,name,description,application_id) values (2,'ACTION','represents an action or verb',null);
 insert into resource (id,name,description,application_id) values (3,'APPLICATION','represents an application resource',null);
 insert into resource (id,name,description,application_id) values (4,'CLIENT','represents a client resource',null);
@@ -515,19 +520,19 @@ insert into resource (id,name,description,application_id) values (17,'BASIC_AUTH
 
 
 -- Some basic permissions on the resources of the administration application.
-insert into permission (id,name,action_id,resource_id,description,application_id) values (5,'ALL_ACTIONS ON ACTION',1,2,'ALLOWS ALL_ACTIONS ON ACTION',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (5,'ALL_ACTIONS ON ACTION',0,2,'ALLOWS ALL_ACTIONS ON ACTION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (10,'CREATE ON ACTION',2,2,'ALLOWS CREATE PERMISSION ON ACTION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (20,'READ ON ACTION',3,2,'ALLOWS READ PERMISSION ON ACTION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (30,'UPDATE ON ACTION',4,2,'ALLOWS UPDATE PERMISSION ON ACTION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (40,'DELETE ON ACTION',5,2,'ALLOWS DELETE PERMISSION ON ACTION',null);
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (45,'ALL_ACTIONS ON APPLICATION',1,3,'ALLOWS ALL_ACTIONS ON APPLICATION',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (45,'ALL_ACTIONS ON APPLICATION',0,3,'ALLOWS ALL_ACTIONS ON APPLICATION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (50,'CREATE ON APPLICATION',2,3,'ALLOWS CREATE PERMISSION ON APPLICATION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (60,'READ ON APPLICATION',3,3,'ALLOWS READ PERMISSION ON APPLICATION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (70,'UPDATE ON APPLICATION',4,3,'ALLOWS UPDATE PERMISSION ON APPLICATION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (80,'DELETE ON APPLICATION',5,3,'ALLOWS DELETE PERMISSION ON APPLICATION',null);
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (85,'ALL_ACTIONS ON CLIENT',1,4,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (85,'ALL_ACTIONS ON CLIENT',0,4,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (90,'CREATE ON CLIENT',2,4,'ALLOWS CREATE PERMISSION ON CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (100,'READ ON CLIENT',3,4,'ALLOWS READ PERMISSION ON CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (110,'UPDATE ON CLIENT',4,4,'ALLOWS UPDATE PERMISSION ON CLIENT',null);
@@ -535,7 +540,7 @@ insert into permission (id,name,action_id,resource_id,description,application_id
 insert into permission (id,name,action_id,resource_id,description,application_id) values (121,'ASSUME ON CLIENT',6,4,'ALLOWS ASSUME ON CLIENT',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (125,'ALL_ACTIONS ON CLIENT_GROUP',1,5,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT_GROUP',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (125,'ALL_ACTIONS ON CLIENT_GROUP',0,5,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT_GROUP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (130,'CREATE ON CLIENT_GROUP',2,5,'ALLOWS CREATE PERMISSION ON CLIENT_GROUP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (140,'READ ON CLIENT_GROUP',3,5,'ALLOWS READ PERMISSION ON CLIENT_GROUP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (150,'UPDATE ON CLIENT_GROUP',4,5,'ALLOWS UPDATE PERMISSION ON CLIENT_GROUP',null);
@@ -543,84 +548,84 @@ insert into permission (id,name,action_id,resource_id,description,application_id
 insert into permission (id,name,action_id,resource_id,description,application_id) values (161,'ASSUME ON CLIENT_GROUP',6,5,'ALLOWS ASSUME ON CLIENT_GROUP',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (165,'ALL_ACTIONS ON CLIENT_GROUP_MEMBERSHIP',1,6,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT_GROUP_MEMBERSHIP',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (165,'ALL_ACTIONS ON CLIENT_GROUP_MEMBERSHIP',0,6,'ALLOWS ALL_ACTIONS PERMISSION ON CLIENT_GROUP_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (170,'CREATE ON CLIENT_GROUP_MEMBERSHIP',2,6,'ALLOWS CREATE PERMISSION ON CLIENT_GROUP_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (180,'READ ON CLIENT_GROUP_MEMBERSHIP',3,6,'ALLOWS READ PERMISSION ON CLIENT_GROUP_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (190,'UPDATE ON CLIENT_GROUP_MEMBERSHIP',4,6,'ALLOWS UPDATE PERMISSION ON CLIENT_GROUP_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (200,'DELETE ON CLIENT_GROUP_MEMBERSHIP',5,6,'ALLOWS DELETE PERMISSION ON CLIENT_GROUP_MEMBERSHIP',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (205,'ALL_ACTIONS ON ROLE',1,7,'ALLOWS ALL_ACTIONS PERMISSION ON ROLE',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (205,'ALL_ACTIONS ON ROLE',0,7,'ALLOWS ALL_ACTIONS PERMISSION ON ROLE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (210,'CREATE ON ROLE',2,7,'ALLOWS CREATE PERMISSION ON ROLE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (220,'READ ON ROLE',3,7,'ALLOWS READ PERMISSION ON ROLE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (230,'UPDATE ON ROLE',4,7,'ALLOWS UPDATE PERMISSION ON ROLE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (240,'DELETE ON ROLE',5,7,'ALLOWS DELETE PERMISSION ON ROLE',null);
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (245,'ALL_ACTIONS ON GROUP_ROLE_MEMBERSHIP',1,8,'ALLOWS ALL_ACTIONS PERMISSION ON GROUP_ROLE_MEMBERSHIP',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (245,'ALL_ACTIONS ON GROUP_ROLE_MEMBERSHIP',0,8,'ALLOWS ALL_ACTIONS PERMISSION ON GROUP_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (250,'CREATE ON GROUP_ROLE_MEMBERSHIP',2,8,'ALLOWS CREATE PERMISSION ON GROUP_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (260,'READ ON GROUP_ROLE_MEMBERSHIP',3,8,'ALLOWS READ PERMISSION ON GROUP_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (270,'UPDATE ON GROUP_ROLE_MEMBERSHIP',4,8,'ALLOWS UPDATE PERMISSION ON GROUP_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (280,'DELETE ON GROUP_ROLE_MEMBERSHIP',5,8,'ALLOWS DELETE PERMISSION ON GROUP_ROLE_MEMBERSHIP',null);
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (285,'ALL_ACTIONS ON PERMISSION',1,9,'ALLOWS ALL_ACTIONS PERMISSION ON PERMISSION',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (285,'ALL_ACTIONS ON PERMISSION',0,9,'ALLOWS ALL_ACTIONS PERMISSION ON PERMISSION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (290,'CREATE ON PERMISSION',2,9,'ALLOWS CREATE PERMISSION ON PERMISSION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (300,'READ ON PERMISSION',3,9,'ALLOWS READ PERMISSION ON PERMISSION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (310,'UPDATE ON PERMISSION',4,9,'ALLOWS UPDATE PERMISSION ON PERMISSION',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (320,'DELETE ON PERMISSION',5,9,'ALLOWS DELETE PERMISSION ON PERMISSION',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (325,'ALL_ACTIONS ON PERMISSION_ROLE_MEMBERSHIP',1,10,'ALLOWS ALL_ACTIONS PERMISSION ON PERMISSION_ROLE_MEMBERSHIP',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (325,'ALL_ACTIONS ON PERMISSION_ROLE_MEMBERSHIP',0,10,'ALLOWS ALL_ACTIONS PERMISSION ON PERMISSION_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (330,'CREATE ON PERMISSION_ROLE_MEMBERSHIP',2,10,'ALLOWS CREATE PERMISSION ON PERMISSION_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (340,'READ ON PERMISSION_ROLE_MEMBERSHIP',3,10,'ALLOWS READ PERMISSION ON PERMISSION_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (350,'UPDATE ON PERMISSION_ROLE_MEMBERSHIP',4,10,'ALLOWS UPDATE PERMISSION ON PERMISSION_ROLE_MEMBERSHIP',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (360,'DELETE ON PERMISSION_ROLE_MEMBERSHIP',5,10,'ALLOWS DELETE PERMISSION ON PERMISSION_ROLE_MEMBERSHIP',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (365,'ALL_ACTIONS ON RESOURCE',1,11,'ALLOWS ALL_ACTIONS PERMISSION ON RESOURCE',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (365,'ALL_ACTIONS ON RESOURCE',0,11,'ALLOWS ALL_ACTIONS PERMISSION ON RESOURCE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (370,'CREATE ON RESOURCE',2,11,'ALLOWS CREATE PERMISSION ON RESOURCE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (380,'READ ON RESOURCE',3,11,'ALLOWS READ PERMISSION ON RESOURCE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (390,'UPDATE ON RESOURCE',4,11,'ALLOWS UPDATE PERMISSION ON RESOURCE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (400,'DELETE ON RESOURCE',5,11,'ALLOWS DELETE PERMISSION ON RESOURCE',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (405,'ALL_ACTIONS ON DOMAIN',1,12,'ALLOWS ALL_ACTIONS PERMISSION ON DOMAIN',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (405,'ALL_ACTIONS ON DOMAIN',0,12,'ALLOWS ALL_ACTIONS PERMISSION ON DOMAIN',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (410,'CREATE ON DOMAIN',2,12,'ALLOWS CREATE PERMISSION ON DOMAIN',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (420,'READ ON DOMAIN',3,12,'ALLOWS READ PERMISSION ON DOMAIN',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (430,'UPDATE ON DOMAIN',4,12,'ALLOWS UPDATE PERMISSION ON DOMAIN',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (440,'DELETE ON DOMAIN',5,12,'ALLOWS DELETE PERMISSION ON DOMAIN',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (445,'ALL_ACTIONS ON DOMAIN_TYPE',1,13,'ALLOWS ALL_ACTIONS PERMISSION ON DOMAIN_TYPE',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (445,'ALL_ACTIONS ON DOMAIN_TYPE',0,13,'ALLOWS ALL_ACTIONS PERMISSION ON DOMAIN_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (450,'CREATE ON DOMAIN_TYPE',2,13,'ALLOWS CREATE PERMISSION ON DOMAIN_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (460,'READ ON DOMAIN_TYPE',3,13,'ALLOWS READ PERMISSION ON DOMAIN_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (470,'UPDATE ON DOMAIN_TYPE',4,13,'ALLOWS UPDATE PERMISSION ON DOMAIN_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (480,'DELETE ON DOMAIN_TYPE',5,13,'ALLOWS DELETE PERMISSION ON DOMAIN_TYPE',null);
 
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (485,'ALL_ACTIONS ON SCOPE_TYPE',1,14,'ALLOWS ALL_ACTIONS PERMISSION ON SCOPE_TYPE',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (485,'ALL_ACTIONS ON SCOPE_TYPE',0,14,'ALLOWS ALL_ACTIONS PERMISSION ON SCOPE_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (490,'CREATE ON SCOPE_TYPE',2,14,'ALLOWS CREATE PERMISSION ON SCOPE_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (500,'READ ON SCOPE_TYPE',3,14,'ALLOWS READ PERMISSION ON SCOPE_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (510,'UPDATE ON SCOPE_TYPE',4,14,'ALLOWS UPDATE PERMISSION ON SCOPE_TYPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (520,'DELETE ON SCOPE_TYPE',5,14,'ALLOWS DELETE PERMISSION ON SCOPE_TYPE',null);
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (525,'ALL_ACTIONS ON SCOPE',1,15,'ALLOWS ALL_ACTIONS PERMISSION ON SCOPE',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (525,'ALL_ACTIONS ON SCOPE',0,15,'ALLOWS ALL_ACTIONS PERMISSION ON SCOPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (530,'CREATE ON SCOPE',2,15,'ALLOWS CREATE PERMISSION ON SCOPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (540,'READ ON SCOPE',3,15,'ALLOWS READ PERMISSION ON SCOPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (550,'UPDATE ON SCOPE',4,15,'ALLOWS UPDATE PERMISSION ON SCOPE',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (560,'DELETE ON SCOPE',5,15,'ALLOWS DELETE PERMISSION ON SCOPE',null);
 
-insert into permission (id,name,action_id,resource_id,description,application_id) values (565,'ALL_ACTIONS ON CHANGE_LOG',1,16,'ALLOWS ALL_ACTIONS PERMISSION ON CHANGE_LOG',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (565,'ALL_ACTIONS ON CHANGE_LOG',0,16,'ALLOWS ALL_ACTIONS PERMISSION ON CHANGE_LOG',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (570,'READ ON CHANGE_LOG',3,16,'ALLOWS READ PERMISSION ON CHANGE_LOG',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (580,'DELETE ON CHANGE_LOG',5,16,'ALLOWS DELETE PERMISSION ON CHANGE_LOG',null);
 
 -- Some special permissions.. A universal CRUD permission.
-insert into permission (id,name,action_id,resource_id,description,application_id) values (610,'CREATE ON ALL_RESOURCES',2,1,'ALLOWS CREATE PERMISSION ON ALL RESOURCES',null);
-insert into permission (id,name,action_id,resource_id,description,application_id) values (620,'READ ON ALL_RESOURCES',3,1,'ALLOWS READ PERMISSION ON ALL RESOURCES',null);
-insert into permission (id,name,action_id,resource_id,description,application_id) values (630,'UPDATE ON ALL_RESOURCES',4,1,'ALLOWS UPDATE PERMISSION ON ALL RESOURCES',null);
-insert into permission (id,name,action_id,resource_id,description,application_id) values (640,'DELETE ON ALL_RESOURCES',5,1,'ALLOWS DELETE PERMISSION ON ALL RESOURCES',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (610,'CREATE ON ALL_RESOURCES',2,0,'ALLOWS CREATE PERMISSION ON ALL RESOURCES',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (620,'READ ON ALL_RESOURCES',3,0,'ALLOWS READ PERMISSION ON ALL RESOURCES',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (630,'UPDATE ON ALL_RESOURCES',4,0,'ALLOWS UPDATE PERMISSION ON ALL RESOURCES',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (640,'DELETE ON ALL_RESOURCES',5,0,'ALLOWS DELETE PERMISSION ON ALL RESOURCES',null);
 
 -- Permissions for Basic Auth Client table.
-insert into permission (id,name,action_id,resource_id,description,application_id) values (650,'ALL_ACTIONS ON BASIC_AUTH_CLIENT',1,17,'ALLOWS ALL_ACTIONS PERMISSION ON BASIC_AUTH_CLIENT',null);
+insert into permission (id,name,action_id,resource_id,description,application_id) values (650,'ALL_ACTIONS ON BASIC_AUTH_CLIENT',0,17,'ALLOWS ALL_ACTIONS PERMISSION ON BASIC_AUTH_CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (660,'CREATE ON BASIC_AUTH_CLIENT',2,17,'ALLOWS CREATE PERMISSION ON BASIC_AUTH_CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (670,'READ ON BASIC_AUTH_CLIENT',3,17,'ALLOWS READ PERMISSION ON BASIC_AUTH_CLIENT',null);
 insert into permission (id,name,action_id,resource_id,description,application_id) values (680,'UPDATE ON BASIC_AUTH_CLIENT',4,17,'ALLOWS UPDATE PERMISSION ON BASIC_AUTH_CLIENT',null);
@@ -640,20 +645,28 @@ insert into client_role (id,name,description,application_id) values (20,'APP_OWN
 
 -- PERMISSIONS for TRUSTED APP ROLE.
 -- adding ASSUME ON CLIENT
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (10,10,121,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (10,10,121,null,'allow',null);
 -- adding ASSUME ON CLIENT_GROUP
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (15,10,161,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (15,10,161,null,'allow',null);
 
 
 -- PERMISSIONS for APP_ONBOARDER ROLE..
--- CREATE ON APPLICATION	50		
--- DELETE ON APPLICATION	80		
 -- ALL ACTIONS ON BASIC_AUTH_CLIENT 650		
--- READ ON APPLICATION 60 
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (20,15,50,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (25,15,80,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (30,15,650,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (35,15,60,null,'allow',null);
+-- ALL_ACTIONS ON APPLICATION	45		
+-- ALL_ACTIONS ON CLIENT	85		
+-- ALL_ACTIONS ON CLIENT_GROUP_MEMBERSHIP	165		
+-- ALL_ACTIONS ON CLIENT_GROUP	125		
+-- READ ON ROLE	220		
+-- ALL_ACTIONS ON GROUP_ROLE_MEMBERSHIP	245		
+-- ALL_ACTIONS ON DOMAIN 405
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (20,15,650,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (25,15,45,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (30,15,85,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (35,15,165,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (40,15,125,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (45,15,220,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (50,15,245,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (55,15,405,null,'allow',null);
 
 -- PERMISSIONS for APP_OWNER ROLE..
 --  READ ON APPLICATION	60		
@@ -670,24 +683,25 @@ insert into client_role_permissions(id,client_role_id,permission_id,role_scope_i
 -- 	ALL_ACTIONS ON DOMAIN_TYPE 445			
 -- 	ALL_ACTIONS ON SCOPE_TYPE  485 			
 -- 	ALL_ACTIONS ON SCOPE	525
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (40,20,60,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (45,20,125,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (50,20,205,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (55,20,325,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (60,20,165,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (65,20,245,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (70,20,5,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (75,20,85,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (80,20,285,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (85,20,365,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (90,20,405,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (95,20,445,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (100,20,485,null,'allow',null);
-insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,'value',application_id) values (105,20,525,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (60,20,60,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (65,20,125,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (70,20,205,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (75,20,325,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (80,20,165,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (85,20,245,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (90,20,5,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (95,20,85,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (100,20,285,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (105,20,365,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (110,20,405,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (115,20,445,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (120,20,485,null,'allow',null);
+insert into client_role_permissions(id,client_role_id,permission_id,role_scope_id,value,application_id) values (125,20,525,null,'allow',null);
 
 
 -- Lets create some out of box groups..
 insert into client_group (id,name,description,application_id) values (10,'TRUSTED_APPS','This group is to hold trusted application clients',null);
+
 insert into client_group (id,name,description,application_id) values (15,'APP_ONBOARDERS','This group is to hold app onboarders - clients who can onboard apps',null);
 
 -- Lets also create the default AppDomain as a resource domain type.
@@ -696,15 +710,17 @@ insert into resource_domain_type (id,name,application_id) values (0,'AppDomain',
 
 -- Lets create group membership role for the groups that we created.
 -- assign trusted apps group to role trusted app
-insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,role_scope_id,application_id) values (10,10,10,null,null,null);
+insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,propogate,application_id) values (10,10,10,null,false,null);
 
 -- assign App Onboarders group to role app onboarders
-insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,role_scope_id,application_id) values (15,15,15,null,null,null);
-
+insert into client_group_roles (id,client_group_id,client_role_id,resource_domain_id,propogate,application_id) values (15,15,15,null,false,null);
 
 -- Now let us create an inbuilt clients called app_onboarder
 insert into client (id,client_identifier,description,application_id) values (10,'app_onboarder','This client is a built in app onboarder',0);
+insert into client (id,client_identifier,description,application_id) values (15,'ADMIN_CONSOLE','This is for the admin_console, spring boot application',0);
 
 -- The app onboarder will be a part of the app onboarders group
 insert into client_group_membership (id,client_id,client_group_id,application_id) values (10,10,15,0);
 
+-- The admin console will be part of the trusted apps group..
+insert into client_group_membership (id,client_id,client_group_id,application_id) values (15,15,10,0);

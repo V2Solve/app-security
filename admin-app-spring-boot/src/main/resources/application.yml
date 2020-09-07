@@ -1,40 +1,50 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://post-gres-sql-db/postgres
+    username: postgres
+    password: password
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
 # This is the logon setup for the 
 # spring boot app before it serves the angular app
 v2solve:    
   app:
     security:
-      oauth2:
+      xframe-option: none
+      cors:
+        allowed-methods:
+        - "*"
+        allowed-origins:
+        - "*"
+        allowed-headers:
+        - "*"
+      authwhitelist: "/oidc-support**"
+      basic:
+        jdbc:
+          enable: true
+          usersByUsernameQuery: "select name as username,user_password as password,enabled from basic_auth_clients where name = ?"
+          authoritiesByUsernameQuery: "select name as username,'ADMIN' as authority from basic_auth_clients where name = ?"
         enable: true
-        client:
-          registration:
-            okta:
-              provider: "https://dev-869380.okta.com"
-              client-id: "0oam02zxsNkBAw5xo4x6"
-              client-secret: "fzulYFMjBkGqQuGRgdxZjk4T_1V6iqzJuQc4tmfv"
-              client-name: Okta
-              scope:
-              - email
-              - profile
-              - openid
-          provider:
-            okta:
-              user-name-attribute: email
-              issuer-uri: "https://dev-869380.okta.com"
-
+        realm: v2solve
+        users:
+          - username: admin 
+            password: system
+            roles: superuser
+          - username: app_onboarder
+            password: system
+            roles: superuser
 # From this point onwards is the client connection to the security server
   appsecurityclient:
     connection:
-      server-end-point: "http://localhost:9570" 
+      server-end-point: "http://app-security-rest-app:9570"
       basic: true
       basic-credentials:
         username: ADMIN_CONSOLE
         password: secretsauce
-      oauth2: false
-      oauth2-credentials:
-        client-id:
-        client-secret:
-        issuer-domain:
-
 #    authwhitelist: /index.html
 logging:
   level:

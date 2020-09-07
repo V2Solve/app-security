@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost/postgres
+    url: jdbc:postgresql://post-gres-sql-db/postgres
     username: postgres
     password: password
   jpa:
@@ -29,11 +29,8 @@ v2solve:
         enable: true
         realm: v2solve
         users:
-          - username: admin 
-            password: system
-            roles: superuser
-          - username: app_onboarder 
-            password: system
+          - username: ADMIN_CONSOLE 
+            password: secretsauce
             roles: superuser
 logging:  level:    com:
       v2solve:

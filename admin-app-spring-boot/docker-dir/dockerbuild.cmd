@@ -1,0 +1,1 @@
+docker build -f docker-dir/admin-app-spring-boot-dockerfile -t admin-app-spring-boot:1.0 .

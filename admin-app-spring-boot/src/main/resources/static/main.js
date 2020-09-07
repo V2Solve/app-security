@@ -7304,6 +7304,8 @@ class RoleToPermissionsComponent extends _base_comps_commonforms__WEBPACK_IMPORT
         scgrr.roleName = this.roleName.value;
         scgrr.permissionName = this.permissionName.value;
         scgrr.appIdentifier = this.appIdentifier.value;
+        if (scgrr.appIdentifier == "GLOBAL")
+            scgrr.appIdentifier = null;
         scgrr.scopeName = this.scopeName.value;
         this.managementClient.searchClientRolePermissions(scgrr).subscribe((element) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             yield this.receiveViewableOjects(element);
@@ -8886,16 +8888,18 @@ class TopbarComponent extends src_app_base_comps_commonforms__WEBPACK_IMPORTED_M
         });
     }
     ngOnInit() {
-        this.figureOutLoggedInUser();
-        this.figureOutMenutItems();
         // console.log("Subscribing to the loadService..");
         this.loadService.httpProgress().subscribe(element => {
             this.spinBarVisibility = element;
         });
     }
+    ngAfterViewInit() {
+        this.figureOutLoggedInUser();
+        this.figureOutMenutItems();
+    }
 }
 TopbarComponent.ɵfac = function TopbarComponent_Factory(t) { return new (t || TopbarComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modules_app_security_client_type_script_src_client_service_context_mgmt_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ContextMgmtApiClientService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_loader_service_service__WEBPACK_IMPORTED_MODULE_5__["LoaderServiceService"])); };
-TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]], decls: 15, vars: 3, consts: [[2, "width", "100%"], [2, "text-align", "right", "vertical-align", "middle", "width", "1%", "padding-right", "20px"], [2, "font-size", "40px", "align-content", "right"], [2, "text-align", "left", "vertical-align", "middle", "width", "60%", "font-size", "larger"], [2, "text-align", "right", "font-size", "smaller", "width", "20%", "vertical-align", "middle"], ["href", "window.href.location='/logout'", "title", "logout"], [2, "font-size", "16px", "align-content", "right", "vertical-align", "middle"], [2, "width", "2%"], [3, "diameter", 4, "ngIf"], [3, "menuItems"], [3, "diameter"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
+TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]], decls: 17, vars: 3, consts: [[2, "width", "100%"], [2, "text-align", "right", "vertical-align", "middle", "width", "1%", "padding-right", "20px"], [2, "font-size", "40px", "align-content", "right"], [2, "text-align", "left", "vertical-align", "middle", "width", "60%", "font-size", "larger"], [2, "text-align", "right", "font-size", "smaller", "width", "20%", "vertical-align", "middle"], ["href", "/logout", "title", "logout"], [2, "font-size", "16px", "align-content", "right", "vertical-align", "middle"], [2, "width", "2%"], [3, "diameter", 4, "ngIf"], [3, "menuItems"], [3, "diameter"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "table", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "tr");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "td", 1);
@@ -8919,13 +8923,15 @@ TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "app-table-menu", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "hr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](15, "app-table-menu", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](16, "hr");
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" Logged user: ", ctx.loggedInUser, " \u00A0 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.spinBarVisibility);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("menuItems", ctx.allMenuItems);
     } }, directives: [_angular_material_icon__WEBPACK_IMPORTED_MODULE_6__["MatIcon"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"], _table_menu_table_menu_component__WEBPACK_IMPORTED_MODULE_8__["TableMenuComponent"], _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_9__["MatSpinner"]], styles: [".results-odd-row[_ngcontent-%COMP%]\r\n{\r\n    border: 1px solid lightgray;\r\n    padding: 5px;\r\n    font-size: smaller;\r\n}\r\n\r\n.results-even-row[_ngcontent-%COMP%]\r\n{\r\n    border: 1px solid lightgray;\r\n    padding: 5px;\r\n    background-color: rgb(252, 252, 252);\r\n    font-size: smaller;\r\n}\r\n\r\n.results-heading-row[_ngcontent-%COMP%]\r\n{\r\n    border: 1px solid lightgray;\r\n    padding: 5px;\r\n    font-size: larger;\r\n}\r\n\r\n.section-heading[_ngcontent-%COMP%]\r\n{\r\n    width: 100%; \r\n    align-content: left; \r\n    border: 0;\r\n}\r\n\r\n.section-title[_ngcontent-%COMP%]\r\n{\r\n    font-size: large;\r\n    font-weight: bold;\r\n}\r\n\r\n.form-button[_ngcontent-%COMP%]\r\n{\r\n    margin: 2px;\r\n}\r\n\r\n.form-label[_ngcontent-%COMP%]\r\n{\r\n    font-size: inherit;\r\n}\r\n\r\n.hiddenItem[_ngcontent-%COMP%]\r\n{\r\n    display: none;\r\n}\r\n\r\n.visibleItem[_ngcontent-%COMP%]\r\n{\r\n    display: inherit;\r\n}\r\n\r\n.infoMessage[_ngcontent-%COMP%]\r\n{\r\n    color: green;\r\n    font-size: smaller;\r\n}\r\n\r\n.errorMessage[_ngcontent-%COMP%]\r\n{\r\n    color: red;\r\n    font-size: smaller;\r\n}\r\n\r\n.info-block-title-row[_ngcontent-%COMP%]\r\n{\r\n    background-color: black;\r\n    color: white;\r\n    font-weight: normal;\r\n}\r\n\r\n.info-block-button[_ngcontent-%COMP%]\r\n{\r\n    margin: 2px;\r\n}\r\n\r\n.table-menu-cell[_ngcontent-%COMP%]\r\n{\r\n    width: auto;\r\n    padding: 10px;\r\n}\r\n\r\n.mat-icon[_ngcontent-%COMP%]\r\n{\r\n    font-size: 40px;\r\n    align-content: center;\r\n}\r\n\r\n.form-cell[_ngcontent-%COMP%]\r\n{\r\n    padding: 10px;\r\n    padding-bottom: 20px;\r\n}\r\n\r\n.info-block-form-cell[_ngcontent-%COMP%]\r\n{\r\n    padding: 5px;\r\n    font-size: smaller;\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hc3NldHMvc3R5bGVzL2NvbW1vbnN0eWxlcy5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksMkJBQTJCO0lBQzNCLFlBQVk7SUFDWixrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksMkJBQTJCO0lBQzNCLFlBQVk7SUFDWixvQ0FBb0M7SUFDcEMsa0JBQWtCO0FBQ3RCOztBQUVBOztJQUVJLDJCQUEyQjtJQUMzQixZQUFZO0lBQ1osaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxtQkFBbUI7SUFDbkIsU0FBUztBQUNiOztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksV0FBVztBQUNmOztBQUdBOztJQUVJLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxhQUFhO0FBQ2pCOztBQUVBOztJQUVJLGdCQUFnQjtBQUNwQjs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osa0JBQWtCO0FBQ3RCOztBQUVBOztJQUVJLFVBQVU7SUFDVixrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksdUJBQXVCO0lBQ3ZCLFlBQVk7SUFDWixtQkFBbUI7QUFDdkI7O0FBRUE7O0lBRUksV0FBVztBQUNmOztBQUVBOztJQUVJLFdBQVc7SUFDWCxhQUFhO0FBQ2pCOztBQUVBOztJQUVJLGVBQWU7SUFDZixxQkFBcUI7QUFDekI7O0FBR0E7O0lBRUksYUFBYTtJQUNiLG9CQUFvQjtBQUN4Qjs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osa0JBQWtCO0FBQ3RCIiwiZmlsZSI6InNyYy9hcHAvdG9wYmFyL3RvcGJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnJlc3VsdHMtb2RkLXJvd1xyXG57XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCBsaWdodGdyYXk7XHJcbiAgICBwYWRkaW5nOiA1cHg7XHJcbiAgICBmb250LXNpemU6IHNtYWxsZXI7XHJcbn1cclxuXHJcbi5yZXN1bHRzLWV2ZW4tcm93XHJcbntcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkIGxpZ2h0Z3JheTtcclxuICAgIHBhZGRpbmc6IDVweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyNTIsIDI1MiwgMjUyKTtcclxuICAgIGZvbnQtc2l6ZTogc21hbGxlcjtcclxufVxyXG5cclxuLnJlc3VsdHMtaGVhZGluZy1yb3dcclxue1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgbGlnaHRncmF5O1xyXG4gICAgcGFkZGluZzogNXB4O1xyXG4gICAgZm9udC1zaXplOiBsYXJnZXI7XHJcbn1cclxuXHJcbi5zZWN0aW9uLWhlYWRpbmdcclxue1xyXG4gICAgd2lkdGg6IDEwMCU7IFxyXG4gICAgYWxpZ24tY29udGVudDogbGVmdDsgXHJcbiAgICBib3JkZXI6IDA7XHJcbn1cclxuXHJcbi5zZWN0aW9uLXRpdGxlXHJcbntcclxuICAgIGZvbnQtc2l6ZTogbGFyZ2U7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxufVxyXG5cclxuLmZvcm0tYnV0dG9uXHJcbntcclxuICAgIG1hcmdpbjogMnB4O1xyXG59XHJcblxyXG5cclxuLmZvcm0tbGFiZWxcclxue1xyXG4gICAgZm9udC1zaXplOiBpbmhlcml0O1xyXG59XHJcblxyXG4uaGlkZGVuSXRlbVxyXG57XHJcbiAgICBkaXNwbGF5OiBub25lO1xyXG59XHJcblxyXG4udmlzaWJsZUl0ZW1cclxue1xyXG4gICAgZGlzcGxheTogaW5oZXJpdDtcclxufVxyXG5cclxuLmluZm9NZXNzYWdlXHJcbntcclxuICAgIGNvbG9yOiBncmVlbjtcclxuICAgIGZvbnQtc2l6ZTogc21hbGxlcjtcclxufVxyXG5cclxuLmVycm9yTWVzc2FnZVxyXG57XHJcbiAgICBjb2xvcjogcmVkO1xyXG4gICAgZm9udC1zaXplOiBzbWFsbGVyO1xyXG59XHJcblxyXG4uaW5mby1ibG9jay10aXRsZS1yb3dcclxue1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbiAgICBmb250LXdlaWdodDogbm9ybWFsO1xyXG59XHJcblxyXG4uaW5mby1ibG9jay1idXR0b25cclxue1xyXG4gICAgbWFyZ2luOiAycHg7XHJcbn1cclxuXHJcbi50YWJsZS1tZW51LWNlbGxcclxue1xyXG4gICAgd2lkdGg6IGF1dG87XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG59XHJcblxyXG4ubWF0LWljb25cclxue1xyXG4gICAgZm9udC1zaXplOiA0MHB4O1xyXG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG5cclxuLmZvcm0tY2VsbFxyXG57XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgcGFkZGluZy1ib3R0b206IDIwcHg7XHJcbn1cclxuXHJcbi5pbmZvLWJsb2NrLWZvcm0tY2VsbFxyXG57XHJcbiAgICBwYWRkaW5nOiA1cHg7XHJcbiAgICBmb250LXNpemU6IHNtYWxsZXI7XHJcbn0iXX0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](TopbarComponent, [{
@@ -8955,10 +8961,10 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 const environment = {
     production: false,
-    contextApiBaseUrl: "/proxyController",
-    managementApiBaseUrl: "/proxyController",
+    contextApiBaseUrl: "/v1/contextapi",
+    managementApiBaseUrl: "/v1/managementapi",
     username: "",
-    password: ""
+    password: "system"
 };
 /*
  * For easier debugging in development mode, you can import the following file
