@@ -52,6 +52,7 @@ import { SideVerticalMenuComponent } from './side-vertical-menu/side-vertical-me
 import { TableMenuVertComponent } from './table-menu-vert/table-menu-vert.component';
 import { contextMgmtServiceProvider,securityMgmtServiceProvider } from './base-comps/client.services.provider';
 import { BasicUserManagementComponent } from './basic-user-management/basic-user-management.component';
+import { TrustedAppOnboardingComponent } from './trusted-app-onboarding/trusted-app-onboarding.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { BasicUserManagementComponent } from './basic-user-management/basic-user
     DynamicResultsTableComponent,
     SideVerticalMenuComponent,
     TableMenuVertComponent,
-    BasicUserManagementComponent
+    BasicUserManagementComponent,
+    TrustedAppOnboardingComponent
   ],
   imports: [
     BrowserModule,

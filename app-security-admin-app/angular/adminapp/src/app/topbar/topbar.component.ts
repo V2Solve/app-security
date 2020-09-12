@@ -164,7 +164,7 @@ export class TopbarComponent extends BaseForm implements OnInit
       {
         let item = new MenuItem("ChangeLogs","View Change Logs","/viewChangeLogs");
         resources.push(constants.SecurityResources.CHANGE_LOG);
-        item.imageLink="change_history";
+        item.imageLink="track_changes";
         menuItems.push(item);
       }
 
@@ -174,6 +174,14 @@ export class TopbarComponent extends BaseForm implements OnInit
         item.imageLink="security";
         menuItems.push(item);
       }
+
+      {
+        let item = new MenuItem("Onboard-Apps","Onboard a trusted Basic Auth App","/onboardTrustedBasicApp");
+        resources.push(constants.SecurityResources.ONBOARD_TRUSTED_APP);
+        item.imageLink="add";
+        menuItems.push(item);
+      }
+
 
       // Let us assign the resources..
       secApiRequest.resources = resources;

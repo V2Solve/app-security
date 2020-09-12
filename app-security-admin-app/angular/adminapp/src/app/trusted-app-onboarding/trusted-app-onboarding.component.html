@@ -1,0 +1,104 @@
+<title>{{formTitle}}</title>
+<app-info-block [errorClass]="'errorMessage'" [infoClass]="'infoMessage'" [messages]="messages" [informationBlockTitle]="'Information !'"></app-info-block>
+<p></p>
+<div class="{{isCreateOrDeletePermission()?'visibleItem':'hiddenItem'}}">
+<table class="section-title">
+    <tr>
+        <td class="section-heading">{{formTitle}}</td>
+    </tr>
+</table>
+<p></p>
+<table>
+<tr>
+    <td>
+        <div class="mat-elevation-z8">
+        <table>
+            <tr> <!-- Row for form elements-->
+                    <td class="form-cell">
+                        <mat-form-field>
+                            <mat-label>AppName</mat-label>
+                            <input matInput placeholder="Unique name for application" [formControl]="appName">
+                            <mat-error *ngIf="appName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>AppAcronym</mat-label>
+                            <input matInput placeholder="Unique Short Acronym" [formControl]="appAccronym">
+                            <mat-error *ngIf="appAccronym.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appAccronym.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>AppDescription</mat-label>
+                            <input matInput placeholder="Unique name for application" [formControl]="appDescription">
+                            <mat-error *ngIf="appDescription.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appDescription.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>BasicAppAuthUser(client-id)</mat-label>
+                            <input matInput placeholder="A unique name for the basic apps client id" [formControl]="basicAuthAppUser">
+                            <mat-error *ngIf="basicAuthAppUser.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="basicAuthAppUser.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>BasicAuthAppPassword(password for basic auth client)</mat-label>
+                            <input type="password" matInput placeholder="A non zero password" [formControl]="basicAuthAppPassword">
+                            <mat-error *ngIf="basicAuthAppPassword.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="basicAuthAppPassword.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>App Owner Id</mat-label>
+                            <input matInput placeholder="A unique client id for the app owner" [formControl]="basicAuthAppOwnerClientId">
+                            <mat-error *ngIf="basicAuthAppOwnerClientId.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="basicAuthAppOwnerClientId.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>App Owner Password</mat-label>
+                            <input type="password" matInput placeholder="A non zero password for app owner" [formControl]="basicAuthAppOwnerPassword">
+                            <mat-error *ngIf="basicAuthAppOwnerPassword.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="basicAuthAppOwnerPassword.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>AppOwners Group Name</mat-label>
+                            <input matInput placeholder="Name of the group to be created for this apps owner" [formControl]="appOwnersGroupName">
+                            <mat-error *ngIf="appOwnersGroupName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appOwnersGroupName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>Trusted Apps Group</mat-label>
+                            <input matInput placeholder="Don't change unless required. The apps group where the app needs to be placed" [formControl]="trustedAppsGroupName">
+                            <mat-error *ngIf="trustedAppsGroupName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="trustedAppsGroupName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                        <mat-form-field>
+                            <mat-label>App Owner Role</mat-label>
+                            <input matInput placeholder="Don't change unless required. The role to be granted to app owner" [formControl]="appOwnerRole">
+                            <mat-error *ngIf="appOwnerRole.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                            <mat-error *ngIf="appOwnerRole.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                        <br/>
+                    </td>
+            </tr>
+            <tr>    <!-- Row for buttons-->
+                <td class="form-cell">
+                    <span class="{{isCreatePermission()?'visibleItem':'hiddenItem'}}">
+                        <button (click)="updateObject()" mat-icon-button title="Create Record" [disabled]="formGroup.invalid">
+                            Create<mat-icon style="font-size: 24px;">create</mat-icon>
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        </div>
+    </td>
+</tr>
+</table>
+</div>

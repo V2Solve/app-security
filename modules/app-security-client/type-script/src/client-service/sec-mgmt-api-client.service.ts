@@ -335,4 +335,10 @@ export class SecMgmtApiClientService {
 		return this.http.post<cobjs.SearchBasicAuthClientResponse>(methodUrl,request,this.getHttpOptions ());
 	}				
 
+    createTrustedBasicAuthApp (request: cobjs.CreateTrustedBasicAppRequest): Observable<cobjs.CreateTrustedBasicAppResponse>
+    {
+		let methodUrl = this.apibaseurl + "/createTrustedBasicApp";
+		return this.http.post<cobjs.CreateTrustedBasicAppResponse>(methodUrl,request,this.getHttpOptions ());
+    }
+
 }

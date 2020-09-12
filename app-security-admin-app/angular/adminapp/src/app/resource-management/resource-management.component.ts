@@ -48,6 +48,7 @@ export class ResourceManagementComponent extends BaseForm implements OnInit {
     this.managementClient = client;
   }
 
+  
   rowSelected (key: string)
   {
     this.currentKey = key;

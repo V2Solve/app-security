@@ -37,6 +37,7 @@ export class SecurityResources {
 	static PERMISSION_ROLE_MEMBERSHIP: string = "PERMISSION_ROLE_MEMBERSHIP";
 	static CHANGE_LOG: string                 = "CHANGE_LOG";
 	static BASIC_AUTH_CLIENT: string          = "BASIC_AUTH_CLIENT";
+	static ONBOARD_TRUSTED_APP: string        = "ONBOARD_TRUSTED_APP";
 }
 
 
@@ -59,7 +60,6 @@ export class Scopes
 
 }
 
-
 /**
  * Different domains..
  */
@@ -72,4 +72,14 @@ export class Domains
 		return new Domain (domainName,this.APP_DOMAIN_TYPE);
 	}
 	
+}
+
+/**
+ * Predefined Security Groups and Roles in the system.
+ */
+export class SecurityGroupsAndRoles 
+{
+	static TRUSTED_APP_GROUP: string = "TRUSTED_APPS";
+	static TRUSTED_APP_ROLE: string  = "TRUSTED_APP";
+	static APP_OWNER_ROLE: string    = "APP_OWNER";
 }

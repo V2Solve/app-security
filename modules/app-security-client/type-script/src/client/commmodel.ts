@@ -730,3 +730,24 @@ export class SearchScopeTypeRequest extends CreateScopeTypeRequest {
 export class SearchScopeTypeResponse extends BaseResponse{
 	scopeTypes!: ScopeType [];
 }
+
+export class CreateTrustedBasicAppRequest extends BaseRequest
+{
+	appName!: string;
+	appAccronym!: string;
+	appDescription!: string;
+	 
+	basicAuthAppUser!: string;
+	basicAuthAppPassword!: string;
+	
+	basicAuthAppOwnerClientId!: string;
+	basicAuthAppOwnerPassword!: string;
+	
+	appOwnersGroupName!: string;
+	trustedAppsGroupName!: string;
+	appOwnerRole!: string;
+}
+
+export class CreateTrustedBasicAppResponse extends BaseResponse {
+
+}

@@ -16,6 +16,7 @@ import { PermissionManagementComponent } from './permission-management/permissio
 import { GroupsToRolesComponent } from './groups-to-roles/groups-to-roles.component';
 import { ChangeLogMgmtComponent } from './change-log-mgmt/change-log-mgmt.component';
 import { BasicUserManagementComponent } from './basic-user-management/basic-user-management.component';
+import { TrustedAppOnboardingComponent } from './trusted-app-onboarding/trusted-app-onboarding.component';
 
 const routes: Routes = 
 [
@@ -36,7 +37,8 @@ const routes: Routes =
   { path: 'groupRoleManagement', component: GroupsToRolesComponent},
   { path: 'rolePermissionManagement', component: RoleToPermissionsComponent},
   { path: 'viewChangeLogs', component: ChangeLogMgmtComponent},
-  { path: 'basicAuthClientManagement', component: BasicUserManagementComponent}
+  { path: 'basicAuthClientManagement', component: BasicUserManagementComponent},
+  { path: 'onboardTrustedBasicApp', component: TrustedAppOnboardingComponent}
 ];
 
 @NgModule({
