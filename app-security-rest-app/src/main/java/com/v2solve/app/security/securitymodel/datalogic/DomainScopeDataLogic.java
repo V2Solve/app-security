@@ -244,7 +244,6 @@ public class DomainScopeDataLogic
 	 * @throws InstantiationException
 	 */
 	public static ResourceDomain createResourceDomain(EntityManager em, CreateDomainRequest request)
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -287,7 +286,6 @@ public class DomainScopeDataLogic
 	}
 
 	public static ResourceDomain deleteResourceDomain(EntityManager em, DeleteDomainRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		ResourceDomain deletedObj = null;
 		List<ResourceDomain> listOfObjects = JPAUtils.findObjects(em, ResourceDomain.class, "name", request.getName()); 
@@ -369,7 +367,6 @@ public class DomainScopeDataLogic
 
 
 	public static RoleScope createRoleScope(EntityManager em, CreateScopeRequest request)
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException
 	{
 		// Lets check if an app identifier has been provided or not..
 		Application app = null;
@@ -404,7 +401,6 @@ public class DomainScopeDataLogic
 	}
 
 	public static RoleScope deleteRoleScope(EntityManager em, DeleteScopeRequest request) 
-	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException 
 	{
 		RoleScope deletedObj = null;
 		List<RoleScope> listOfObjects = JPAUtils.findObjects(em, RoleScope.class, "name", request.getName()); 

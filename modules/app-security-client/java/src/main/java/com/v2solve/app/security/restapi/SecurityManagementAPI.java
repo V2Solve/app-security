@@ -30,6 +30,7 @@ import com.v2solve.app.security.restmodel.request.DeletePermissionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
+import com.v2solve.app.security.restmodel.request.CreateTrustedBasicAppRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
@@ -75,6 +76,7 @@ import com.v2solve.app.security.restmodel.response.DeletePermissionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
+import com.v2solve.app.security.restmodel.response.CreateTrustedBasicAppResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
@@ -183,4 +185,7 @@ public interface SecurityManagementAPI
 	DeleteBasicAuthClientResponse implementRequest (DeleteBasicAuthClientRequest request);
 	
 	SearchBasicAuthClientResponse implementRequest (SearchBasicAuthClientRequest request);
+	
+	CreateTrustedBasicAppResponse implementRequest (CreateTrustedBasicAppRequest request);
+	
 }

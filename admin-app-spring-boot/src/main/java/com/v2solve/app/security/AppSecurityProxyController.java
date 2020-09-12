@@ -29,6 +29,7 @@ import com.v2solve.app.security.restmodel.request.CreatePermissionRequest;
 import com.v2solve.app.security.restmodel.request.CreateResourceRequest;
 import com.v2solve.app.security.restmodel.request.CreateScopeRequest;
 import com.v2solve.app.security.restmodel.request.CreateScopeTypeRequest;
+import com.v2solve.app.security.restmodel.request.CreateTrustedBasicAppRequest;
 import com.v2solve.app.security.restmodel.request.DeleteActionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
 import com.v2solve.app.security.restmodel.request.DeleteBasicAuthClientRequest;
@@ -77,6 +78,7 @@ import com.v2solve.app.security.restmodel.response.CreatePermissionResponse;
 import com.v2solve.app.security.restmodel.response.CreateResourceResponse;
 import com.v2solve.app.security.restmodel.response.CreateScopeResponse;
 import com.v2solve.app.security.restmodel.response.CreateScopeTypeResponse;
+import com.v2solve.app.security.restmodel.response.CreateTrustedBasicAppResponse;
 import com.v2solve.app.security.restmodel.response.DeleteActionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteApplicationResponse;
 import com.v2solve.app.security.restmodel.response.DeleteBasicAuthClientResponse;
@@ -507,6 +509,13 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 	}
 
 	
+	@Override
+	@RequestMapping(method = RequestMethod.POST,path = "/createTrustedBasicApp")
+	public CreateTrustedBasicAppResponse implementRequest(CreateTrustedBasicAppRequest request) {
+		insertLoggedInId(request);
+		return connection.getSecurityManagementApi().implementRequest(request);
+	}
+
 	
 	@Override
 	@RequestMapping(method = RequestMethod.POST, path = "/hasPermission")
@@ -587,5 +596,6 @@ public class AppSecurityProxyController implements SecurityContextAPI,SecurityMa
 		insertLoggedInId(request);
 		return connection.getSecurityContextApi().getSecuritySetup(request);
 	}
+
 	
 }

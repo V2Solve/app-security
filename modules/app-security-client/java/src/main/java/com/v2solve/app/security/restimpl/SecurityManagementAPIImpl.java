@@ -32,6 +32,7 @@ import com.v2solve.app.security.restmodel.request.DeletePermissionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
+import com.v2solve.app.security.restmodel.request.CreateTrustedBasicAppRequest;
 import com.v2solve.app.security.restmodel.request.RequestUtils;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
@@ -78,6 +79,7 @@ import com.v2solve.app.security.restmodel.response.DeletePermissionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
+import com.v2solve.app.security.restmodel.response.CreateTrustedBasicAppResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
@@ -410,6 +412,11 @@ public class SecurityManagementAPIImpl extends BaseApiImpl implements SecurityMa
 	@Override
 	public SearchBasicAuthClientResponse implementRequest(SearchBasicAuthClientRequest request) {
 		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,SearchBasicAuthClientResponse.class);
+	}
+
+	@Override
+	public CreateTrustedBasicAppResponse implementRequest(CreateTrustedBasicAppRequest request) {
+		return implementRequest(RequestUtils.getRequestEndpointBasedOnClass(request),request,CreateTrustedBasicAppResponse.class);
 	}
 	
 }

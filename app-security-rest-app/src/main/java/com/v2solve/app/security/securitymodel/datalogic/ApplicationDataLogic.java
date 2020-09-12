@@ -13,15 +13,28 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.v2solve.app.security.model.entities.Application;
+import com.v2solve.app.security.model.entities.BasicAuthClient;
 import com.v2solve.app.security.model.entities.Client;
+import com.v2solve.app.security.model.entities.ClientGroup;
+import com.v2solve.app.security.model.entities.ClientGroupMembership;
+import com.v2solve.app.security.model.entities.ResourceDomain;
 import com.v2solve.app.security.restmodel.PagingInformation;
 import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
+import com.v2solve.app.security.restmodel.request.CreateBasicAuthClientRequest;
+import com.v2solve.app.security.restmodel.request.CreateClientGroupRequest;
+import com.v2solve.app.security.restmodel.request.CreateClientGroupRoleRequest;
 import com.v2solve.app.security.restmodel.request.CreateClientRequest;
+import com.v2solve.app.security.restmodel.request.CreateDomainRequest;
+import com.v2solve.app.security.restmodel.request.CreateGroupMembershipRequest;
 import com.v2solve.app.security.restmodel.request.DeleteApplicationRequest;
 import com.v2solve.app.security.restmodel.request.DeleteClientRequest;
+import com.v2solve.app.security.restmodel.request.CreateTrustedBasicAppRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchClientRequest;
+import com.v2solve.app.security.sdk.Domains;
 import com.v2solve.app.security.utility.JPAUtils;
 import com.v2solve.app.security.utility.StringUtils;
 
@@ -215,5 +228,112 @@ public class ApplicationDataLogic
 		List<Client> listOfObjects = q.getResultList();
 		return listOfObjects;
 	}
+
+	
+	
+	public static Application OnboardTrustedBasicAuthApp (EntityManager em,CreateTrustedBasicAppRequest request, PasswordEncoder encoder)
+	{
+		
+		/**
+		 * Okay lets create the application first..
+		 */
+		CreateApplicationRequest car = new CreateApplicationRequest();
+		car.setAppIdentifier(request.getAppName());
+		car.setAppShortIdentifier(request.getAppAccronym());
+		car.setDescription(request.getAppDescription());
+		Application app = createApplication(em, car);
+		
+		
+		/**
+		 * Cool.. now for the basic Auth clients entries..
+		 * 
+		 */
+		CreateBasicAuthClientRequest cacr = new CreateBasicAuthClientRequest();
+		cacr.setAppIdentifier(app.getAppIdentifier());
+		cacr.setEnabled(true);
+		cacr.setName(request.getBasicAuthAppUser());
+		cacr.setPassword(request.getBasicAuthAppPassword());
+		BasicAuthClient appBac = SecurityDataLogic.createBasicAuthClient(em, cacr, encoder);
+		
+		/**
+		 * Ok now also create the client for the same..
+		 */
+		CreateClientRequest ccr = new CreateClientRequest();
+		ccr.setAppIdentifier(app.getAppIdentifier());
+		ccr.setClientIdentifier(request.getBasicAuthAppUser());
+		ccr.setDescription("Client created for app during app onboarding for trusted app: " + app.getAppIdentifier());
+		Client appClient = createClient(em, ccr);
+	
+		
+		/**
+		 * Okay lets put the membership of this client into the Trusted Apps Group..
+		 */
+		CreateGroupMembershipRequest cgmr = new CreateGroupMembershipRequest();
+		cgmr.setAppIdentifier(app.getAppIdentifier());
+		cgmr.setClientGroupIdentifier(request.getTrustedAppsGroupName());
+		cgmr.setClientIdentifier(appClient.getClientIdentifier());
+		GroupDataLogic.createClientGroupMembership(em, cgmr);
+		
+		
+		/**
+		 * now to create similar entries for the apps Owner
+		 */
+		cacr = new CreateBasicAuthClientRequest();
+		cacr.setAppIdentifier(app.getAppIdentifier());
+		cacr.setEnabled(true);
+		cacr.setName(request.getBasicAuthAppOwnerClientId());
+		cacr.setPassword(request.getBasicAuthAppOwnerPassword());
+		BasicAuthClient appOwnerBac = SecurityDataLogic.createBasicAuthClient(em, cacr, encoder);
+		
+		/**
+		 * Ok now also create the client for the same..
+		 */
+		ccr = new CreateClientRequest();
+		ccr.setAppIdentifier(app.getAppIdentifier());
+		ccr.setClientIdentifier(request.getBasicAuthAppOwnerClientId());
+		ccr.setDescription("Client created for appOwner during app onboarding for trusted app: " + app.getAppIdentifier());
+		Client appOwnerClient = createClient(em, ccr);
+		
+		
+		/**
+		 * Okay so now...lets create a group for these app owners..
+		 */
+		CreateClientGroupRequest ccgr = new CreateClientGroupRequest();
+		ccgr.setAppIdentifier(app.getAppIdentifier());
+		ccgr.setName(request.getAppOwnersGroupName());
+		ccgr.setDescription("Client Group created for appOwners during app onboarding for trusted app: " + app.getAppIdentifier());
+		ClientGroup appOwnersGroup = GroupDataLogic.createClientGroup(em, ccgr);
+		
+		/**
+		 * Lets add the appowner client to this group by creating the group membership...
+		 */
+		cgmr = new CreateGroupMembershipRequest();
+		cgmr.setAppIdentifier(app.getAppIdentifier());
+		cgmr.setClientGroupIdentifier(request.getAppOwnersGroupName());
+		cgmr.setClientIdentifier(appOwnerClient.getClientIdentifier());
+		GroupDataLogic.createClientGroupMembership(em, cgmr);
+		
+		/**
+		 * Lets create the application domain for assigning role at that domain..
+		 */
+		CreateDomainRequest cdr = new CreateDomainRequest();
+		cdr.setAppIdentifier(app.getAppIdentifier());
+		cdr.setDomainType(Domains.APP_DOMAIN_TYPE);
+		cdr.setName(app.getAppIdentifier());
+		cdr.setParentDomain(null);
+		ResourceDomain appDomain = DomainScopeDataLogic.createResourceDomain(em, cdr);
+		
+		CreateClientGroupRoleRequest ccgrr = new CreateClientGroupRoleRequest();
+		ccgrr.setAppIdentifier(app.getAppIdentifier());
+		ccgrr.setDomainName(appDomain.getName());
+		ccgrr.setGroupName(appOwnersGroup.getName());
+		ccgrr.setRoleName(request.getAppOwnerRole());
+		RelationDataLogic.createClientGroupRole(em, ccgrr);
+		
+		// Cool, so done, this finishes the app Onboarding...
+		
+		return app;
+	}
+	
 	
 }

@@ -38,6 +38,7 @@ import com.v2solve.app.security.restmodel.request.DeletePermissionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
+import com.v2solve.app.security.restmodel.request.CreateTrustedBasicAppRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
@@ -83,6 +84,7 @@ import com.v2solve.app.security.restmodel.response.DeletePermissionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
+import com.v2solve.app.security.restmodel.response.CreateTrustedBasicAppResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
@@ -388,6 +390,12 @@ public class ManagementAPIController implements SecurityManagementAPI
 	@RequestMapping(method = RequestMethod.POST,path = "/searchBasicAuthClients")
 	public SearchBasicAuthClientResponse implementRequest(@RequestBody SearchBasicAuthClientRequest request) {
 		return securityAPI.implementRequest(request);
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST,path = "/createTrustedBasicApp")
+	public CreateTrustedBasicAppResponse implementRequest(@RequestBody CreateTrustedBasicAppRequest request) {
+		return localSecurityManagementIMPL.implementRequest(request,passwordEncoder);
 	}
 
 }

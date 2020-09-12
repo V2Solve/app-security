@@ -57,6 +57,7 @@ import com.v2solve.app.security.restmodel.request.DeletePermissionRequest;
 import com.v2solve.app.security.restmodel.request.DeleteResourceRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeRequest;
 import com.v2solve.app.security.restmodel.request.DeleteScopeTypeRequest;
+import com.v2solve.app.security.restmodel.request.CreateTrustedBasicAppRequest;
 import com.v2solve.app.security.restmodel.request.SearchActionRequest;
 import com.v2solve.app.security.restmodel.request.SearchApplicationRequest;
 import com.v2solve.app.security.restmodel.request.SearchBasicAuthClientRequest;
@@ -102,6 +103,7 @@ import com.v2solve.app.security.restmodel.response.DeletePermissionResponse;
 import com.v2solve.app.security.restmodel.response.DeleteResourceResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeResponse;
 import com.v2solve.app.security.restmodel.response.DeleteScopeTypeResponse;
+import com.v2solve.app.security.restmodel.response.CreateTrustedBasicAppResponse;
 import com.v2solve.app.security.restmodel.response.SearchActionResponse;
 import com.v2solve.app.security.restmodel.response.SearchApplicationResponse;
 import com.v2solve.app.security.restmodel.response.SearchBasicAuthClientResponse;
@@ -2932,6 +2934,74 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 	}
 	
 
+	public CreateTrustedBasicAppResponse implementRequest(CreateTrustedBasicAppRequest request,PasswordEncoder encoder)
+	{
+		EntityManager em = null;
+		TransactionWrapper tw = null;
+		
+		try
+		{
+			String action   = SecurityActions.CREATE;
+			String resource = SecurityResources.ONBOARD_TRUSTED_APP; 
+			
+			em = getEm();
+			tw = new TransactionWrapper(em);
+			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
+			
+			// Lets check permissions..
+			checkForAppDomainPermission(asc, action, resource, null);
+			
+			// Lets do some validation...
+			if (StringUtils.isNullOrZeroLength(request.getAppName()))
+				throw new DataLogicValidationException("Application identifier/name is required");
+			
+			if (StringUtils.isNullOrZeroLength(request.getAppAccronym()))
+				throw new DataLogicValidationException("Application acronym/short name is required");
+			
+			if (StringUtils.isNullOrZeroLength(request.getAppDescription()))
+				request.setAppDescription("App created as a part of onboarding process");
+			
+			if (StringUtils.isNullOrZeroLength(request.getAppOwnerRole()))
+				throw new DataLogicValidationException("Application owner role is required..");
+				
+			if (StringUtils.isNullOrZeroLength(request.getAppOwnersGroupName()))
+				throw new DataLogicValidationException("App owners group name is required.");
+			
+			if (StringUtils.isNullOrZeroLength(request.getBasicAuthAppUser()))
+				throw new DataLogicValidationException("Basic Auth Client Id/App User is required..");
+			
+			if (StringUtils.isNullOrZeroLength(request.getBasicAuthAppPassword()))
+				throw new DataLogicValidationException("Basic Auth Client Id/App users PASSWORD is required..");
+			
+			if (StringUtils.isNullOrZeroLength(request.getBasicAuthAppOwnerClientId()))
+				throw new DataLogicValidationException("The app owners client id is required.");
+
+			if (StringUtils.isNullOrZeroLength(request.getBasicAuthAppOwnerPassword()))
+				throw new DataLogicValidationException("The app owners client id/PASSWORD is required for logon using BasicAuthCredentials");
+			
+			if (StringUtils.isNullOrZeroLength(request.getTrustedAppsGroupName()))
+				throw new DataLogicValidationException("The group name where TRUSTED APPS are placed is required. (trusted app group name)");
+			
+			Application newObject = ApplicationDataLogic.OnboardTrustedBasicAuthApp(em, request, encoder);
+			
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, null, newObject.getAppIdentifier(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
+			tw.success();
+			return new CreateTrustedBasicAppResponse(RequestStatusInformation.success("App onboarded."));
+		}
+		catch (Throwable e)
+		{
+			log.error(StringUtils.traceString(e));
+			return new CreateTrustedBasicAppResponse(RequestStatusInformation.failure(e.getMessage()));
+		}
+		finally
+		{
+			if (tw != null)
+				tw.commit();
+			if (em != null)
+				em.close();
+		}
+	}
+	
 	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request,PasswordEncoder encoder) 
 	{
 		EntityManager em = null;
@@ -3147,7 +3217,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 
 	@Override
 	public CreateBasicAuthClientResponse implementRequest(CreateBasicAuthClientRequest request) {
-		throw new RuntimeException("This method should be called, it should be the one with the password encoder passed to it.");
+		throw new RuntimeException("This method should NOT be called, it should be the one with the password encoder passed to it.");
 	}
 
+
+	@Override
+	public CreateTrustedBasicAppResponse implementRequest(CreateTrustedBasicAppRequest request) {
+		throw new RuntimeException("This method should NOT be called, it should be the one with the password encoder passed to it.");
+	}
+	
 }

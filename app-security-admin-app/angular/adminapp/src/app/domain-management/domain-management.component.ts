@@ -37,7 +37,6 @@ export class DomainManagementComponent extends BaseForm implements OnInit
   appIdentifier: string;
 
   formGroup = new FormGroup({"objectName":this.objectName,"objectDescription":this.objectDescription,"domainType":this.domainType});
- 
 
   viewableObjects     = new Array<Domain> ();
   viewableApps        = new Array<Application>();
@@ -221,12 +220,12 @@ export class DomainManagementComponent extends BaseForm implements OnInit
 
   ngOnInit(): void 
   {
-    this.formTitle="Manage Domains"
+    this.formTitle="Manage Domains";
     this.loadViewableApps();
     this.loadViewableDomainTypes();
     this.loadViewableParents();
     this.loadViewableObjects();
     this.updatePermissionFlags(SecurityResources.RESOURCE_DOMAIN,this.callService);
-  }  
+  }
 
 }

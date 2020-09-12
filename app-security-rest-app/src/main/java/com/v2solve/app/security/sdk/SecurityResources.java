@@ -27,4 +27,5 @@ public class SecurityResources
 	public static final String CHANGE_LOG					= "CHANGE_LOG";
 	public static final String BASIC_AUTH_CLIENT			= "BASIC_AUTH_CLIENT";
 	public static final String SECURITY_DB                  = "SECURITY_DB";
+	public static final String ONBOARD_TRUSTED_APP          = "ONBOARD_TRUSTED_APP";
 }
