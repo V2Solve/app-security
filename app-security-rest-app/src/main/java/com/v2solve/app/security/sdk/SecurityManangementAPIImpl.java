@@ -2439,9 +2439,12 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			}
 			
 			// Lets check to see if the Role name are in their own.
-			if (!asc.hasGroup(groupName))
+			if (!StringUtils.isNullOrZeroLength(groupName))
 			{
-				throw new PermissionException("Not enough scope on role: "+groupName+" group to perform this action:");
+				if (!asc.hasGroup(groupName))
+				{
+					throw new PermissionException("Not enough scope on role: "+groupName+" group to perform this action:");
+				}
 			}
 		}
 	}
@@ -3006,8 +3009,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				throw new DataLogicValidationException("App owners group: "+request.getAppOwnersGroupName() + " already exists in the system.");
 				
 			// Lets check that this will have permission to assign this role, to the Group..
-			validateSecurityForCreatingGroupRoleMembership(asc, em, null, request.getAppOwnerRole(), request.getAppOwnersGroupName());
-			
+			// The group name is being passed null, since this group will obviously not even exist..
+			validateSecurityForCreatingGroupRoleMembership(asc, em, null, request.getAppOwnerRole(), null);
 			
 			if (StringUtils.isNullOrZeroLength(request.getBasicAuthAppUser()))
 				throw new DataLogicValidationException("Basic Auth Client Id/App User is required..");

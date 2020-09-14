@@ -17,7 +17,7 @@
                     <td class="form-cell" style="width: 30%; vertical-align: top;">
                         <mat-form-field>
                             <mat-label>AppName</mat-label>
-                            <input matInput placeholder="Unique name for application" [formControl]="appName">
+                            <input matInput placeholder="Unique name for application" [formControl]="appName" (keyup)="onKeyUpAppName($event)">
                             <mat-error *ngIf="appName.hasError('required')">{{errorMsgRequiredField}}</mat-error>
                             <mat-error *ngIf="appName.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
                         </mat-form-field>

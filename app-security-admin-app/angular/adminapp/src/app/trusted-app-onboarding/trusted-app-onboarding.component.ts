@@ -86,7 +86,18 @@ export class TrustedAppOnboardingComponent extends BaseForm implements OnInit
      });
   }
 
-
+  onKeyUpAppName (event: any)
+  {
+    let appNameValue = this.appName.value;
+    if (appNameValue != null || appNameValue != undefined)
+    {
+          this.appAccronym.setValue(appNameValue);
+          this.appDescription.setValue("Trusted App: " + appNameValue);
+          this.basicAuthAppUser.setValue(appNameValue + "_bac");
+          this.basicAuthAppOwnerClientId.setValue(appNameValue+"_owner");
+          this.appOwnersGroupName.setValue(appNameValue+"_owners");
+    }
+  }
 
   ngOnInit(): void {
     // Lets put default values..
