@@ -73,6 +73,7 @@ export class TrustedAppOnboardingComponent extends BaseForm implements OnInit
      car.basicAuthAppOwnerPassword = this.basicAuthAppOwnerPassword.value;
      car.basicAuthAppUser = this.basicAuthAppUser.value;
      car.basicAuthAppPassword = this.basicAuthAppPassword.value;
+     car.trustedAppsGroupName = this.trustedAppsGroupName.value;
      this.managementClient.createTrustedBasicAuthApp(car).subscribe(value=>{
         console.log(value.status.statusMessage);
         if (value.status.statusCode == RequestStatusInformation.standardSuccessCode)

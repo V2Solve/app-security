@@ -869,6 +869,58 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 	}
 
 	
+	/**
+	 * Validates if the action is allowed as per security policy.. otherwise throws exception..
+	 * @param action
+	 * @param asc
+	 * @param em
+	 * @param request
+	 */
+	void validateSecurityForCreatingGroupMembership (AppSecurityContext asc,EntityManager em,String appIdentifier,String groupName)
+	{
+		String action   = SecurityActions.CREATE;
+		String resource = SecurityResources.CLIENT_GROUP_MEMBERSHIP;
+		boolean all = false;
+		boolean own = false;
+		
+		// Now let us also check if this permission is avaiable at what scope
+		Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN);
+		Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL);
+		
+		// Check for permission on AppDomain
+		checkForAppDomainPermission(asc, action, resource, appIdentifier);
+		
+		if (!StringUtils.isNullOrZeroLength(appIdentifier))
+		{
+			all = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allScope);
+			own = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownScope);
+		}
+		else
+		{
+			all = asc.hasPermissionInScope(action, resource, allScope);
+			own = asc.hasPermissionInScope(action, resource, ownScope);
+		}
+		
+		// Okay so now to check the scope and see which one it is so that we can check correctly..
+		if (all == false)
+		{
+			// OK, so if the person cannot assign at all levels, can he atleast assign the groups that it belongs to ...
+			if (own == false)
+			{
+				throw new PermissionException("The client does not have a permission with necessary scope to create a GroupMembership..");
+			}
+			else
+			{
+				// Okay all is false, but own is true.. so lets check to see if the group being assigned is member of the groups that the person has..
+				if (!asc.hasGroup(groupName))
+				{
+					throw new PermissionException("The client does not have the permission to create this group membership, since client does not belong that group: " + groupName);
+				}
+			}
+		}
+	}
+	
+	
 	@Override
 	public CreateGroupMembershipResponse implementRequest(CreateGroupMembershipRequest request) 
 	{
@@ -877,59 +929,14 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		
 		try
 		{
-			String action   = SecurityActions.CREATE;
-			String resource = SecurityResources.CLIENT_GROUP_MEMBERSHIP;
-			boolean all = false;
-			boolean own = false;
-			
-			// Now let us also check if this permission is avaiable at what scope
-			Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL);
-			
 			em = getEm();
 			tw = new TransactionWrapper (em);
 			AppSecurityContext asc = SdkUtils.getClientSecurityContextForRequest(em,request);
-			
-			// Lets check to see if an application has been specified.
-			String appIdentifier = request.getAppIdentifier();
-			
-			// Check for permission on AppDomain
-			checkForAppDomainPermission(asc, action, resource, appIdentifier);
-			
-			if (!StringUtils.isNullOrZeroLength(appIdentifier))
-			{
-				all = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allScope);
-				own = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownScope);
-			}
-			else
-			{
-				all = asc.hasPermissionInScope(action, resource, allScope);
-				own = asc.hasPermissionInScope(action, resource, ownScope);
-			}
-			
-			// Okay so now to check the scope and see which one it is so that we can check correctly..
-			if (all == false)
-			{
-				// OK, so if the person cannot assign at all levels, can he atleast assign the groups that it belongs to ...
-				if (own == false)
-				{
-					throw new PermissionException("The client does not have a permission with necessary scope to create a GroupMembership..");
-				}
-				else
-				{
-					// Okay all is false, but own is true.. so lets check to see if the group being assigned is member of the groups that the person has..
-					String groupName = request.getClientGroupIdentifier();
-					
-					if (!asc.hasGroup(groupName))
-					{
-						throw new PermissionException("The client does not have the permission to create this group membership, since client does not belong that group: " + groupName);
-					}
-				}
-			}
+			validateSecurityForCreatingGroupMembership(asc, em, request.getAppIdentifier(),request.getClientGroupIdentifier());
 			
 			ClientGroupMembership newObject = GroupDataLogic.createClientGroupMembership(em,request);
 			String changeTitle = newObject.getClient().getClientIdentifier() + " added to group: " + newObject.getClientGroup().getName();
-			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, resource, changeTitle,""+newObject.getId(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
+			ChangeLogDataLogic.createChangeLog(em, SecurityActions.CREATE, SecurityResources.CLIENT_GROUP_MEMBERSHIP, changeTitle,""+newObject.getId(), null, asc.getClient().getClientIdentifier(), null, newObject, null);
 			tw.success();
 			return new CreateGroupMembershipResponse(RequestStatusInformation.success(RECORD_CREATED));
 		}
@@ -2381,6 +2388,64 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		}
 	}
 
+	
+	/**
+	 * Validates to check if it passes necessary security validations to create this association,
+	 * if not then it throws a permission exception..
+	 * @param asc
+	 * @param em
+	 * @param appIdentifier
+	 * @param roleName
+	 * @param groupName
+	 */
+	void validateSecurityForCreatingGroupRoleMembership (AppSecurityContext asc,EntityManager em,String appIdentifier,String roleName,String groupName)
+	{
+		String action   = SecurityActions.CREATE;
+		String resource = SecurityResources.GROUP_ROLE_MEMBERSHIP;
+		
+		checkForAppDomainPermission(asc, action, resource, appIdentifier);
+		
+		// Lets check scope now..
+		Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+		Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
+		Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
+		Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
+				
+		boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
+		boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
+		boolean allGroups = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allGroupScope);
+		boolean ownGroups = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownGroupScope);
+		
+		
+		if (allRoles == false)
+		{
+			if (ownRoles == false)
+			{
+				throw new PermissionException("Not enough scope privileges on roles to perform this action");
+			}
+			
+			// Lets check to see if the Role name are in their own.
+			if (!asc.hasRole(roleName))
+			{
+				throw new PermissionException("Not enough scope on role: "+roleName+" role to perform this action:");
+			}
+		}
+		
+		if (allGroups == false)
+		{
+			if (ownGroups == false)
+			{
+				throw new PermissionException("Not enough scope privileges on groups to perform this action");
+			}
+			
+			// Lets check to see if the Role name are in their own.
+			if (!asc.hasGroup(groupName))
+			{
+				throw new PermissionException("Not enough scope on role: "+groupName+" group to perform this action:");
+			}
+		}
+	}
+	
 
 	@Override
 	public CreateClientGroupRoleResponse implementRequest(CreateClientGroupRoleRequest request) 
@@ -2390,7 +2455,6 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		
 		try
 		{
-			String action   = SecurityActions.CREATE;
 			String resource = SecurityResources.GROUP_ROLE_MEMBERSHIP;
 			
 			em = getEm();
@@ -2399,50 +2463,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			// Lets check to see if an application has been specified.
 			String appIdentifier = request.getAppIdentifier();
-			
-			checkForAppDomainPermission(asc, action, resource, appIdentifier);
-			
-			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
-			Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
-					
-			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
-			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
-			boolean allGroups = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allGroupScope);
-			boolean ownGroups = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownGroupScope);
-			
-			
-			if (allRoles == false)
-			{
-				if (ownRoles == false)
-				{
-					throw new PermissionException("Not enough scope privileges on roles to perform this action");
-				}
-				
-				// Lets check to see if the Role name are in their own.
-				String roleName = request.getRoleName();
-				if (!asc.hasRole(roleName))
-				{
-					throw new PermissionException("Not enough scope on role: "+roleName+" role to perform this action:");
-				}
-			}
-			
-			if (allGroups == false)
-			{
-				if (ownGroups == false)
-				{
-					throw new PermissionException("Not enough scope privileges on groups to perform this action");
-				}
-				
-				// Lets check to see if the Role name are in their own.
-				String groupName = request.getGroupName();
-				if (!asc.hasGroup(groupName))
-				{
-					throw new PermissionException("Not enough scope on role: "+groupName+" group to perform this action:");
-				}
-			}
+			validateSecurityForCreatingGroupRoleMembership(asc, em, appIdentifier, request.getRoleName(), request.getGroupName());
 			
 			ClientGroupRole newObject = RelationDataLogic.createClientGroupRole(em,request);
 			String changeTitle = newObject.getClientRole().getName() + " role assigned to group: " + newObject.getClientGroup().getName();
@@ -2961,11 +2982,32 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			if (StringUtils.isNullOrZeroLength(request.getAppDescription()))
 				request.setAppDescription("App created as a part of onboarding process");
 			
+			
+			// Lets check if the application exists already..
+			Application app = DatalogicUtils.findObjectReturnNull(em, Application.class, "appIdentifier", request.getAppName());
+			if (app != null)
+				throw new DataLogicValidationException("Application with name: " + request.getAppName() + " already exists in the system.");
+			
 			if (StringUtils.isNullOrZeroLength(request.getAppOwnerRole()))
 				throw new DataLogicValidationException("Application owner role is required..");
+			
+			
+			// first lets find if the role exists..
+			ClientRole cr = DatalogicUtils.findObjectReturnNull(em, ClientRole.class, "name", request.getAppOwnerRole());
+			if (cr == null)
+				throw new DataLogicValidationException("Application owner role : " + request.getAppOwnerRole() + " not available in the system.");
+				
 				
 			if (StringUtils.isNullOrZeroLength(request.getAppOwnersGroupName()))
 				throw new DataLogicValidationException("App owners group name is required.");
+			
+			ClientGroup cg = DatalogicUtils.findObjectReturnNull(em, ClientGroup.class, "name", request.getAppOwnersGroupName());
+			if (cg != null)
+				throw new DataLogicValidationException("App owners group: "+request.getAppOwnersGroupName() + " already exists in the system.");
+				
+			// Lets check that this will have permission to assign this role, to the Group..
+			validateSecurityForCreatingGroupRoleMembership(asc, em, null, request.getAppOwnerRole(), request.getAppOwnersGroupName());
+			
 			
 			if (StringUtils.isNullOrZeroLength(request.getBasicAuthAppUser()))
 				throw new DataLogicValidationException("Basic Auth Client Id/App User is required..");
@@ -2981,6 +3023,17 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			
 			if (StringUtils.isNullOrZeroLength(request.getTrustedAppsGroupName()))
 				throw new DataLogicValidationException("The group name where TRUSTED APPS are placed is required. (trusted app group name)");
+			
+			ClientGroup tapps = DatalogicUtils.findObjectReturnNull(em, ClientGroup.class, "name", request.getTrustedAppsGroupName());
+			if (tapps == null)
+				throw new DataLogicValidationException("Trusted Apps Group: "+request.getTrustedAppsGroupName() + " does not exist in the system.");
+			
+			/**
+			 * Lets validate that the person would have the required rights to create membership in this group..
+			 */
+			validateSecurityForCreatingGroupMembership(asc, em, null, request.getTrustedAppsGroupName());
+			
+			// Okay lets try onboarding!!!
 			
 			Application newObject = ApplicationDataLogic.OnboardTrustedBasicAuthApp(em, request, encoder);
 			
