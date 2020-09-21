@@ -1,20 +1,20 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: post-gres-sql-db-deployment
+  name: v2solve-app-sec-db-deployment
 spec:
   selector:
     matchLabels:
-      app: post-gres-sql-db-deployment
+      app: v2solve-app-sec-db-deployment
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: post-gres-sql-db-deployment
+        app: v2solve-app-sec-db-deployment
     spec:
       containers:
-      - name: appsecdb
-        image: "appsecdb:1.0"
+      - name: v2solve-app-sec-db
+        image: "v2solve-app-sec-db:1.0"
         ports:
         - containerPort: 5432
         env:
@@ -30,10 +30,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgressqldb
+  name: v2solveappsecdbservice
 spec:
   selector:
-    app: post-gres-sql-db-deployment
+    app: v2solve-app-sec-db-deployment
   ports:
     - protocol: TCP
       port: 5432
@@ -44,20 +44,20 @@ spec:
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: app-security-rest-app-deployment
+  name: v2solve-app-sec-rest-app-deployment
 spec:
   selector:
     matchLabels:
-      app: app-security-rest-app
+      app: v2solve-app-sec-rest-app-deployment
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: app-security-rest-app
+        app: v2solve-app-sec-rest-app-deployment
     spec:
       containers:
-      - name: appsecrestapp
-        image: "app-sec-rest-app:1.0"
+      - name: v2solve-app-sec-rest-app
+        image: "v2solve-app-sec-rest-app:1.0"
         ports:
         - containerPort: 9570
         env:
@@ -70,7 +70,7 @@ spec:
         - name: "v2solve_app_security_initializer_basicAuthUsers_1_password"
           value: "boarder"
         - name: "spring_datasource_url"
-          value: "jdbc:postgresql://postgressqldb/postgres"
+          value: "jdbc:postgresql://v2solveappsecdbservice/postgres"
         - name: "spring_datasource_username"
           value: "postgres"
         - name: "spring_datasource_password"
@@ -81,11 +81,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-security-rest-app-service
+  name: v2solveappsecrestappservice
 spec:
   type: NodePort
   selector:
-    app: app-security-rest-app
+    app: v2solve-app-sec-rest-app-deployment
   ports:
     - protocol: TCP
       port: 9570

@@ -1,19 +1,19 @@
 version: '3'
 volumes:
-  post-gres-sql-db_data:
+  v2solveappsecdbservice_data:
 services:
-  post-gres-sql-db:
+  v2solveappsecdbservice:
     volumes:
-      - post-gres-sql-db_data=/var/lib/postgresql/data/pgdata
+      - v2solveappsecdbservice_data=/var/lib/postgresql/data/pgdata
     environment:
       - SUPER_CLIENT_ID=admin
       - POSTGRES_PASSWORD=systempass
       - PGDATA=/var/lib/postgresql/data/pgdata
-    image: "appsecdb:1.0"
+    image: "v2solve-app-sec-db:1.0"
 #    ports:
 #     - "5432:5432"
-  app-security-rest-app:
-    image: "app-sec-rest-app:1.0"
+  v2solveappsecrestappservice:
+    image: "v2solve-app-sec-rest-app:1.0"
     ports:
       - "9570:9570"
     environment:
@@ -21,10 +21,6 @@ services:
       - v2solve.app.security.initializer.basic-auth-users[0].password=system
       - v2solve.app.security.initializer.basic-auth-users[1].username=app_onboarder
       - v2solve.app.security.initializer.basic-auth-users[1].password=boarder
-      - spring.datasource.url=jdbc:postgresql://post-gres-sql-db/postgres
+      - spring.datasource.url=jdbc:postgresql://v2solveappsecdbservice/postgres
       - spring.datasource.username=postgres
       - spring.datasource.password=systempass
-#  admin-app-spring-boot:
-#    image: "admin-app-spring-boot:1.0"
-#    ports:
-#     - "8080:8080"      
