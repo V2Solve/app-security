@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.v2solve.app.security</groupId>
   <artifactId>app-security-jpa</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>233.1.0.RELEASE</version>
   <name>app-security-jpa</name>
   
   <parent>

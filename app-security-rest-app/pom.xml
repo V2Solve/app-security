@@ -4,7 +4,7 @@
 
   <groupId>com.v2solve.app.security</groupId>
   <artifactId>app-security-rest-app</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>233.1.0.RELEASE</version>
   <packaging>jar</packaging>
 
   <name>app-security-rest-app</name>
@@ -27,13 +27,13 @@
   	<dependency>
      <groupId>com.v2solve.app.security</groupId>
      <artifactId>app-security-jpa</artifactId>
-     <version>0.0.1-SNAPSHOT</version>
+     <version>233.1.0.RELEASE</version>
   	</dependency>
   
     <dependency>	
 	 <groupId>com.v2solve.app.security</groupId>
 	 <artifactId>app-security-client-java</artifactId>
-	 <version>0.0.1-SNAPSHOT</version>
+	 <version>233.1.0.RELEASE</version>
 	</dependency>
 	
     <dependency>	

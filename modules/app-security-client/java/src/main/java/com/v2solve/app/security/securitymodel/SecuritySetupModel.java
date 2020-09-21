@@ -115,7 +115,7 @@ public class SecuritySetupModel
 								if (p != null)
 								{
 									Permit permit = new Permit();
-									PermitKey pk = new PermitKey(p.getAction(), p.getResource());
+									// PermitKey pk = new PermitKey(p.getAction(), p.getResource());
 									permit.setAllowed(crp.getValue().toLowerCase().startsWith("allow"));
 									permit.setGroup(cgr.getGroupName());
 									permit.setRole(crp.getRoleName());

@@ -14,13 +14,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
-import com.v2solve.app.security.config.BasicSecurityProperties;
 import com.v2solve.app.security.config.EnableSecurity;
 import com.v2solve.app.security.container.Initializer;
 import com.v2solve.app.security.restapi.SecurityContextAPI;
 import com.v2solve.app.security.restapi.SecurityManagementAPI;
 import com.v2solve.app.security.sdk.SecurityContextAPIImpl;
+import com.v2solve.app.security.sdk.SecurityManangementAPIImpl;
 
 /**
  * This is the application configuration class. 

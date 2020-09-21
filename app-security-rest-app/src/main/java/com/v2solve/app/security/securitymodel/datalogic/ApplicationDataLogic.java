@@ -16,10 +16,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.v2solve.app.security.model.entities.Application;
-import com.v2solve.app.security.model.entities.BasicAuthClient;
 import com.v2solve.app.security.model.entities.Client;
 import com.v2solve.app.security.model.entities.ClientGroup;
-import com.v2solve.app.security.model.entities.ClientGroupMembership;
 import com.v2solve.app.security.model.entities.ResourceDomain;
 import com.v2solve.app.security.restmodel.PagingInformation;
 import com.v2solve.app.security.restmodel.request.CreateApplicationRequest;
@@ -253,7 +251,7 @@ public class ApplicationDataLogic
 		cacr.setEnabled(true);
 		cacr.setName(request.getBasicAuthAppUser());
 		cacr.setPassword(request.getBasicAuthAppPassword());
-		BasicAuthClient appBac = SecurityDataLogic.createBasicAuthClient(em, cacr, encoder);
+		SecurityDataLogic.createBasicAuthClient(em, cacr, encoder);
 		
 		/**
 		 * Ok now also create the client for the same..
@@ -283,7 +281,7 @@ public class ApplicationDataLogic
 		cacr.setEnabled(true);
 		cacr.setName(request.getBasicAuthAppOwnerClientId());
 		cacr.setPassword(request.getBasicAuthAppOwnerPassword());
-		BasicAuthClient appOwnerBac = SecurityDataLogic.createBasicAuthClient(em, cacr, encoder);
+		SecurityDataLogic.createBasicAuthClient(em, cacr, encoder);
 		
 		/**
 		 * Ok now also create the client for the same..

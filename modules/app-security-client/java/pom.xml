@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.v2solve.app.security</groupId>
   <artifactId>app-security-client-java</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>233.1.0.RELEASE</version>
   <name>app-security-client-java</name>
   <description>The client side of AppSecurity</description>
   
@@ -14,7 +14,6 @@
 	</parent>
 
 	<dependencies>
-
 	    <dependency>	
 		  <groupId>com.v2solve.app.security</groupId>
 		  <artifactId>app-security-oauth2-support</artifactId>
@@ -47,5 +46,26 @@
 		</dependency>
 		
 	</dependencies>
+  
+  
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>14</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+    
+<distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub OWNER Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/V2Solve/security-utilities</url>
+   </repository>
+</distributionManagement>
   
 </project>

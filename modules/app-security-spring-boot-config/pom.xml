@@ -2,29 +2,23 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.v2solve.app.security</groupId>
   <artifactId>app-security-spring-boot-config</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>233.1.0.RELEASE</version>
   <name>app-security-spring-boot-config</name>
   <packaging>jar</packaging>
   
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.4.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>2.3.3.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
-	  <properties>
-	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	    <maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-	  </properties>
-
+	
   <dependencies>
 
     <dependency>	
 		 <groupId>com.v2solve.app.security</groupId>
 		 <artifactId>app-security-client-java</artifactId>
-		 <version>0.0.1-SNAPSHOT</version>
+		 <version>233.1.0.RELEASE</version>
 	</dependency>
 	
 	<dependency>
