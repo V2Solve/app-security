@@ -9575,8 +9575,10 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 const environment = {
     production: false,
-    contextApiBaseUrl: "http://localhost:9570/v1/contextapi",
-    managementApiBaseUrl: "http://localhost:9570/v1/managementapi",
+    // contextApiBaseUrl: "http://localhost:9570/v1/contextapi",
+    // managementApiBaseUrl: "http://localhost:9570/v1/managementapi",
+    contextApiBaseUrl: "/v1/contextapi",
+    managementApiBaseUrl: "/v1/managementapi",
     username: "",
     password: "admin"
 };
