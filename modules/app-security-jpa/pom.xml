@@ -31,4 +31,12 @@
 	
   </dependencies>
   
+<distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub OWNER Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/V2Solve/app-security</url>
+   </repository>
+</distributionManagement>  
+  
 </project>

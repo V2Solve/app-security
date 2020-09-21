@@ -36,16 +36,13 @@
 	
 </dependencies>
   
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <release>14</release>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  
+<distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub OWNER Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/V2Solve/app-security</url>
+   </repository>
+</distributionManagement>
   
 </project>
