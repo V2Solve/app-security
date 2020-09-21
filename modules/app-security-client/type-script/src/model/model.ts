@@ -110,9 +110,11 @@ export class ClientRolePermission
 	// Name of the scope if any associated.
 	scopeName!: string;
 	
+	// The assignment type..
+	scopeAssignmentType!: string;
+
 	// The owning app
 	appIdentifier!: string;
-	
 	
 	// value of the permission. (allow, deny)
 	value!: string;

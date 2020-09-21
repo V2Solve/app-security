@@ -44,9 +44,11 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
   // scope name - selected scope name
   scopeName = new FormControl ('',[Validators.maxLength(50)]);
 
+  scopeAssignmentType = new FormControl('',[Validators.maxLength(50)]);
+
   permissionValue = new FormControl('',[Validators.required,Validators.maxLength(50)]); // allow,deny
 
-    // the selected appidentifier
+  // the selected appidentifier
   appIdentifier = new FormControl ('');
 
 
@@ -72,7 +74,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
 
   currentKey: string;
   
-  displayedColumns = ['Select','RoleName','Permission','Value','Scope','Owner App'];
+  displayedColumns = ['Select','RoleName','Permission','Value','Scope','Scope Assignment Type','Owner App'];
   dataSource = new MatTableDataSource<ResultRow>(this.formResults);
 
   rowSelected (key: string)
@@ -107,6 +109,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
      car.value = this.permissionValue.value;
      car.scopeName = this.scopeName.value;
      car.appIdentifier = this.appIdentifier.value;
+     car.scopeAssignmentType = this.scopeAssignmentType.value;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
      this.managementClient.createClientRolePermission(car).subscribe(value=>{
@@ -182,6 +185,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
         ci.push(new CellInfo(cgr.permissionName));
         ci.push(new CellInfo(cgr.value));
         ci.push(new CellInfo(cgr.scopeName));
+        ci.push(new CellInfo(cgr.scopeAssignmentType));
         ci.push(new CellInfo(cgr.appIdentifier));
         let rr = new ResultRow(cgr.key,ci);
         this.formResults.push(rr);
@@ -236,6 +240,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
     this.scopeName.setValue("");
     this.permissionName.setValue("");
     this.appIdentifier.setValue("GLOBAL");
+    this.scopeAssignmentType.setValue("allow");
   }
 
   subscribeToChanges ()

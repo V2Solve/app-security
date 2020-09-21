@@ -180,7 +180,7 @@ public class SecurityDataLogic
 								if (rs != null)
 								{
 									appIdentifier = rs.getApplication()==null?null:rs.getApplication().getAppIdentifier();
-									scope = new Scope(rs.getName(),rs.getScopeType().getName(), rs.getScopeValue(),rs.getDescription(),appIdentifier);
+									scope = new Scope(rs.getName(),rs.getScopeType().getName(), rs.getScopeValue(),rs.getDescription(),crp.getScopeAssignmentType(),appIdentifier);
 								}
 								
 								String action   = crp.getPermission().getAction().getName();
@@ -502,7 +502,7 @@ public class SecurityDataLogic
 				for (RoleScope a: listOfObjects)
 				{
 					String appIdentifier = a.getApplication()==null?null:a.getApplication().getAppIdentifier();
-					com.v2solve.app.security.securitymodel.Scope newObject = new com.v2solve.app.security.securitymodel.Scope(a.getName(),a.getScopeType().getName(),a.getScopeValue(),a.getDescription(),appIdentifier);
+					com.v2solve.app.security.securitymodel.Scope newObject = new com.v2solve.app.security.securitymodel.Scope(a.getName(),a.getScopeType().getName(),a.getScopeValue(),a.getDescription(),null,appIdentifier);
 					newObjects.put(a.getName(),newObject);
 				}
 				ssm.setScopes(newObjects);
@@ -609,7 +609,7 @@ public class SecurityDataLogic
 					if (a.getRoleScope() != null)
 						scopeName = a.getRoleScope().getName();
 					
-					com.v2solve.app.security.securitymodel.ClientRolePermission newObject = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+a.getId(),a.getClientRole().getName(),a.getPermission().getName(),a.getValue(),scopeName,appIdentifier);
+					com.v2solve.app.security.securitymodel.ClientRolePermission newObject = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+a.getId(),a.getClientRole().getName(),a.getPermission().getName(),a.getValue(),scopeName,a.getScopeAssignmentType(),appIdentifier);
 					newObjects.add(newObject);
 				}
 				ssm.setRoleToPermissions(newObjects);

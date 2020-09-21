@@ -29,4 +29,7 @@ public class CreateClientRolePermissionRequest extends BaseRequest {
 	
 	// value of the permission. (allow, deny)
 	String value;
+	
+	// The scope assignment type.. (allow, deny) etc.
+	String scopeAssignmentType;
 }

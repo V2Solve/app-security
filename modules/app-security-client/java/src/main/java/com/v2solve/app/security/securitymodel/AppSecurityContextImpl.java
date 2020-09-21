@@ -3,8 +3,12 @@ package com.v2solve.app.security.securitymodel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 
+import org.springframework.util.StringUtils;
 
 import lombok.Data;
 
@@ -817,5 +821,51 @@ public class AppSecurityContextImpl implements java.io.Serializable,AppSecurityC
 		return this.permissions;
 	}
 
+	@Override
+	public Set<String> hasPermissionReturnScopeValues(String action, String resource, Domain resourceDomain,
+			String scopeType, String... scopeAssignmentTypes) 
+	{
+		Set<String> scopeValues = new HashSet<>();
+		
+		List<Scope> scopes = hasPermissionReturnScopes(action, resource, resourceDomain);
+		
+		if (scopes != null)
+		{
+			for (Scope scope: scopes)
+			{
+				String scopeValue = null;
+				if (StringUtils.isEmpty(scopeType) || scope.getScopeType().equals(scopeType))
+				{
+					// Good the scope type matches.. lets see if it is a particular type of scopeAssignment that we are looking for...
+					if (scopeAssignmentTypes == null || scopeAssignmentTypes.length <= 0)
+							scopeValue = scope.getScopeValue();
+					else
+					{
+						// Lets compare if the assignmentType is in..
+						for (String asgType: scopeAssignmentTypes)
+						{
+							if (asgType.equals(scope.getAssignmentType()))
+							{
+								scopeValue = scope.getScopeValue();
+								break;
+							}
+						}
+					}
+				}
+				
+				if (!StringUtils.isEmpty(scopeValue))
+				{
+					StringTokenizer st = new StringTokenizer(scopeValue," ;,");
+					
+					while (st.hasMoreTokens())
+					{
+						scopeValues.add(st.nextToken());
+					}
+				}
+			}
+		}
+		
+		return scopeValues;
+	}
 
 }

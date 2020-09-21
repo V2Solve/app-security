@@ -5,7 +5,7 @@ spring:
     username: postgres
     password: password
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -29,16 +29,22 @@ v2solve:
           authoritiesByUsernameQuery: "select name as username,'ADMIN' as authority from basic_auth_clients where name = ?"
         enable: true
         realm: v2solve
-        users:
-          - username: saurinya@gmail.com
-            password: admin
-            roles: superuser
-          - username: ADMIN_CONSOLE 
-            password: secretsauce
-            roles: superuser
+
+#These properties below are read by initializer to put user accounts in to database..
+#      initializer:
+#        basic-auth-users:#        - username: admin
+#          password: admin
+#          roles: superuser
+#        - username: ADMIN_CONSOLE
+#          password: admin
+#          roles: superuser
+#        - username: app_onboarder
+#          password: admin
+#          roles: superuser
+
 logging:  level:    com:
       v2solve:
         app:
           security: INFO
 server:
-  port: 9570      
+  port: 9570

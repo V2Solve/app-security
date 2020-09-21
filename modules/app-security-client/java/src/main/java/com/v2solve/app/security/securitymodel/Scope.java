@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Represents a scope object which can be assigned while assigning a role to a group.
- * It defines the scope over which the permit is applicable.
+ * It defines the scope over which the permit is applicable. But the way it is applicable depends on the assignmentType
  * @author Saurin Magiawala
  *
  */
@@ -34,6 +34,7 @@ public class Scope implements Serializable {
 	String scopeType;
 	String scopeValue;
 	String description;
+	String assignmentType;
 	
 	/**
 	 * The Owning App if any.

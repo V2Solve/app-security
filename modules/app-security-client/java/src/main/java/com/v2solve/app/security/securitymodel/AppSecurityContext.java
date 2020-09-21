@@ -1,6 +1,7 @@
 package com.v2solve.app.security.securitymodel;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * This interface represents a security context that will answer security Questions.
@@ -89,6 +90,15 @@ public interface AppSecurityContext {
 	public List<Scope> hasPermissionReturnScopes (String action,String resource,Domain resourceDomain);
 	
 	
+	/**
+	 * if permission is available, it will then return the scope values which are for an 'Denying' scope if any are defined.
+	 * @param action
+	 * @param resource
+	 * @param resourceDomain
+	 * @param scopeAssignmentTypes - list of the types of scope assignment that interested in. If null, all the scope assigment types will be accumulated and returned
+	 * @return
+	 */
+	public Set<String> hasPermissionReturnScopeValues (String action,String resource,Domain resourceDomain,String scopeType,String... scopeAssignmentTypes);	
 	
 	
 	/**

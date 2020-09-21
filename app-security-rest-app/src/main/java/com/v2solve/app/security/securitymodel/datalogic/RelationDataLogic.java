@@ -106,9 +106,11 @@ public class RelationDataLogic
 		String roleName         = request.getRoleName();
 		String permissionValue  = request.getValue();
 		String scopeName        = request.getScopeName();
+		String scopeAssignmentType = request.getScopeAssignmentType();
 		
-		if (StringUtils.isNullOrZeroLength(roleName) || StringUtils.isNullOrZeroLength(permissionName) || StringUtils.isNullOrZeroLength(permissionValue))
-			throw new DataLogicValidationException("RoleName/PermissionName/Value all both must be provided.");
+		if (StringUtils.isNullOrZeroLength(roleName) ||	StringUtils.isNullOrZeroLength(permissionName)
+				||	StringUtils.isNullOrZeroLength(permissionValue))
+			throw new DataLogicValidationException("RoleName/PermissionName/Value/ all both must be provided.");
 		
 		Permission permission = DatalogicUtils.findObject(em, Permission.class, "name", permissionName);
 		ClientRole  cr = DatalogicUtils.findObject(em, ClientRole.class, "name", roleName);
@@ -120,12 +122,20 @@ public class RelationDataLogic
 		if (!StringUtils.isNullOrZeroLength(scopeName))
 			rs = DatalogicUtils.findObject(em, RoleScope.class, "name", scopeName);
 		
+		if (!StringUtils.isNullOrZeroLength(scopeName) && rs == null)
+			throw new DataLogicValidationException("Scope with " + scopeName + " not found in system.");
+		
+		if (rs != null && StringUtils.isNullOrZeroLength(scopeAssignmentType))
+			throw new DataLogicValidationException("When a scope is provided, the scope assignment type must be specified.");
+			
+		
 		ClientRolePermission objToCreate = new ClientRolePermission();
 		objToCreate.setPermission(permission);
 		objToCreate.setClientRole(cr);
 		objToCreate.setApplication(app);
 		objToCreate.setRoleScope(rs);
 		objToCreate.setValue(permissionValue);
+		objToCreate.setScopeAssignmentType(scopeAssignmentType);
 		JPAUtils.createObject(em, objToCreate);
 		return objToCreate;
 	}

@@ -61,6 +61,14 @@
                         </mat-form-field>                        
                     </td>
                     <td class="form-cell">
+                      <mat-form-field appearance="fill">
+                          <mat-label>ScopeAssignmentType</mat-label>
+                          <input matInput [formControl]="scopeAssignmentType" placeholder="allow,deny..">
+                          <mat-error *ngIf="scopeAssignmentType.hasError('required')">{{errorMsgRequiredField}}</mat-error>
+                          <mat-error *ngIf="scopeAssignmentType.hasError('maxlength')">{{errorMsgTooManyCharacters}}</mat-error>
+                        </mat-form-field>
+                    </td>
+                    <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Associated App</mat-label>
                             <mat-select [(value)]="appIdentifier">

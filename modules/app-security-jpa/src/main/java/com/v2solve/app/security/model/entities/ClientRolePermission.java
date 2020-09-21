@@ -21,6 +21,7 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 	private ClientRole clientRole;
 	private Permission permission;
 	private RoleScope roleScope;
+	private String scopeAssignmentType;
 
 	public ClientRolePermission() {
 	}
@@ -49,6 +50,15 @@ public class ClientRolePermission extends com.v2solve.app.security.common.base.B
 	}
 
 
+	@Column(nullable=true, length=50)
+	public String getScopeAssignmentType() {
+		return this.scopeAssignmentType;
+	}
+
+	public void setScopeAssignmentType(String scopeAssignmentType) {
+		this.scopeAssignmentType = scopeAssignmentType;
+	}
+	
 	//bi-directional many-to-one association to Application
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="application_id")

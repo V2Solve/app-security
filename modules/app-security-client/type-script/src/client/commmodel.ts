@@ -483,6 +483,11 @@ export class CreateClientRolePermissionRequest extends BaseRequest
 	
 	// value of the permission. (allow, deny)
 	value!: string;
+
+
+	// The scope assignment type.. (allow, deny) etc.
+	scopeAssignmentType!: string;
+
 }
 
 export class CreateClientRolePermissionResponse extends BaseResponse {

@@ -3,6 +3,8 @@ package com.v2solve.app.security.sdk;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -880,44 +882,13 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 	{
 		String action   = SecurityActions.CREATE;
 		String resource = SecurityResources.CLIENT_GROUP_MEMBERSHIP;
-		boolean all = false;
-		boolean own = false;
-		
-		// Now let us also check if this permission is avaiable at what scope
-		Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN);
-		Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL);
 		
 		// Check for permission on AppDomain
 		checkForAppDomainPermission(asc, action, resource, appIdentifier);
 		
-		if (!StringUtils.isNullOrZeroLength(appIdentifier))
-		{
-			all = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allScope);
-			own = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownScope);
-		}
-		else
-		{
-			all = asc.hasPermissionInScope(action, resource, allScope);
-			own = asc.hasPermissionInScope(action, resource, ownScope);
-		}
-		
-		// Okay so now to check the scope and see which one it is so that we can check correctly..
-		if (all == false)
-		{
-			// OK, so if the person cannot assign at all levels, can he atleast assign the groups that it belongs to ...
-			if (own == false)
-			{
-				throw new PermissionException("The client does not have a permission with necessary scope to create a GroupMembership..");
-			}
-			else
-			{
-				// Okay all is false, but own is true.. so lets check to see if the group being assigned is member of the groups that the person has..
-				if (!asc.hasGroup(groupName))
-				{
-					throw new PermissionException("The client does not have the permission to create this group membership, since client does not belong that group: " + groupName);
-				}
-			}
-		}
+		// Check for allowed group scope value for creating this group membership..
+		if (!StringUtils.isNullOrZeroLength(groupName))
+		checkForAllowedGroupScopeValues(asc, action, resource, appIdentifier, groupName);
 	}
 	
 	
@@ -1002,8 +973,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			boolean own = false;
 			
 			// Now let us also check if this permission is avaiable at what scope
-			Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allScope   = Scopes.assignGroupToClientScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 			
 			em = getEm();
 			tw = new TransactionWrapper (em);
@@ -1378,8 +1349,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			boolean own = false;
 			
 			// Now let us also create two scopes
-			Scope ownScope = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allScope   = Scopes.clientGroupScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 			
 			{
 				// Lets check at a global level..
@@ -1467,8 +1438,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			boolean own = false;
 			
 			// Now let us also create two scopes
-			Scope ownScope = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 			
 			// Lets make sure the user can read actions..
 			{
@@ -2313,7 +2284,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				for (RoleScope resource : listOfRoleScopes) 
 				{
 					String appIdentifier = resource.getApplication()!=null?resource.getApplication().getAppIdentifier():null;
-					com.v2solve.app.security.securitymodel.Scope newRoleScope = new com.v2solve.app.security.securitymodel.Scope(resource.getName(),resource.getScopeType().getName(),resource.getScopeValue(),resource.getDescription(),appIdentifier);
+					com.v2solve.app.security.securitymodel.Scope newRoleScope = new com.v2solve.app.security.securitymodel.Scope(resource.getName(),resource.getScopeType().getName(),resource.getScopeValue(),resource.getDescription(),"",appIdentifier);
 					ll.add(newRoleScope);
 				}
 				
@@ -2389,6 +2360,84 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 	}
 
 	
+	void checkForAllowedRoleScopeValues(AppSecurityContext asc,String action,String resource,String appIdentifier,String roleName)
+	{
+		Set<String> allowedScopeValues = asc.hasPermissionReturnScopeValues(action, resource, Domains.appDomain(appIdentifier), Scopes.SCOPE_CLIENT_ROLE, Scopes.ASSIGNMENT_TYPE_ALLOW);
+		Set<String> deniedScopeValues  = asc.hasPermissionReturnScopeValues(action, resource, Domains.appDomain(appIdentifier), Scopes.SCOPE_CLIENT_ROLE, Scopes.ASSIGNMENT_TYPE_DENY);
+		
+		// Lets check for denials first...
+		if (deniedScopeValues != null && !deniedScopeValues.isEmpty())
+		{
+			// Okay so there is some denial lets see what the denial is..
+			if (deniedScopeValues.contains("ALL") || deniedScopeValues.contains("ANY")) 
+				throw new PermissionException("Explicit denial to not able to act for action: " + action + " on resource: " + resource + " for ANY role: " + roleName);
+			
+			if (deniedScopeValues.contains("OWN"))
+			{
+				if (asc.hasRole(roleName))
+					throw new PermissionException("Explicit denial to not able to act for action: " + action + " on resource: " + resource + " for 'Owned' roles on role: " + roleName);
+			}
+			
+			if (deniedScopeValues.contains(roleName))
+				throw new PermissionException("Explicit denial to not able to act for action: " + action + " on resource: " + resource + " for role: " + roleName);
+		}
+
+		// Now lets check if there is a limit on what is allowed..
+		if (allowedScopeValues != null && allowedScopeValues.isEmpty() == false)
+		{
+			if (allowedScopeValues.contains("ALL") || allowedScopeValues.contains("ANY"))
+				return; // Cool.. no issues
+			
+			if (allowedScopeValues.contains("OWN"))
+				if (asc.hasRole(roleName))
+					return; // Cool, it is an owned role..
+			
+			if (allowedScopeValues.contains(roleName))
+				return; // Cool it is one of the allowed roles..
+			
+			throw new PermissionException("Not enough scope on role: "+roleName+" role to perform the action: " + action + " on resource: " + resource);
+		}
+	}
+
+	void checkForAllowedGroupScopeValues(AppSecurityContext asc,String action,String resource,String appIdentifier,String groupName)
+	{
+		Set<String> allowedScopeValues = asc.hasPermissionReturnScopeValues(action, resource, Domains.appDomain(appIdentifier), Scopes.SCOPE_CLIENT_GROUP, Scopes.ASSIGNMENT_TYPE_ALLOW);
+		Set<String> deniedScopeValues  = asc.hasPermissionReturnScopeValues(action, resource, Domains.appDomain(appIdentifier), Scopes.SCOPE_CLIENT_GROUP, Scopes.ASSIGNMENT_TYPE_DENY);
+		
+		// Lets check for denials first...
+		if (deniedScopeValues != null && !deniedScopeValues.isEmpty())
+		{
+			// Okay so there is some denial lets see what the denial is..
+			if (deniedScopeValues.contains("ALL") || deniedScopeValues.contains("ANY")) 
+				throw new PermissionException("Explicit denial to not able to act for action: " + action + " on resource: " + resource + " for ANY group: " + groupName);
+			
+			if (deniedScopeValues.contains("OWN"))
+			{
+				if (asc.hasGroup(groupName))
+					throw new PermissionException("Explicit denial to not able to act for action: " + action + " on resource: " + resource + " for 'Owned' roles on group: " + groupName);
+			}
+			
+			if (deniedScopeValues.contains(groupName))
+				throw new PermissionException("Explicit denial to not able to act for action: " + action + " on resource: " + resource + " for role: " + groupName);
+		}
+
+		// Now lets check if there is a limit on what is allowed..
+		if (allowedScopeValues != null && allowedScopeValues.isEmpty() == false)
+		{
+			if (allowedScopeValues.contains("ALL") || allowedScopeValues.contains("ANY"))
+				return; // Cool.. no issues
+			
+			if (allowedScopeValues.contains("OWN"))
+				if (asc.hasGroup(groupName))
+					return; // Cool, it is an owned role..
+			
+			if (allowedScopeValues.contains(groupName))
+				return; // Cool it is one of the allowed roles..
+			
+			throw new PermissionException("Not enough scope on group: "+groupName+" role to perform the action: " + action + " on resource: " + resource);
+		}
+	}
+	
 	/**
 	 * Validates to check if it passes necessary security validations to create this association,
 	 * if not then it throws a permission exception..
@@ -2405,48 +2454,11 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 		
 		checkForAppDomainPermission(asc, action, resource, appIdentifier);
 		
-		// Lets check scope now..
-		Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-		Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
-		Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-		Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
-				
-		boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
-		boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
-		boolean allGroups = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allGroupScope);
-		boolean ownGroups = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownGroupScope);
+		if (!StringUtils.isNullOrZeroLength(roleName))
+		checkForAllowedRoleScopeValues(asc, action, resource, appIdentifier, roleName);
 		
-		
-		if (allRoles == false)
-		{
-			if (ownRoles == false)
-			{
-				throw new PermissionException("Not enough scope privileges on roles to perform this action");
-			}
-			
-			// Lets check to see if the Role name are in their own.
-			if (!asc.hasRole(roleName))
-			{
-				throw new PermissionException("Not enough scope on role: "+roleName+" role to perform this action:");
-			}
-		}
-		
-		if (allGroups == false)
-		{
-			if (ownGroups == false)
-			{
-				throw new PermissionException("Not enough scope privileges on groups to perform this action");
-			}
-			
-			// Lets check to see if the Role name are in their own.
-			if (!StringUtils.isNullOrZeroLength(groupName))
-			{
-				if (!asc.hasGroup(groupName))
-				{
-					throw new PermissionException("Not enough scope on role: "+groupName+" group to perform this action:");
-				}
-			}
-		}
+		if (!StringUtils.isNullOrZeroLength(groupName))
+		checkForAllowedGroupScopeValues(asc, action, resource, appIdentifier, groupName);
 	}
 	
 
@@ -2524,10 +2536,10 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
-			Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allRoleScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope ownGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allGroupScope  = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2615,8 +2627,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			List<ClientGroupRole> listOfCgrs = RelationDataLogic.searchClientGroupRoles(em, request,limitingAppDomains);
 			
 			// Lets check scope now..
-			Scope ownScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allScope   = Scopes.assignRoleToGroupScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 					
 			boolean all = asc.hasPermissionInScope(action, resource, null, allScope);
 			boolean own = asc.hasPermissionInScope(action, resource, null, ownScope);
@@ -2691,8 +2703,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2768,8 +2780,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			checkForAppDomainPermission(asc, action, resource, appIdentifier);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allRoleScope   = Scopes.clientRoleScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, Domains.appDomain(appIdentifier), ownRoleScope);
@@ -2840,8 +2852,8 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 			List<ClientRolePermission> listOfCrps = RelationDataLogic.searchClientRolePermissions(em, request,limitingAppDomains);
 			
 			// Lets check scope now..
-			Scope ownRoleScope   = Scopes.assignPermissionToRoleScope(Scopes.CLIENT_SCOPE_OWN);
-			Scope allRoleScope   = Scopes.assignPermissionToRoleScope(Scopes.CLIENT_SCOPE_ALL);
+			Scope ownRoleScope   = Scopes.assignPermissionToRoleScope(Scopes.CLIENT_SCOPE_OWN,Scopes.ASSIGNMENT_TYPE_ALLOW);
+			Scope allRoleScope   = Scopes.assignPermissionToRoleScope(Scopes.CLIENT_SCOPE_ALL,Scopes.ASSIGNMENT_TYPE_ALLOW);
 					
 			boolean allRoles = asc.hasPermissionInScope(action, resource, null, allRoleScope);
 			boolean ownRoles = asc.hasPermissionInScope(action, resource, null, ownRoleScope);
@@ -2855,7 +2867,7 @@ public class SecurityManangementAPIImpl implements SecurityManagementAPI
 				String permissionValue = crp.getValue();
 				String scopeName       = crp.getRoleScope()==null?null:crp.getRoleScope().getName();
 				String appIdentifier = crp.getApplication()==null?null:crp.getApplication().getAppIdentifier();
-				com.v2solve.app.security.securitymodel.ClientRolePermission newCrp = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+crp.getId(), roleName, permissionName, permissionValue, scopeName,appIdentifier);
+				com.v2solve.app.security.securitymodel.ClientRolePermission newCrp = new com.v2solve.app.security.securitymodel.ClientRolePermission(""+crp.getId(), roleName, permissionName, permissionValue, scopeName,crp.getScopeAssignmentType(),appIdentifier);
 				// Lets check scope before adding this in the list..
 				boolean toAdd = true;
 				if (!allRoles && !ownRoles)

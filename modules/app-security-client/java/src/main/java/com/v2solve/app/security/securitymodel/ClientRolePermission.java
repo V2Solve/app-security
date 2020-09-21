@@ -25,7 +25,11 @@ public class ClientRolePermission
 	
 	// value of the scope if any
 	String scopeName;
+
+	// The assignment type..
+	String scopeAssignmentType;
 	
 	// The owning app
 	String appIdentifier;
+
 }
