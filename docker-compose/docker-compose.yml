@@ -9,11 +9,11 @@ services:
       - SUPER_CLIENT_ID=admin
       - POSTGRES_PASSWORD=systempass
       - PGDATA=/var/lib/postgresql/data/pgdata
-    image: "v2solve-app-sec-db:1.0"
+    image: "saurinya/v2solve-docker-repository:v2solve-app-sec-db"
 #    ports:
 #     - "5432:5432"
   v2solveappsecrestappservice:
-    image: "v2solve-app-sec-rest-app:1.0"
+    image: "saurinya/v2solve-docker-repository:v2solve-app-sec-rest-app"
     ports:
       - "9570:9570"
     environment:
