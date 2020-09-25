@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: v2solve-app-sec-db
-        image: "v2solve-app-sec-db:1.0"
+        image: "saurinya/v2solve-docker-repository:v2solve-app-sec-db"
         ports:
         - containerPort: 5432
         env:
@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: v2solve-app-sec-rest-app
-        image: "v2solve-app-sec-rest-app:1.0"
+        image: "saurinya/v2solve-docker-repository:v2solve-app-sec-rest-app"
         ports:
         - containerPort: 9570
         env:
