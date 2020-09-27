@@ -71,7 +71,7 @@
                     <td class="form-cell">
                         <mat-form-field appearance="fill">
                             <mat-label>Associated App</mat-label>
-                            <mat-select [(value)]="appIdentifier">
+                            <mat-select [formControl]="appIdentifier">
                               <mat-option *ngFor="let item of viewableApps" [value]="item.appIdentifier">
                                 {{item.appIdentifier}}
                               </mat-option>

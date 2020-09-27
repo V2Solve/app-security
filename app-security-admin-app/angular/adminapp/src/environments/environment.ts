@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  // contextApiBaseUrl: "http://localhost:9570/v1/contextapi",
-  // managementApiBaseUrl: "http://localhost:9570/v1/managementapi",
-  contextApiBaseUrl: "/v1/contextapi",
-  managementApiBaseUrl: "/v1/managementapi",
-  username: "",
+  contextApiBaseUrl: "http://localhost:9570/v1/contextapi",
+  managementApiBaseUrl: "http://localhost:9570/v1/managementapi",
+  // contextApiBaseUrl: "/v1/contextapi",
+  // managementApiBaseUrl: "/v1/managementapi",
+  username: "galileo_owner",
   password: "admin"
 };
 

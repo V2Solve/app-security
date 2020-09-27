@@ -112,6 +112,7 @@ export class RoleToPermissionsComponent extends BaseForm implements OnInit
      car.scopeAssignmentType = this.scopeAssignmentType.value;
      if (car.appIdentifier == "GLOBAL")
      car.appIdentifier = null;
+     console.log ("Update object with appIdentifier: " + car.appIdentifier);
      this.managementClient.createClientRolePermission(car).subscribe(value=>{
         console.log(value.status.statusMessage);
         if (value.status.statusCode == RequestStatusInformation.standardSuccessCode)

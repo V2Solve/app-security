@@ -30,16 +30,13 @@ v2solve:
         enable: true
         realm: v2solve
 
-#These properties below are read by initializer to put user accounts in to database..
+##These properties below are read by initializer to put user accounts in to database..
 #      initializer:
 #        basic-auth-users:#        - username: admin
-#          password: admin
-#          roles: superuser
-#        - username: ADMIN_CONSOLE
-#          password: admin
+#          password: system
 #          roles: superuser
 #        - username: app_onboarder
-#          password: admin
+#          password: system
 #          roles: superuser
 
 logging:  level:    com:
