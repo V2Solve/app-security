@@ -26,4 +26,4 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp readme.md s3://v2sbucket/
+          aws s3 cp README.md s3://v2sbucket/
